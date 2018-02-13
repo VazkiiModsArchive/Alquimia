@@ -1,0 +1,7 @@
+{
+	"name": "MISSING CATEGORY",
+	"description": "Fallback category. Something broke, check your log.",
+	"icon": "minecraft:barrier",
+	"sortnum": 0,
+	"_comment": "Translators, please ignore this file and don't localize it."
+}

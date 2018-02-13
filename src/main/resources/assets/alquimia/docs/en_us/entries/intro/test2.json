@@ -1,0 +1,20 @@
+{
+	"name": "Test 2",
+	"description": "Test entry #2",
+	"icon": "minecraft:gold_shovel",
+	"priority": false,
+	"pages": [
+		{
+			"type": "text",
+			"text:": "Page #1"
+		},
+		{
+			"type": "text",
+			"text:": "Page #2"
+		},
+		{
+			"type": "text",
+			"text:": "Page #3"
+		}
+	]
+}

@@ -1,0 +1,25 @@
+{
+	"name": "Test 1",
+	"description": "Test entry #1",
+	"icon": "minecraft:iron_shovel",
+	"priority": true,
+	"pages": [
+		{
+			"type": "text",
+			"text:": "Page #1"
+		},
+		{
+			"type": "text",
+			"text:": "Page #2 contains a lot longer text that will have to be wrapped across a few lines to fit properly"
+		},
+		{
+			"type": "text",
+			"text:": "Page #3 contains $(3)Formatting Codes/$, custom $(15153F)color formatting/$, and $(bold)special $(15153F)decorations $(rcolor)resetted/$, as well as some $(item)color macros/$"
+		},
+		{
+			"type": "crafting_recipe",
+			"recipe": "minecraft:book",
+			"text": "How to make a book!"
+		}
+	]
+}
