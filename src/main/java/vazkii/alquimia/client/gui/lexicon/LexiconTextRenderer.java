@@ -63,7 +63,6 @@ public class LexiconTextRenderer {
 			actualText = actualText.replace(key, MACROS.get(key));
 		
 		actualText = actualText.replaceAll(" ", "\0 ").replaceAll("(\\$\\(.*?\\))", " $1 ");
-		System.out.println(actualText);
 		String[] tokens = actualText.split(" ");
 		
 		currX = x;
@@ -137,7 +136,7 @@ public class LexiconTextRenderer {
 				if(!nextHref.equals(currHref))
 					currCluster = new LinkedList();
 				
-				currHref = cmd.substring(5);
+				currHref = cmd.substring(2);
 				prevColor = currColor;
 				currColor = LINK_COLOR;
 			} 
@@ -210,7 +209,7 @@ public class LexiconTextRenderer {
 		
 		private void onClicked() {
 			if(hasHref)
-				System.out.println("Clicked " + text);
+				System.out.println("Clicked " + href);
 		}
 		
 		private boolean isHovered(int mouseX, int mouseY) {
