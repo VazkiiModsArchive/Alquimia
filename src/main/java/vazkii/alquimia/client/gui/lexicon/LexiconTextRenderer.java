@@ -19,6 +19,7 @@ public class LexiconTextRenderer {
 		put("$(italic)", "$(o)");
 		put("$(reset)", "$()");
 		put("$(clear)", "$()");
+		put("/$", "$()");
 		
 		put("$(nocolor)", "$(0)");
 		put("$(item)", "$(#05c)");
