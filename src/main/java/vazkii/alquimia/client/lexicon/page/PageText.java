@@ -1,7 +1,7 @@
 package vazkii.alquimia.client.lexicon.page;
 
-import vazkii.alquimia.client.gui.lexicon.GuiLexicon;
 import vazkii.alquimia.client.lexicon.LexiconPage;
+import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 
 public class PageText extends LexiconPage {
 

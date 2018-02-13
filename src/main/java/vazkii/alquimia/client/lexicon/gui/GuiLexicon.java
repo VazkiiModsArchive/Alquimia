@@ -1,4 +1,4 @@
-package vazkii.alquimia.client.gui.lexicon;
+package vazkii.alquimia.client.lexicon.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

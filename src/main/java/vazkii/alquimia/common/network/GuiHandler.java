@@ -7,7 +7,7 @@ import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
-import vazkii.alquimia.client.gui.lexicon.GuiLexicon;
+import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.common.lib.LibGuiIDs;
 
 public class GuiHandler implements IGuiHandler {

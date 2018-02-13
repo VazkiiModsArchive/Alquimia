@@ -1,6 +1,6 @@
 package vazkii.alquimia.client.lexicon;
 
-import vazkii.alquimia.client.gui.lexicon.GuiLexicon;
+import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 
 public abstract class LexiconPage {
 

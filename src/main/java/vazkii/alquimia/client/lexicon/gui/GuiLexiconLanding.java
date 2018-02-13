@@ -1,4 +1,4 @@
-package vazkii.alquimia.client.gui.lexicon;
+package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
 
