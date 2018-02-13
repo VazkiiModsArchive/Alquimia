@@ -10,8 +10,17 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	public static ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon.png"); 
 	
+	public static final int FULL_WIDTH = 272;
+	public static final int FULL_HEIGHT = 180;
+	public static final int PAGE_WIDTH = 116;
+	public static final int PAGE_HEIGHT = 156;
+	public static final int TOP_PADDING = 18;
+	public static final int LEFT_PAGE_X = 15;
+	public static final int RIGHT_PAGE_X = 141;
+	public static final int TEXT_LINE_HEIGHT = 9;
+
 	public static GuiLexicon currentGui;
-	public int bookLeft, bookTop, bookWidth, bookHeight;
+	public int bookLeft, bookTop;
 
 	public static GuiLexicon getCurrentGui() {
 		if(currentGui == null)
@@ -22,10 +31,8 @@ public abstract class GuiLexicon extends GuiScreen {
 	
 	@Override
 	public void initGui() {
-		bookWidth = 272;
-		bookHeight = 180;
-		bookLeft = width / 2 - bookWidth / 2;
-		bookTop = height / 2 - bookHeight / 2;
+		bookLeft = width / 2 - FULL_WIDTH / 2;
+		bookTop = height / 2 - FULL_HEIGHT / 2;
 		
 		currentGui = this;
 	}
@@ -44,7 +51,7 @@ public abstract class GuiLexicon extends GuiScreen {
 	}
 	
 	final void drawBackgroundElements(int mouseX, int mouseY, float partialTicks) {
-		drawFromTexture(0, 0, 0, 0, bookWidth, bookHeight);
+		drawFromTexture(0, 0, 0, 0, FULL_WIDTH, FULL_HEIGHT);
 	}
 	
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) { }
