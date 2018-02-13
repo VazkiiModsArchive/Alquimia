@@ -1,13 +1,31 @@
 package vazkii.alquimia.client.gui.lexicon;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.util.text.TextFormatting;
 
 public class LexiconTextRenderer {
+	
+	private static final int LINK_COLOR = 0x0000EE;
+	private static final int LINK_COLOR_HOVER = 0x8800EE;
+	
+	private static final Map<String, String> MACROS = new HashMap() {{
+		put("$(obf)", "$(k)");
+		put("$(obf)", "$(l)");
+		put("$(strike)", "$(m)");
+		put("$(italic)", "$(o)");
+		put("$(reset)", "$()");
+		put("$(clear)", "$()");
+		
+		put("$(nocolor)", "$(0)");
+		put("$(item)", "$(#05c)");
+		put("$(thing)", "$(#490)");
+	}};
 
+	final GuiLexicon gui;
 	final FontRenderer font;
 	final String text;
 	final int x, y, width;
@@ -15,9 +33,14 @@ public class LexiconTextRenderer {
 	final int lineHeight;
 	final boolean defaultUnicode;
 	
+	int currX, currY, currLen, currColor, prevColor;
+	String currCodes, currHref;
+	List<Word> currCluster;
+	
 	List<Word> words;
 	
-	public LexiconTextRenderer(FontRenderer font, String text, int x, int y, int width, int lineHeight) {
+	public LexiconTextRenderer(GuiLexicon gui, FontRenderer font, String text, int x, int y, int width, int lineHeight) {
+		this.gui = gui;
 		this.font = font;
 		this.text = text;
 		this.x = x;
@@ -34,25 +57,34 @@ public class LexiconTextRenderer {
 		font.setUnicodeFlag(true);
 		
 		words = new LinkedList<>();
-		String[] tokens = text.replaceAll("\n", " \n ").split(" ");
 		
-		int currX = x;
-		int currY = y;
-		int currLen = 0;
+		String actualText = text;
+		for(String key : MACROS.keySet())
+			actualText = actualText.replace(key, MACROS.get(key));
 		
-		int currColor = 0;
-		String currCodes = "";
-		String currHref = "";
+		actualText = actualText.replaceAll(" ", "\0 ").replaceAll("(\\$\\(.*?\\))", " $1 ");
+		System.out.println(actualText);
+		String[] tokens = actualText.split(" ");
+		
+		currX = x;
+		currY = y;
+		currLen = 0;
+		currColor = 0;
+		prevColor = 0;
+		currCodes = "";
+		currHref = "";
+		currCluster = null;
 		
 		for(String s : tokens) {
-			if(s.contains("\n")) { // Line feed
-				currLen = 0;
-				currX = x;
-				currY += lineHeight;
-				continue;
-			}
+			boolean space = s.contains("\0");
 			
-			int strWidth = font.getStringWidth(s) + spaceWidth;
+			s = buildCommand(s);
+			if(s.isEmpty())
+				continue;
+			
+			s = s.replaceAll("\0", "");
+			
+			int strWidth = font.getStringWidth(s) + (space ? spaceWidth : 0);
 			currLen += strWidth;
 			if(currLen > width) {
 				currLen = strWidth;
@@ -60,22 +92,81 @@ public class LexiconTextRenderer {
 				currY += lineHeight;
 			}
 			
-			Word word = new Word(font, currX, currY, strWidth, s, currColor, currCodes, currHref);
+			Word word = new Word(font, currX, currY, strWidth, s, currColor, currCodes, currHref, currCluster);
 			words.add(word);
+			if(currCluster != null)
+				currCluster.add(word);
+			
 			currX += strWidth;
 		}
 		
 		font.setUnicodeFlag(defaultUnicode);
 	}
 	
+	private String buildCommand(String s) {
+		if(s.matches("^\\$\\((.*?)\\)$")) { // Special codes
+			String cmd = s.substring(2, s.length() - 1);
+			
+			if(cmd.isEmpty()) { // Remove formatting
+				currColor = 0;
+				currCodes = "";
+				currHref = "";
+			}
+			
+			else if(cmd.matches("br|br2")) { // Line break
+				currLen = 0;
+				currX = x;
+				currY += (cmd.contains("2") ? lineHeight * 2 : lineHeight);
+			}
+			
+			else if(cmd.startsWith("#") && (cmd.length() == 4 || cmd.length() == 6)) { // Hex colors
+				String parse = cmd.substring(1);
+				if(parse.length() == 3)
+					parse = "" + parse.charAt(0) + parse.charAt(0) + parse.charAt(1) + parse.charAt(1) + parse.charAt(2) + parse.charAt(2);
+				currColor = Integer.parseInt(parse, 16);
+			}
+			
+			else if(cmd.matches("^[0123456789abcdef]$")) // Vanilla colors
+				currColor = font.getColorCode(cmd.charAt(0));
+			
+			else if(cmd.matches("^[klmnor]$")) // Vanilla codes
+				currCodes = "\u00A7" + cmd;
+			
+			else if(cmd.startsWith("l:")) { // Links
+				String nextHref = cmd.substring(5);
+				if(!nextHref.equals(currHref))
+					currCluster = new LinkedList();
+				
+				currHref = cmd.substring(5);
+				prevColor = currColor;
+				currColor = LINK_COLOR;
+			} 
+			else if(cmd.equals("/l")) { // Link breaks
+				currHref = "";
+				currColor = prevColor;
+				currCluster = null;
+			}
+			
+			return "";
+		}
+		
+		return s;
+	}
+	
 	public void render(int mouseX, int mouseY) {
+		int actualMoyseX = mouseX - gui.bookLeft;
+		int actualMouseY = mouseY - gui.bookTop;
+		
 		font.setUnicodeFlag(true);
-		words.forEach(word -> word.render(mouseX, mouseY));
+		words.forEach(word -> word.render(actualMoyseX, actualMouseY));
 		font.setUnicodeFlag(defaultUnicode);
 	}
 	
 	public void click(int mouseX, int mouseY) {
-		words.forEach(word -> word.click(mouseX, mouseY));
+		int actualMoyseX = mouseX - gui.bookLeft;
+		int actualMouseY = mouseY - gui.bookTop;
+		
+		words.forEach(word -> word.click(actualMoyseX, actualMouseY));
 	}
 	
 	class Word {
@@ -87,8 +178,9 @@ public class LexiconTextRenderer {
 		final String codes;
 		final String href;
 		final boolean hasHref;
+		final List<Word> linkCluster;
 		
-		Word(FontRenderer font, int x, int y, int width, String text, int color, String codes, String href) {
+		Word(FontRenderer font, int x, int y, int width, String text, int color, String codes, String href, List<Word> linkCluster) {
 			this.font = font;
 			this.x = x;
 			this.y = y;
@@ -99,14 +191,16 @@ public class LexiconTextRenderer {
 			this.codes = codes;
 			this.href = href;
 			this.hasHref = (href != null && !href.isEmpty());
+			this.linkCluster = linkCluster;
 		}
 		
 		public void render(int mouseX, int mouseY) {
 			String renderTarget = codes + text;
-			if(isHovered(mouseX, mouseY) && hasHref)
-				renderTarget = TextFormatting.UNDERLINE + renderTarget;
-			
-			font.drawString(renderTarget, x, y, color);
+			int renderColor = color;
+			if(isClusterHovered(mouseX, mouseY) && hasHref)
+				renderColor = LINK_COLOR_HOVER;
+				
+			font.drawString(renderTarget, x, y, renderColor);
 		}
 		
 		public void click(int mouseX, int mouseY) {
@@ -123,6 +217,18 @@ public class LexiconTextRenderer {
 			return mouseX > x && mouseY > y && mouseX < x + width && mouseY < y + height;
 		}
 		
+		private boolean isClusterHovered(int mouseX, int mouseY) {
+			if(linkCluster == null)
+				return false;
+						
+			for(Word w : linkCluster)
+				if(w.isHovered(mouseX, mouseY))
+					return true;
+			
+			return false;
+		}
+		
 	}
 	
 }
+

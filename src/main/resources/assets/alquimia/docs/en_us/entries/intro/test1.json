@@ -14,7 +14,7 @@
 		},
 		{
 			"type": "text",
-			"text:": "Page #3 contains $(3)Formatting Codes/$, custom $(15153F)color formatting/$, and $(bold)special $(15153F)decorations $(rcolor)resetted/$, as well as some $(item)color macros/$"
+			"text:": "Page #3 contains $(3)Formatting Codes$(), custom $(#15153F)color formatting$(), and $(bold)special $(15153F)decorations $(0)resetted$(), as well as some $(item)color macros$()"
 		},
 		{
 			"type": "crafting_recipe",
