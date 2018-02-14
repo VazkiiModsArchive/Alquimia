@@ -54,6 +54,9 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		registerCategory("intro");
 		registerCategory("test1");
 		registerCategory("test2");
+		registerCategory("test3");
+		registerCategory("test4");
+		registerCategory("test5");
 	}
 	
 	private void addEntries() {
@@ -83,11 +86,11 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		
 		currentLang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 		
-		CATEGORY_KEYS.forEach(res -> loadCategory(new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
-		ENTRY_KEYS.forEach(res -> loadCategory(new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
+		CATEGORY_KEYS.forEach(res -> loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
+		ENTRY_KEYS.forEach(res -> loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
 	}
 	
-	private void loadCategory(ResourceLocation res) {
+	private void loadCategory(ResourceLocation key, ResourceLocation res) {
 		InputStream stream = loadLocalizedJson(res, FALLBACK_CATEGORY);
 		if(stream == null)
 			throw new IllegalArgumentException(res + " does not exist.");
@@ -96,10 +99,10 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		if(category == null)
 			throw new IllegalArgumentException(res + " does not exist.");
 		
-		CATEGORIES.put(res, category);
+		CATEGORIES.put(key, category);
 	}
 	
-	private void loadEntry(ResourceLocation res) {
+	private void loadEntry(ResourceLocation key, ResourceLocation res) {
 		// TODO
 	}
 	
