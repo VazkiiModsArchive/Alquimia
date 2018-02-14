@@ -159,19 +159,13 @@ public class LexiconTextRenderer {
 	}
 	
 	public void render(int mouseX, int mouseY) {
-		int actualMoyseX = mouseX - gui.bookLeft;
-		int actualMouseY = mouseY - gui.bookTop;
-		
 		font.setUnicodeFlag(true);
-		words.forEach(word -> word.render(actualMoyseX, actualMouseY));
+		words.forEach(word -> word.render(mouseX, mouseY));
 		font.setUnicodeFlag(defaultUnicode);
 	}
 	
 	public void click(int mouseX, int mouseY) {
-		int actualMoyseX = mouseX - gui.bookLeft;
-		int actualMouseY = mouseY - gui.bookTop;
-		
-		words.forEach(word -> word.click(actualMoyseX, actualMouseY));
+		words.forEach(word -> word.click(mouseX, mouseY));
 	}
 	
 	class Word {
@@ -219,7 +213,7 @@ public class LexiconTextRenderer {
 		}
 		
 		private boolean isHovered(int mouseX, int mouseY) {
-			return mouseX > x && mouseY > y && mouseX <= x + width && mouseY <= y + height;
+			return gui.isMouseInRelativeRange(mouseY, mouseY, x, y, width, height);
 		}
 		
 		private boolean isClusterHovered(int mouseX, int mouseY) {

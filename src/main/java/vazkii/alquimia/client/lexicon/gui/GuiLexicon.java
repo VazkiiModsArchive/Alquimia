@@ -1,6 +1,7 @@
 package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Stack;
 
 import net.minecraft.client.Minecraft;
@@ -8,9 +9,11 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import scala.actors.threadpool.Arrays;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
 import vazkii.alquimia.common.lib.LibMisc;
+import vazkii.arl.util.RenderHelper;
 
 public abstract class GuiLexicon extends GuiScreen {
 
@@ -32,6 +35,9 @@ public abstract class GuiLexicon extends GuiScreen {
 	public static Stack<GuiLexicon> guiStack = new Stack();
 	public static GuiLexicon currentGui;
 	public int bookLeft, bookTop;
+	
+	private List<String> tooltip;
+	private boolean tooltipLocked = false;
 
 	public static GuiLexicon getCurrentGui() {
 		if(currentGui == null)
@@ -73,6 +79,8 @@ public abstract class GuiLexicon extends GuiScreen {
 		GlStateManager.popMatrix();
 		
 		super.drawScreen(mouseX, mouseY, partialTicks);
+		
+		drawTooltip(mouseX, mouseY);
 	}
 	
 	final void drawBackgroundElements(int mouseX, int mouseY, float partialTicks) {
@@ -80,6 +88,14 @@ public abstract class GuiLexicon extends GuiScreen {
 	}
 	
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) { }
+	
+	final void drawTooltip(int mouseX, int mouseY) {
+		if(tooltip != null && !tooltip.isEmpty())
+			RenderHelper.renderTooltip(mouseX, mouseY, tooltip);
+
+		tooltip = null;
+		tooltipLocked = false;
+	}
 	
 	public static void drawFromTexture(int x, int y, int u, int v, int w, int h) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(LEXICON_TEXTURE);
@@ -118,6 +134,23 @@ public abstract class GuiLexicon extends GuiScreen {
 	
 	public boolean canSeeBackButton() {
 		return !guiStack.isEmpty();
+	}
+	
+	public void setTooltip(boolean locked, String... strings) {
+		setTooltip(locked, Arrays.asList(strings));
+	}
+	
+	public void setTooltip(boolean locked, List<String> strings) {
+		if(!tooltipLocked) {
+			tooltip = strings;
+			this.tooltipLocked = locked;
+		}
+	}
+	
+	public boolean isMouseInRelativeRange(int absMx, int absMy, int x, int y, int w, int h) {
+		int mx = absMx - bookLeft;
+		int my = absMy - bookTop;
+		return mx > x && my > y && mx <= (x + w) && my <= (y + h);
 	}
 	
 }
