@@ -2,6 +2,7 @@
 	"name": "Test 1",
 	"description": "Test entry #1",
 	"icon": "minecraft:iron_shovel",
+	"category": "intro",
 	"priority": true,
 	"pages": [
 		{
@@ -17,7 +18,7 @@
 			"text:": "Page #3 contains $(3)Formatting Codes$()!"
 		},
 		{
-			"type": "crafting_recipe",
+			"type": "crafting",
 			"recipe": "minecraft:book",
 			"text": "How to make a book!"
 		}

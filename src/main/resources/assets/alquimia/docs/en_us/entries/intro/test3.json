@@ -2,6 +2,7 @@
 	"name": "Test 3",
 	"description": "Test entry #3",
 	"icon": "minecraft:diamond_shovel",
+	"category": "intro",
 	"priority": false,
 	"pages": [
 		{

@@ -46,6 +46,11 @@ public abstract class GuiLexicon extends GuiScreen {
 		return currentGui;
 	}
 	
+	public static void onReload() {
+		currentGui = null;
+		guiStack.clear();
+	}
+	
 	public static void displayLexiconGui(GuiLexicon gui, boolean push) {
 		Minecraft mc = Minecraft.getMinecraft();
 		if(push && mc.currentScreen instanceof GuiLexicon && gui != mc.currentScreen)

@@ -1,11 +1,13 @@
 package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
@@ -28,9 +30,10 @@ public class GuiLexiconLanding extends GuiLexicon {
 		buttonList.add(new GuiButtonLexiconEdit(this, bookLeft + 44, bookTop + FULL_HEIGHT - 72));
 		
 		int i = 0;
-		for(ResourceLocation res : LexiconRegistry.INSTANCE.CATEGORY_KEYS) {
-			LexiconCategory category = LexiconRegistry.INSTANCE.CATEGORIES.get(res);
-			
+		List<LexiconCategory> categories = new ArrayList(LexiconRegistry.INSTANCE.CATEGORIES.values());
+		Collections.sort(categories);
+		
+		for(LexiconCategory category : categories) {
 			int x = RIGHT_PAGE_X + 10 + (i % 4) * 24;
 			int y = TOP_PADDING + 15 + (i /4) * 24;
 			
@@ -70,7 +73,7 @@ public class GuiLexiconLanding extends GuiLexicon {
 		int barHeight = 12;
 		
 		int totalEntries = 100;
-		int unlockedEntries = 42;
+		int unlockedEntries = 20;
 		float unlockFract = (float) unlockedEntries / (float) totalEntries;
 		int progressWidth = (int) (((float) barWidth - 2) * unlockFract);
 		
@@ -98,6 +101,8 @@ public class GuiLexiconLanding extends GuiLexicon {
 		
 		if(button instanceof GuiButtonLexiconEdit)
 			displayLexiconGui(new GuiLexiconWriter(), true);
+		else if(button instanceof GuiButtonCategory)
+			displayLexiconGui(new GuiLexiconCategory(((GuiButtonCategory) button).getCategory()), true);
 	}
 
 }

@@ -41,6 +41,10 @@ public class GuiButtonCategory extends GuiButton {
 			} else parent.setTooltip(true, category.getName());
 		}
 	}
+	
+	public LexiconCategory getCategory() {
+		return category;
+	}
 
 }
 	
