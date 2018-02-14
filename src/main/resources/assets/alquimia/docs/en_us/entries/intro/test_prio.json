@@ -1,9 +1,9 @@
 {
-	"name": "Test 2",
-	"description": "Test entry #2",
-	"icon": "minecraft:golden_shovel",
+	"name": "Test Priority",
+	"description": "Test entry with priority",
+	"icon": "minecraft:diamond_pickaxe",
 	"category": "intro",
-	"priority": false,
+	"priority": true,
 	"pages": [
 		{
 			"type": "text",

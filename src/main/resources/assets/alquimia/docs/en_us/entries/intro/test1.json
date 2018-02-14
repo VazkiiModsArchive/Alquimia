@@ -3,19 +3,19 @@
 	"description": "Test entry #1",
 	"icon": "minecraft:iron_shovel",
 	"category": "intro",
-	"priority": true,
+	"priority": false,
 	"pages": [
 		{
 			"type": "text",
-			"text:": "Page #1"
+			"text": "Page #1"
 		},
 		{
 			"type": "text",
-			"text:": "Page #2 contains a lot longer text that will have to be wrapped across a few lines to fit properly"
+			"text": "Page #2 contains a lot longer text that will have to be wrapped across a few lines to fit properly"
 		},
 		{
 			"type": "text",
-			"text:": "Page #3 contains $(3)Formatting Codes$()!"
+			"text": "Page #3 contains $(3)Formatting Codes$()!"
 		},
 		{
 			"type": "crafting",

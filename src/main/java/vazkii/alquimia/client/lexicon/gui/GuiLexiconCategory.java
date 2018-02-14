@@ -23,7 +23,6 @@ public class GuiLexiconCategory extends GuiLexicon {
 	
 	List<GuiButton> dependentButtons;
 	List<LexiconEntry> allEntries;
-	int page, maxpages;
 	
 	public GuiLexiconCategory(LexiconCategory category) {
 		this.category = category;
@@ -33,18 +32,9 @@ public class GuiLexiconCategory extends GuiLexicon {
 	public void initGui() {
 		super.initGui();
 		
-		text = new LexiconTextRenderer(this, fontRenderer, category.getDescription(), LEFT_PAGE_X, TOP_PADDING + 22, PAGE_WIDTH, TEXT_LINE_HEIGHT);
+		text = new LexiconTextRenderer(this, category.getDescription(), LEFT_PAGE_X, TOP_PADDING + 22);
 		
 		allEntries = new ArrayList<>(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
-		allEntries.addAll(category.getEntries());
 		Collections.sort(allEntries);
 		
 		maxpages = 1;
@@ -53,7 +43,6 @@ public class GuiLexiconCategory extends GuiLexicon {
 		count -= ENTRIES_IN_FIRST_PAGE;
 		if(count > 0)
 			maxpages += (int) Math.ceil((float) count / (ENTRIES_PER_PAGE * 2));
-		System.out.println(maxpages);
 		
 		dependentButtons = new ArrayList();
 		buildEntryButtons();
@@ -79,7 +68,7 @@ public class GuiLexiconCategory extends GuiLexicon {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
-		text.click(mouseX, mouseY);
+		text.click(mouseX, mouseY, mouseButton);
 	}
 	
 	@Override
@@ -88,17 +77,13 @@ public class GuiLexiconCategory extends GuiLexicon {
 		
 		if(button instanceof GuiButtonCategory)
 			displayLexiconGui(new GuiLexiconCategory(((GuiButtonCategory) button).getCategory()), true);
+		else if(button instanceof GuiButtonEntry)
+			displayLexiconGui(new GuiLexiconEntry(((GuiButtonEntry) button).getEntry()), true);
 	}
 	
 	@Override
-	void changePage(boolean left) {
-		if(canSeePageButton(left)) {
-			if(left)
-				page--;
-			else page++;
-			
-			buildEntryButtons();
-		}
+	void onPageChanged() {
+		buildEntryButtons();
 	}
 	
 	void buildEntryButtons() {
@@ -147,11 +132,6 @@ public class GuiLexiconCategory extends GuiLexicon {
 			buttonList.add(button);
 			dependentButtons.add(button);
 		}
-	}
-	
-	@Override
-	public boolean canSeePageButton(boolean left) {
-		return left ? page > 0 : (page + 1) < maxpages; 
 	}
 	
 }

@@ -7,15 +7,19 @@
 	"pages": [
 		{
 			"type": "text",
-			"text:": "Page #1"
+			"text": "Page #1.$(br2)Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam at commodo sem. Donec gravida semper ante, eu cursus urna interdum quis. Curabitur eget libero at ex placerat luctus quis vel risus."
 		},
 		{
 			"type": "text",
-			"text:": "Page #2"
+			"text": "Page #2.$(br2)Vivamus pharetra nulla at volutpat consectetur. Cras eu sagittis odio. Ut gravida hendrerit tortor, vitae laoreet augue pellentesque id. Nulla purus diam, tincidunt vel nulla eu, fermentum fringilla nisi. Nam nec enim erat. Nullam porta lacus quis libero laoreet tincidunt. Phasellus fringilla, diam ut cursus consequat, arcu lectus fringilla enim, quis accumsan massa elit et est."
 		},
 		{
 			"type": "text",
-			"text:": "Page #3"
+			"text": "Page #3.$(br2)Curabitur eu enim scelerisque lectus laoreet tempus. Aenean tempor, ipsum in pharetra semper, tellus ligula finibus augue, quis mollis lorem tortor ac arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nam pharetra leo sit amet libero feugiat malesuada. In erat purus, condimentum sit amet laoreet pulvinar, porta non erat."
+		},
+		{
+			"type": "text",
+			"text": "Page #4 has a lot of $(#f00)formatting codes$()!$(br2)Yeah, we also $(italic)have$(bold) those$() . Pretty cool huh? We can even do weird custom colors like this funky $(#050)dark green!$()$(br2)There's also $(l:test)links to other parts of the book$(/l) though they don't work yet :("
 		}
 	]
 }

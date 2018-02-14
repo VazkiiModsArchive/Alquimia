@@ -9,8 +9,8 @@ public class PageCrafting extends LexiconPage {
 	String text;
 	
 	@Override
-	public void render(GuiLexicon lexicon, int mouseX, int mouseY) {
-		lexicon.mc.fontRenderer.drawString(text, 0, 0, 0); // TODO
+	public void render(int mouseX, int mouseY, float pticks) {
+		fontRenderer.drawString("blarg", 0, 0, 0); // TODO
 	}
 
 }

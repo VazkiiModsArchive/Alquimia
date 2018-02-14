@@ -56,7 +56,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	@Override
 	public int compareTo(LexiconEntry o) {
 		if(o.priority != this.priority)
-			return this.priority ? 1 : -1;
+			return this.priority ? -1 : 1;
 		
 		return this.name.compareTo(o.name);
 	}

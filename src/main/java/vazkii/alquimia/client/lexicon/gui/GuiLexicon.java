@@ -43,6 +43,7 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	private List<String> tooltip;
 	private boolean tooltipLocked = false;
+	protected int page, maxpages;
 
 	public static GuiLexicon getCurrentGui() {
 		if(currentGui == null)
@@ -66,6 +67,8 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	@Override
 	public void initGui() {
+		page = maxpages = 0;
+		
 		bookLeft = width / 2 - FULL_WIDTH / 2;
 		bookTop = height / 2 - FULL_HEIGHT / 2;
 
@@ -162,14 +165,25 @@ public abstract class GuiLexicon extends GuiScreen {
 		}
 	}
 
-	void changePage(boolean left) { 
+	void changePage(boolean left) {
+		if(canSeePageButton(left)) {
+			int oldpage = page;
+			if(left)
+				page--;
+			else page++;
+			
+			onPageChanged();
+		}
+	}
+	
+	void onPageChanged() {
 		// NO-OP
 	}
 
 	public boolean canSeePageButton(boolean left) {
-		return false;
+		return left ? page > 0 : (page + 1) < maxpages; 
 	}
-
+	
 	public boolean canSeeBackButton() {
 		return !guiStack.isEmpty();
 	}
@@ -191,8 +205,7 @@ public abstract class GuiLexicon extends GuiScreen {
 		return mx > x && my > y && mx <= (x + w) && my <= (y + h);
 	}
 
-
-	void drawProgressBar(int mouseX, int mouseY, Predicate<LexiconEntry> filter) {
+	public void drawProgressBar(int mouseX, int mouseY, Predicate<LexiconEntry> filter) {
 		int barLeft = 19;
 		int barTop = FULL_HEIGHT - 36;
 		int barWidth = PAGE_WIDTH - 10;
@@ -214,7 +227,7 @@ public abstract class GuiLexicon extends GuiScreen {
 			setTooltip(true, progressStr);
 	}
 	
-	void drawSeparator(int x, int y) {
+	public void drawSeparator(int x, int y) {
 		int w = 110;
 		int h = 3;
 		int rx = x + PAGE_WIDTH / 2 - w / 2;
@@ -225,9 +238,9 @@ public abstract class GuiLexicon extends GuiScreen {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 	}
 	
-	void drawCenteredStringNoShadow(String s, int x, int y, int color) {
+	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {
 		fontRenderer.drawString(s, x - fontRenderer.getStringWidth(s) / 2, y, color);
 	}
-
+	
 }
 

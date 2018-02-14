@@ -18,7 +18,7 @@ public class GuiLexiconWriter extends GuiLexicon {
 	public void initGui() {
 		super.initGui();
 		
-		text = new LexiconTextRenderer(this, fontRenderer, I18n.translateToLocal("alquimia.gui.lexicon.editor_info"), LEFT_PAGE_X, TOP_PADDING + 20, PAGE_WIDTH, TEXT_LINE_HEIGHT);
+		text = new LexiconTextRenderer(this, I18n.translateToLocal("alquimia.gui.lexicon.editor_info"), LEFT_PAGE_X, TOP_PADDING + 20);
 		textfield = new GuiTextField(0, fontRenderer, 10, FULL_HEIGHT - 40, PAGE_WIDTH, 20);
 		textfield.setMaxStringLength(Integer.MAX_VALUE);
 		textfield.setText(savedText);
@@ -44,8 +44,8 @@ public class GuiLexiconWriter extends GuiLexicon {
 		
 		textfield.mouseClicked(mouseX - bookLeft, mouseY - bookTop, mouseButton);
 		
-		text.click(mouseX, mouseY);
-		editableText.click(mouseX, mouseY);
+		text.click(mouseX, mouseY, mouseButton);
+		editableText.click(mouseX, mouseY, mouseButton);
 	}
 	
 	@Override
@@ -59,9 +59,9 @@ public class GuiLexiconWriter extends GuiLexicon {
 	public void refreshText() {
 		savedText = textfield.getText();
 		try {
-			editableText = new LexiconTextRenderer(this, fontRenderer, savedText, RIGHT_PAGE_X, TOP_PADDING, PAGE_WIDTH, TEXT_LINE_HEIGHT);
+			editableText = new LexiconTextRenderer(this, savedText, RIGHT_PAGE_X, TOP_PADDING);
 		} catch(Throwable e) {
-			editableText = new LexiconTextRenderer(this, fontRenderer, "[ERROR]", RIGHT_PAGE_X, TOP_PADDING, PAGE_WIDTH, TEXT_LINE_HEIGHT);
+			editableText = new LexiconTextRenderer(this, "[ERROR]", RIGHT_PAGE_X, TOP_PADDING);
 		}
 	}
 }

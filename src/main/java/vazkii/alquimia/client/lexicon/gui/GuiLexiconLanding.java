@@ -24,7 +24,7 @@ public class GuiLexiconLanding extends GuiLexicon {
 	public void initGui() {
 		super.initGui();
 		
-		text = new LexiconTextRenderer(this, fontRenderer, I18n.translateToLocal("alquimia.gui.lexicon.landing_info"), LEFT_PAGE_X, TOP_PADDING + 25, PAGE_WIDTH, TEXT_LINE_HEIGHT);
+		text = new LexiconTextRenderer(this, I18n.translateToLocal("alquimia.gui.lexicon.landing_info"), LEFT_PAGE_X, TOP_PADDING + 25);
 
 		buttonList.add(new GuiButtonLexiconResize(this, bookLeft + 24, bookTop + FULL_HEIGHT - 72));
 		buttonList.add(new GuiButtonLexiconEdit(this, bookLeft + 44, bookTop + FULL_HEIGHT - 72));
@@ -72,7 +72,7 @@ public class GuiLexiconLanding extends GuiLexicon {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
-		text.click(mouseX, mouseY);
+		text.click(mouseX, mouseY, mouseButton);
 	}
 	
 	@Override

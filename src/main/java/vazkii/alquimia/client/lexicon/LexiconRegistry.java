@@ -75,6 +75,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		registerEntry("intro", "test1");
 		registerEntry("intro", "test2");
 		registerEntry("intro", "test3");
+		registerEntry("intro", "test_prio");
 	}
 	
 	private void registerCategory(String category) {

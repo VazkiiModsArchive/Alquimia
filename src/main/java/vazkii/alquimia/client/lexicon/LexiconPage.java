@@ -10,14 +10,30 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
+import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 
 public abstract class LexiconPage {
 
+	protected transient Minecraft mc;
+	protected transient FontRenderer fontRenderer;
+	protected transient GuiLexiconEntry parent;
+	protected transient int pageNum;
+	
 	String type;
 	
-	public abstract void render(GuiLexicon lexicon, int mouseX, int mouseY);
-
+	public void onDisplayed(GuiLexiconEntry parent, int pageNum) { 
+		mc = parent.mc;
+		fontRenderer = mc.fontRenderer;
+		this.parent = parent;
+		this.pageNum = pageNum;
+	}
+	
+	public void render(int mouseX, int mouseY, float pticks) { }
+	public void mouseClicked(int mouseX, int mouseY, int mouseButton) { }
+	
 	public static class LexiconPageAdapter implements JsonDeserializer<LexiconPage> {
 
 		Gson rawGson = new Gson();

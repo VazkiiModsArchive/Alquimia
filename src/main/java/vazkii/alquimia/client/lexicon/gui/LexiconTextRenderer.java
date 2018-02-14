@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.util.text.TextComponentString;
 
 public class LexiconTextRenderer {
 	
@@ -44,9 +44,13 @@ public class LexiconTextRenderer {
 	
 	List<Word> words;
 	
-	public LexiconTextRenderer(GuiLexicon gui, FontRenderer font, String text, int x, int y, int width, int lineHeight) {
+	public LexiconTextRenderer(GuiLexicon gui, String text, int x, int y) {
+		this(gui, text, x, y, GuiLexicon.PAGE_WIDTH, GuiLexicon.TEXT_LINE_HEIGHT);
+	}
+	
+	public LexiconTextRenderer(GuiLexicon gui, String text, int x, int y, int width, int lineHeight) {
 		this.gui = gui;
-		this.font = font;
+		this.font = gui.mc.fontRenderer;
 		this.text = text;
 		this.x = x;
 		this.y = y;
@@ -64,6 +68,9 @@ public class LexiconTextRenderer {
 		words = new LinkedList<>();
 		
 		String actualText = text;
+		if(actualText == null)
+			actualText = "[ERROR]";
+		
 		for(String key : MACROS.keySet())
 			actualText = actualText.replace(key, MACROS.get(key));
 		
@@ -164,8 +171,8 @@ public class LexiconTextRenderer {
 		font.setUnicodeFlag(defaultUnicode);
 	}
 	
-	public void click(int mouseX, int mouseY) {
-		words.forEach(word -> word.click(mouseX, mouseY));
+	public void click(int mouseX, int mouseY, int mouseButton) {
+		words.forEach(word -> word.click(mouseX, mouseY, mouseButton));
 	}
 	
 	class Word {
@@ -199,21 +206,28 @@ public class LexiconTextRenderer {
 			if(isClusterHovered(mouseX, mouseY) && hasHref)
 				renderColor = LINK_COLOR_HOVER;
 			
+//			if(hasHref) {
+//				gui.drawRect(x, y, x + width, y + height, 0x33FF0000);
+//				gui.drawRect(mouseX - 3 - gui.bookLeft, mouseY - 3 - gui.bookTop, mouseX + 3 - gui.bookLeft, mouseY + 3 - gui.bookTop, 0x33FF0000);
+//				font.drawString("(" + mouseX + ", " + mouseY + ")", mouseX - 3 - gui.bookLeft, mouseY - 12 - gui.bookTop, 0xFF000000);
+//			}
+			
 			font.drawString(renderTarget, x, y, renderColor);
 		}
 		
-		public void click(int mouseX, int mouseY) {
-			if(isHovered(mouseX, mouseY))	
+		public void click(int mouseX, int mouseY, int mouseButton) {
+			System.out.println(mouseX + " " + mouseY);
+			if(hasHref && mouseButton == 0 && isHovered(mouseX, mouseY))
 				onClicked();
 		}
 		
 		private void onClicked() {
 			if(hasHref)
-				System.out.println("Clicked " + href);
+				gui.mc.player.sendMessage(new TextComponentString("Clicked link: " + text));
 		}
 		
 		private boolean isHovered(int mouseX, int mouseY) {
-			return gui.isMouseInRelativeRange(mouseY, mouseY, x, y, width, height);
+			return gui.isMouseInRelativeRange(mouseX, mouseY, x, y, width, height);
 		}
 		
 		private boolean isClusterHovered(int mouseX, int mouseY) {
