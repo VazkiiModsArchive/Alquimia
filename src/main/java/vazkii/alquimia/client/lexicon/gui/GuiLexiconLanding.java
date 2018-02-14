@@ -34,6 +34,9 @@ public class GuiLexiconLanding extends GuiLexicon {
 		Collections.sort(categories);
 		
 		for(LexiconCategory category : categories) {
+			if(category.getParentCategory() != null)
+				continue;
+			
 			int x = RIGHT_PAGE_X + 10 + (i % 4) * 24;
 			int y = TOP_PADDING + 15 + (i /4) * 24;
 			
@@ -51,7 +54,7 @@ public class GuiLexiconLanding extends GuiLexicon {
 		fontRenderer.drawString(s, RIGHT_PAGE_X + PAGE_WIDTH / 2 - fontRenderer.getStringWidth(s) / 2, TOP_PADDING, 0x444444);
 		
 		drawHeader();
-		drawProgressBar(mouseX, mouseY);
+		drawProgressBar(mouseX, mouseY, (e) -> true);
 	}
 	
 	void drawHeader() {
@@ -64,28 +67,6 @@ public class GuiLexiconLanding extends GuiLexicon {
 		fontRenderer.setUnicodeFlag(true);
 		fontRenderer.drawString(I18n.translateToLocal("alquimia.gui.lexicon.default_version"), 24, 24, color); // TODO hook up version to this
 		fontRenderer.setUnicodeFlag(unicode);
-	}
-	
-	void drawProgressBar(int mouseX, int mouseY) {
-		int barLeft = 19;
-		int barTop = FULL_HEIGHT - 36;
-		int barWidth = PAGE_WIDTH - 10;
-		int barHeight = 12;
-		
-		int totalEntries = 100;
-		int unlockedEntries = 20;
-		float unlockFract = (float) unlockedEntries / (float) totalEntries;
-		int progressWidth = (int) (((float) barWidth - 2) * unlockFract);
-		
-		drawRect(barLeft, barTop, barLeft + barWidth, barTop + barHeight, 0xFF333333);
-		drawGradientRect(barLeft + 1, barTop + 1, barLeft + barWidth - 1, barTop + barHeight - 1, 0xFFDDDDDD, 0xFFBBBBBB);
-		drawGradientRect(barLeft + 1, barTop + 1, barLeft + progressWidth, barTop + barHeight - 1, 0xFFFFFF55, 0xFFBBBB00);
-
-		fontRenderer.drawString(I18n.translateToLocal("alquimia.gui.lexicon.progress_meter"), barLeft, barTop - 9, 0x444444);
-		
-		String progressStr = unlockedEntries + "/" + totalEntries;
-		if(isMouseInRelativeRange(mouseX, mouseY, barLeft, barTop, barWidth, barHeight))
-			setTooltip(true, progressStr);
 	}
 	
 	@Override

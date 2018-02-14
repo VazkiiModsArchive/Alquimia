@@ -1,7 +1,7 @@
 {
 	"name": "Test 2",
 	"description": "Test entry #2",
-	"icon": "minecraft:gold_shovel",
+	"icon": "minecraft:golden_shovel",
 	"category": "intro",
 	"priority": false,
 	"pages": [

@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 public class LexiconCategory implements Comparable<LexiconCategory> {
 
-	String name, description, icon;
+	String name, description, icon, parent;
 	int sortnum;
-	List<LexiconEntry> entries = new ArrayList<>();
+	
+	transient boolean checkedParent = false;
+	transient LexiconCategory parentCategory;
+	transient List<LexiconEntry> entries = new ArrayList<>();
 	
 	private transient ItemStack iconItem = null;
 	
@@ -34,6 +38,15 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	
 	public List<LexiconEntry> getEntries() {
 		return entries;
+	}
+	
+	public LexiconCategory getParentCategory() {
+		if(!checkedParent && parent != null) {
+			parentCategory = LexiconRegistry.INSTANCE.CATEGORIES.get(new ResourceLocation(parent));
+			checkedParent = true;
+		}
+		
+		return parentCategory;
 	}
 	
 	@Override

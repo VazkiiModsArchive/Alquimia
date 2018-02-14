@@ -10,6 +10,7 @@ alquimia.gui.lexicon.default_version=Writer's Edition
 alquimia.gui.lexicon.landing_info=A Vazkii self-published encyclopedia. The quintessential guide to alchemical engineering for students and veterans of all skill levels.
 alquimia.gui.lexicon.progress_meter=Unlock Progress:
 alquimia.gui.lexicon.categories=Categories
+alquimia.gui.lexicon.chapters=Chapters
 alquimia.gui.lexicon.editor=Lexica Editor
 alquimia.gui.lexicon.editor_info=This is an editor for Alquimia book entries. It's meant to be used for development or translation. There's no use for it if you're a player.$(br2)Please reference the default alquimia entry json files for usable control codes.
 
