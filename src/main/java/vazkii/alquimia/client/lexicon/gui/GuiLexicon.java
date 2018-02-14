@@ -213,6 +213,21 @@ public abstract class GuiLexicon extends GuiScreen {
 		if(isMouseInRelativeRange(mouseX, mouseY, barLeft, barTop, barWidth, barHeight))
 			setTooltip(true, progressStr);
 	}
+	
+	void drawSeparator(int x, int y) {
+		int w = 110;
+		int h = 3;
+		int rx = x + PAGE_WIDTH / 2 - w / 2;
+		
+		GlStateManager.enableBlend();
+		GlStateManager.color(1F, 1F, 1F, 0.8F);
+		drawFromTexture(rx, y, 140, 180, w, h);
+		GlStateManager.color(1F, 1F, 1F, 1F);
+	}
+	
+	void drawCenteredStringNoShadow(String s, int x, int y, int color) {
+		fontRenderer.drawString(s, x - fontRenderer.getStringWidth(s) / 2, y, color);
+	}
 
 }
 

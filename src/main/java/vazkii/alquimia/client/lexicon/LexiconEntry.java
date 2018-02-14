@@ -32,6 +32,10 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 		return relations;
 	}
 	
+	public boolean isPriority() {
+		return priority;
+	}
+	
 	public ItemStack getIconItem() {
 		if(iconItem == null)
 			iconItem = LexiconUtils.loadStackFromString(icon);

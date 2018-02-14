@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
@@ -15,7 +16,7 @@ import vazkii.alquimia.client.lexicon.gui.button.GuiButtonEntry;
 public class GuiLexiconCategory extends GuiLexicon {
 
 	static final int ENTRIES_PER_PAGE = 13;
-	static final int ENTRIES_IN_FIRST_PAGE = 10;
+	static final int ENTRIES_IN_FIRST_PAGE = 11;
 	
 	LexiconCategory category;
 	LexiconTextRenderer text;
@@ -32,7 +33,7 @@ public class GuiLexiconCategory extends GuiLexicon {
 	public void initGui() {
 		super.initGui();
 		
-		text = new LexiconTextRenderer(this, fontRenderer, category.getDescription(), LEFT_PAGE_X, TOP_PADDING + 16, PAGE_WIDTH, TEXT_LINE_HEIGHT);
+		text = new LexiconTextRenderer(this, fontRenderer, category.getDescription(), LEFT_PAGE_X, TOP_PADDING + 22, PAGE_WIDTH, TEXT_LINE_HEIGHT);
 		
 		allEntries = new ArrayList<>(category.getEntries());
 		allEntries.addAll(category.getEntries());
@@ -63,9 +64,13 @@ public class GuiLexiconCategory extends GuiLexicon {
 		super.drawForegroundElements(mouseX, mouseY, partialTicks);
 		
 		if(page == 0) {
-			fontRenderer.drawString(category.getName(), LEFT_PAGE_X, TOP_PADDING + 4, 0x333333);
+			drawCenteredStringNoShadow(category.getName(), LEFT_PAGE_X + PAGE_WIDTH / 2, TOP_PADDING, 0x333333);
+			drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.chapters"), RIGHT_PAGE_X + PAGE_WIDTH / 2, TOP_PADDING, 0x333333);
+
+			drawSeparator(LEFT_PAGE_X, TOP_PADDING + 12);
+			drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12);
+
 			text.render(mouseX, mouseY);
-			
 			drawProgressBar(mouseX, mouseY, (e) -> e.getCategory() == category);	
 		}
 	}
@@ -101,7 +106,7 @@ public class GuiLexiconCategory extends GuiLexicon {
 		dependentButtons.clear();
 		
 		if(page == 0) {
-			addEntryButtons(RIGHT_PAGE_X, TOP_PADDING + 30, 0, ENTRIES_IN_FIRST_PAGE);
+			addEntryButtons(RIGHT_PAGE_X, TOP_PADDING + 20, 0, ENTRIES_IN_FIRST_PAGE);
 			
 			int i = 0;
 			List<LexiconCategory> categories = new ArrayList(LexiconRegistry.INSTANCE.CATEGORIES.values());

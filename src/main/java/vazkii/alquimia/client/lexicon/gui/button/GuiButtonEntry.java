@@ -37,7 +37,7 @@ public class GuiButtonEntry extends GuiButton {
 			
 			boolean unicode = mc.fontRenderer.getUnicodeFlag();
 			mc.fontRenderer.setUnicodeFlag(true);
-			mc.fontRenderer.drawString(entry.getName() + "(" + i + ")", x + 10, y, 0); // TODO handle priority display
+			mc.fontRenderer.drawString((entry.isPriority() ? TextFormatting.ITALIC : "") + entry.getName(), x + 10, y, 0);
 			mc.fontRenderer.setUnicodeFlag(unicode);
 		}
 	}

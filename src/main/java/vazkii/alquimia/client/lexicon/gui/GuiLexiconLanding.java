@@ -38,10 +38,9 @@ public class GuiLexiconLanding extends GuiLexicon {
 				continue;
 			
 			int x = RIGHT_PAGE_X + 10 + (i % 4) * 24;
-			int y = TOP_PADDING + 15 + (i /4) * 24;
+			int y = TOP_PADDING + 20 + (i /4) * 24;
 			
 			buttonList.add(new GuiButtonCategory(this, x, y, category));
-			
 			i++;
 		}
 	}
@@ -50,10 +49,10 @@ public class GuiLexiconLanding extends GuiLexicon {
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) {
 		text.render(mouseX, mouseY);
 		
-		String s = I18n.translateToLocal("alquimia.gui.lexicon.categories");
-		fontRenderer.drawString(s, RIGHT_PAGE_X + PAGE_WIDTH / 2 - fontRenderer.getStringWidth(s) / 2, TOP_PADDING, 0x444444);
+		drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.categories"), RIGHT_PAGE_X + PAGE_WIDTH / 2, TOP_PADDING, 0x333333);
 		
 		drawHeader();
+		drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12);
 		drawProgressBar(mouseX, mouseY, (e) -> true);
 	}
 	
