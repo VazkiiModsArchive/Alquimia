@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 
 public class LexiconTextRenderer {
 	
@@ -14,11 +15,14 @@ public class LexiconTextRenderer {
 	
 	private static final Map<String, String> MACROS = new HashMap() {{
 		put("$(obf)", "$(k)");
-		put("$(obf)", "$(l)");
+		put("$(bold)", "$(l)");
 		put("$(strike)", "$(m)");
 		put("$(italic)", "$(o)");
 		put("$(reset)", "$()");
 		put("$(clear)", "$()");
+		put("$(2br)", "$(br2)");
+		put("$(p)", "$(br2)");
+		
 		put("/$", "$()");
 		
 		put("$(nocolor)", "$(0)");
@@ -111,6 +115,7 @@ public class LexiconTextRenderer {
 				currColor = 0;
 				currCodes = "";
 				currHref = "";
+				currCluster = null;
 			}
 			
 			else if(cmd.matches("br|br2")) { // Line break
@@ -185,7 +190,7 @@ public class LexiconTextRenderer {
 			this.x = x;
 			this.y = y;
 			this.width = width;
-			this.height = 10;
+			this.height = 8;
 			this.text = text;
 			this.color = color;
 			this.codes = codes;
@@ -199,7 +204,7 @@ public class LexiconTextRenderer {
 			int renderColor = color;
 			if(isClusterHovered(mouseX, mouseY) && hasHref)
 				renderColor = LINK_COLOR_HOVER;
-				
+			
 			font.drawString(renderTarget, x, y, renderColor);
 		}
 		
@@ -214,7 +219,7 @@ public class LexiconTextRenderer {
 		}
 		
 		private boolean isHovered(int mouseX, int mouseY) {
-			return mouseX > x && mouseY > y && mouseX < x + width && mouseY < y + height;
+			return mouseX > x && mouseY > y && mouseX <= x + width && mouseY <= y + height;
 		}
 		
 		private boolean isClusterHovered(int mouseX, int mouseY) {

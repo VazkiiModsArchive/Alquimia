@@ -1,6 +1,7 @@
 package vazkii.alquimia.client.lexicon;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.common.item.ModItems;
 
@@ -10,7 +11,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	boolean priority = false;
 	LexiconPage[] pages;
 	
-	private transient Item iconItem = null;
+	private transient ItemStack iconItem = null;
 	
 	public String getName() {
 		return name;
@@ -24,12 +25,9 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 		return pages;
 	}
 	
-	public Item getIcon() {
-		if(iconItem == null) {
-			iconItem = Item.REGISTRY.getObject(new ResourceLocation(icon));
-			if(iconItem == null)
-				iconItem = ModItems.lexicon;
-		}
+	public ItemStack getIconItem() {
+		if(iconItem == null)
+			iconItem = LexiconUtils.loadStackFromString(icon);
 		
 		return iconItem;
 	}

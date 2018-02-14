@@ -2,9 +2,7 @@ package vazkii.alquimia.client.lexicon;
 
 import java.util.List;
 
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import vazkii.alquimia.common.item.ModItems;
+import net.minecraft.item.ItemStack;
 
 public class LexiconCategory implements Comparable<LexiconCategory> {
 
@@ -12,7 +10,7 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	int sortnum;
 	List<LexiconEntry> entries;
 	
-	private transient Item iconItem = null;
+	private transient ItemStack iconItem = null;
 	
 	public String getName() {
 		return name;
@@ -22,12 +20,9 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 		return desc;
 	}
 	
-	public Item getIcon() {
-		if(iconItem == null) {
-			iconItem = Item.REGISTRY.getObject(new ResourceLocation(icon));
-			if(iconItem == null)
-				iconItem = ModItems.lexicon;
-		}
+	public ItemStack getIconItem() {
+		if(iconItem == null)
+			iconItem = LexiconUtils.loadStackFromString(icon);
 		
 		return iconItem;
 	}

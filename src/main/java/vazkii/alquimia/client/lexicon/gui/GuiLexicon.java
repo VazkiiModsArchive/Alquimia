@@ -1,14 +1,20 @@
 package vazkii.alquimia.client.lexicon.gui;
 
+import java.io.IOException;
+import java.util.Stack;
+
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
 import vazkii.alquimia.common.lib.LibMisc;
 
 public abstract class GuiLexicon extends GuiScreen {
 
-	public static ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon.png"); 
+	public static final ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon.png"); 
 	
 	public static final int FULL_WIDTH = 272;
 	public static final int FULL_HEIGHT = 180;
@@ -18,7 +24,12 @@ public abstract class GuiLexicon extends GuiScreen {
 	public static final int LEFT_PAGE_X = 15;
 	public static final int RIGHT_PAGE_X = 141;
 	public static final int TEXT_LINE_HEIGHT = 9;
+	
+	public static final int BACK = 0;
+	public static final int LEFT = 1;
+	public static final int RIGHT = 2;
 
+	public static Stack<GuiLexicon> guiStack = new Stack();
 	public static GuiLexicon currentGui;
 	public int bookLeft, bookTop;
 
@@ -29,12 +40,26 @@ public abstract class GuiLexicon extends GuiScreen {
 		return currentGui;
 	}
 	
+	public static void displayLexiconGui(GuiLexicon gui, boolean push) {
+		Minecraft mc = Minecraft.getMinecraft();
+		if(push && mc.currentScreen instanceof GuiLexicon && gui != mc.currentScreen)
+			guiStack.push((GuiLexicon) mc.currentScreen);
+		
+		mc.displayGuiScreen(gui);
+	}
+	
 	@Override
 	public void initGui() {
 		bookLeft = width / 2 - FULL_WIDTH / 2;
 		bookTop = height / 2 - FULL_HEIGHT / 2;
 		
 		currentGui = this;
+		
+		buttonList.clear();
+		
+		buttonList.add(new GuiButtonLexiconBack(this, width / 2 - 9, bookTop + FULL_HEIGHT - 5));
+		buttonList.add(new GuiButtonLexiconLR(this, bookLeft - 4, bookTop + FULL_HEIGHT - 6, true));
+		buttonList.add(new GuiButtonLexiconLR(this, bookLeft + FULL_WIDTH - 14, bookTop + FULL_HEIGHT - 6, false));
 	}
 	
 	@Override
@@ -65,5 +90,35 @@ public abstract class GuiLexicon extends GuiScreen {
 	public boolean doesGuiPauseGame() {
 		return false;
 	}
-
+	
+	@Override
+	public void actionPerformed(GuiButton button) throws IOException {
+		if(button instanceof GuiButtonLexiconBack)
+			back();
+		else if(button instanceof GuiButtonLexiconLR)
+			changePage(((GuiButtonLexiconLR) button).left);
+	}
+	
+	void back() {
+		if(!guiStack.isEmpty()) {
+			if(isShiftKeyDown()) {
+				displayLexiconGui(new GuiLexiconLanding(), false);
+				guiStack.clear();
+			} else displayLexiconGui(guiStack.pop(), false);
+		}
+	}
+	
+	void changePage(boolean left) { 
+		// NO-OP
+	}
+	
+	public boolean canSeePageButton(boolean left) {
+		return false;
+	}
+	
+	public boolean canSeeBackButton() {
+		return !guiStack.isEmpty();
+	}
+	
 }
+

@@ -2,9 +2,11 @@ package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
 
-import net.minecraft.util.ResourceLocation;
-import vazkii.alquimia.client.lexicon.LexiconCategory;
-import vazkii.alquimia.client.lexicon.LexiconRegistry;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.item.ItemStack;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconEdit;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconResize;
+import vazkii.alquimia.common.item.ModItems;
 
 public class GuiLexiconLanding extends GuiLexicon {
 
@@ -19,18 +21,15 @@ public class GuiLexiconLanding extends GuiLexicon {
 				+ "Testing $(o)other control codes now$() such as $(n)underline$(). Also resetting.$(br2)Lastly, $(l:intro/test2)clickable links$(/l) and codes $(a)in$(8)si$(c)de$() words.";
 		
 		text = new LexiconTextRenderer(this, fontRenderer, contents, RIGHT_PAGE_X, TOP_PADDING, PAGE_WIDTH, TEXT_LINE_HEIGHT);
+		
+		buttonList.add(new GuiButtonLexiconResize(this, bookLeft + 24, bookTop + FULL_HEIGHT - 25));
+		buttonList.add(new GuiButtonLexiconEdit(this, bookLeft + 38, bookTop + FULL_HEIGHT - 25));
 	}
 	
 	@Override
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) {
-		mc.fontRenderer.drawString("Categories:", 15, 20, 0);
-		
-		int y = 40;
-		for(ResourceLocation category : LexiconRegistry.INSTANCE.CATEGORIES.keySet()) { 
-			mc.fontRenderer.drawString(LexiconRegistry.INSTANCE.CATEGORIES.get(category).getName(), 15, y, 0);
-			y += 10;
-		}
-		
+		mc.fontRenderer.drawString(new ItemStack(ModItems.lexicon).getDisplayName(), 15, 20, 0);
+
 		text.render(mouseX, mouseY);
 	}
 	
@@ -39,6 +38,14 @@ public class GuiLexiconLanding extends GuiLexicon {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 		
 		text.click(mouseX, mouseY);
+	}
+	
+	@Override
+	public void actionPerformed(GuiButton button) throws IOException {
+		super.actionPerformed(button);
+		
+		if(button instanceof GuiButtonLexiconEdit)
+			displayLexiconGui(new GuiLexiconWriter(), true);
 	}
 
 }
