@@ -22,7 +22,7 @@ import vazkii.arl.util.RenderHelper;
 
 public abstract class GuiLexicon extends GuiScreen {
 
-	public static final ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon.png"); 
+	public static final ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/lexicon.png"); 
 
 	public static final int FULL_WIDTH = 272;
 	public static final int FULL_HEIGHT = 180;
@@ -32,10 +32,6 @@ public abstract class GuiLexicon extends GuiScreen {
 	public static final int LEFT_PAGE_X = 15;
 	public static final int RIGHT_PAGE_X = 141;
 	public static final int TEXT_LINE_HEIGHT = 9;
-
-	public static final int BACK = 0;
-	public static final int LEFT = 1;
-	public static final int RIGHT = 2;
 
 	public static Stack<GuiLexicon> guiStack = new Stack();
 	public static GuiLexicon currentGui;

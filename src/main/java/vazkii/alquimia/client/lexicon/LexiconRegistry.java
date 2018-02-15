@@ -19,6 +19,7 @@ import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.page.PageCrafting;
+import vazkii.alquimia.client.lexicon.page.PageImage;
 import vazkii.alquimia.client.lexicon.page.PageText;
 import vazkii.alquimia.common.lib.LibMisc;
 
@@ -60,6 +61,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	private void addPageTypes() {
 		PAGE_TYPES.put("text", PageText.class);
 		PAGE_TYPES.put("crafting", PageCrafting.class);
+		PAGE_TYPES.put("image", PageImage.class);
 	}
 	
 	private void addCategories() {

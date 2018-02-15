@@ -131,7 +131,7 @@ public class LexiconTextRenderer {
 				currY += (cmd.contains("2") ? lineHeight * 2 : lineHeight);
 			}
 			
-			else if(cmd.startsWith("#") && (cmd.length() == 4 || cmd.length() == 6)) { // Hex colors
+			else if(cmd.startsWith("#") && (cmd.length() == 4 || cmd.length() == 7)) { // Hex colors
 				String parse = cmd.substring(1);
 				if(parse.length() == 3)
 					parse = "" + parse.charAt(0) + parse.charAt(0) + parse.charAt(1) + parse.charAt(1) + parse.charAt(2) + parse.charAt(2);
@@ -216,7 +216,6 @@ public class LexiconTextRenderer {
 		}
 		
 		public void click(int mouseX, int mouseY, int mouseButton) {
-			System.out.println(mouseX + " " + mouseY);
 			if(hasHref && mouseButton == 0 && isHovered(mouseX, mouseY))
 				onClicked();
 		}
