@@ -1,6 +1,5 @@
 {
 	"name": "Test 3",
-	"description": "Test entry #3",
 	"icon": "minecraft:diamond_shovel",
 	"category": "intro",
 	"priority": false,
@@ -25,7 +24,17 @@
 			"type": "image",
 			"image": "alquimia:textures/gui/lexicon/img/eli.png",
 			"border": true,
-			"text": "Pictured: $(#36B3DD)Literal Perfection$()."
+			"text": "Pictured: $(#36B3DD)Literal Perfection$(). (also images are working)"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:diamond_pickaxe",
+			"text": "How to make a diamond pickaxe! (recipes are working!)"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:diamond_sword",
+			"text": "How to make a diamond sword!"
 		}
 	]
 }

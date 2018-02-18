@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import scala.actors.threadpool.Arrays;
@@ -38,8 +39,10 @@ public abstract class GuiLexicon extends GuiScreen {
 	public int bookLeft, bookTop;
 
 	private List<String> tooltip;
+	private ItemStack tooltipStack;
 	private boolean tooltipLocked = false;
 	protected int page, maxpages;
+	public int ticksInBook;
 
 	public static GuiLexicon getCurrentGui() {
 		if(currentGui == null)
@@ -91,6 +94,11 @@ public abstract class GuiLexicon extends GuiScreen {
 
 		drawTooltip(mouseX, mouseY);
 	}
+	
+	@Override
+	public void updateScreen() {
+		ticksInBook++;
+	}
 
 	final void drawBackgroundElements(int mouseX, int mouseY, float partialTicks) {
 		drawFromTexture(0, 0, 0, 0, FULL_WIDTH, FULL_HEIGHT);
@@ -99,9 +107,12 @@ public abstract class GuiLexicon extends GuiScreen {
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) { }
 
 	final void drawTooltip(int mouseX, int mouseY) {
-		if(tooltip != null && !tooltip.isEmpty())
+		if(tooltipStack != null) {
+			renderToolTip(tooltipStack, mouseX, mouseY);
+		} else if(tooltip != null && !tooltip.isEmpty())
 			RenderHelper.renderTooltip(mouseX, mouseY, tooltip);
 
+		tooltipStack = null;
 		tooltip = null;
 		tooltipLocked = false;
 	}
@@ -193,6 +204,11 @@ public abstract class GuiLexicon extends GuiScreen {
 			tooltip = strings;
 			this.tooltipLocked = locked;
 		}
+	}
+	
+	public void setTooltipStack(ItemStack stack) {
+		setTooltip(true);
+		tooltipStack = stack;
 	}
 
 	public boolean isMouseInRelativeRange(int absMx, int absMy, int x, int y, int w, int h) {

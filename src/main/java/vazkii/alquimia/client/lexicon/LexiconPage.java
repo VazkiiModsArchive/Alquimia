@@ -1,6 +1,8 @@
 package vazkii.alquimia.client.lexicon;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
@@ -12,7 +14,9 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
+import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 
 public abstract class LexiconPage {
@@ -33,6 +37,23 @@ public abstract class LexiconPage {
 	
 	public void render(int mouseX, int mouseY, float pticks) { }
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) { }
+	
+	public void renderItem(int x, int y, int mouseX, int mouseY, ItemStack stack) {
+		if(stack == null || stack.isEmpty())
+			return;
+		
+		mc.getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
+		mc.getRenderItem().renderItemOverlays(fontRenderer, stack, x, y);
+		
+		if(parent.isMouseInRelativeRange(mouseX, mouseY, x, y, 16, 16))
+			parent.setTooltipStack(stack);
+	}
+	
+	public void renderIngredient(int x, int y, int mouseX, int mouseY, Ingredient ingr) {
+		ItemStack[] stacks = ingr.getMatchingStacks();
+		if(stacks.length > 0)
+			renderItem(x, y, mouseX, mouseY, stacks[(parent.ticksInBook / 20) % stacks.length]);
+	}
 	
 	public static class LexiconPageAdapter implements JsonDeserializer<LexiconPage> {
 

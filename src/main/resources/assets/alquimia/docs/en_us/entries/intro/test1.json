@@ -1,6 +1,5 @@
 {
 	"name": "Test 1",
-	"description": "Test entry #1",
 	"icon": "minecraft:iron_shovel",
 	"category": "intro",
 	"priority": false,

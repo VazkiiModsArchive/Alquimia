@@ -8,7 +8,7 @@ import vazkii.alquimia.common.lib.LibMisc;
 
 public class LexiconEntry implements Comparable<LexiconEntry> {
 
-	String name, description, icon, category;
+	String name, icon, category;
 	boolean priority = false;
 	LexiconPage[] pages;
 	String[] relations;
