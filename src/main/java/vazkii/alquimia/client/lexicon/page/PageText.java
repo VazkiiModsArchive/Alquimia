@@ -12,8 +12,8 @@ public class PageText extends LexiconPage {
 	transient LexiconTextRenderer textRender;
 	
 	@Override
-	public void onDisplayed(GuiLexiconEntry parent, int pageNum) {
-		super.onDisplayed(parent, pageNum);
+	public void onDisplayed(GuiLexiconEntry parent) {
+		super.onDisplayed(parent);
 		
 		textRender = new LexiconTextRenderer(parent, text, 0, pageNum == 0 ? 22 : 0);
 	}

@@ -1,10 +1,12 @@
 package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.Minecraft;
@@ -13,9 +15,10 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
-import scala.actors.threadpool.Arrays;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
+import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
 import vazkii.alquimia.common.lib.LibMisc;
@@ -40,8 +43,9 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	private List<String> tooltip;
 	private ItemStack tooltipStack;
+	private Pair<LexiconEntry, Integer> targetPage;
 	private boolean tooltipLocked = false;
-	protected int page, maxpages;
+	protected int page = 0, maxpages = 0;
 	public int ticksInBook;
 
 	public static GuiLexicon getCurrentGui() {
@@ -66,8 +70,6 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	@Override
 	public void initGui() {
-		page = maxpages = 0;
-		
 		bookLeft = width / 2 - FULL_WIDTH / 2;
 		bookTop = height / 2 - FULL_HEIGHT / 2;
 
@@ -82,6 +84,7 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	@Override
 	public final void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		resetTooltip();
 		drawDefaultBackground();
 
 		GlStateManager.pushMatrix();
@@ -97,7 +100,8 @@ public abstract class GuiLexicon extends GuiScreen {
 	
 	@Override
 	public void updateScreen() {
-		ticksInBook++;
+		if(!isShiftKeyDown())
+			ticksInBook++;
 	}
 
 	final void drawBackgroundElements(int mouseX, int mouseY, float partialTicks) {
@@ -109,12 +113,21 @@ public abstract class GuiLexicon extends GuiScreen {
 	final void drawTooltip(int mouseX, int mouseY) {
 		if(tooltipStack != null) {
 			renderToolTip(tooltipStack, mouseX, mouseY);
+			
+			Pair<LexiconEntry, Integer> provider = LexiconRegistry.INSTANCE.getEntryForStack(tooltipStack);
+			if(provider != null && (!(this instanceof GuiLexiconEntry) || ((GuiLexiconEntry) this).entry != provider.getLeft())) {
+				RenderHelper.renderTooltipOrange(mouseX, mouseY - 20, Arrays.asList(TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.shift_for_recipe")));
+				targetPage = provider;
+			}
 		} else if(tooltip != null && !tooltip.isEmpty())
 			RenderHelper.renderTooltip(mouseX, mouseY, tooltip);
-
+	}
+	
+	final void resetTooltip() {
 		tooltipStack = null;
 		tooltip = null;
 		tooltipLocked = false;
+		targetPage = null;
 	}
 
 	public static void drawFromTexture(int x, int y, int u, int v, int w, int h) {
@@ -140,6 +153,10 @@ public abstract class GuiLexicon extends GuiScreen {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 
 		switch(mouseButton) {
+		case 0:
+			if(targetPage != null && isShiftKeyDown())
+				displayLexiconGui(new GuiLexiconEntry(targetPage.getLeft(), targetPage.getRight()), true);
+			break;
 		case 1: 
 			back();
 			break;

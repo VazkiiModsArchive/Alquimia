@@ -12,7 +12,12 @@ public class GuiLexiconEntry extends GuiLexicon {
 	LexiconPage leftPage, rightPage;
 	
 	public GuiLexiconEntry(LexiconEntry entry) {
+		this(entry, 0);
+	}
+	
+	public GuiLexiconEntry(LexiconEntry entry, int page) {
 		this.entry = entry;
+		this.page = page;
 	}
 	
 	@Override
@@ -66,9 +71,9 @@ public class GuiLexiconEntry extends GuiLexicon {
 		rightPage = rightNum < pages.length ? pages[rightNum] : null;
 		
 		if(leftPage != null)
-			leftPage.onDisplayed(this, leftNum);
+			leftPage.onDisplayed(this);
 		if(rightPage != null)
-			rightPage.onDisplayed(this, rightNum);
+			rightPage.onDisplayed(this);
 	}
 	
 	public LexiconEntry getEntry() {

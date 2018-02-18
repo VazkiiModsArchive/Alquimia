@@ -18,8 +18,8 @@ public class PageImage extends LexiconPage {
 	transient LexiconTextRenderer textRender;
 	
 	@Override
-	public void onDisplayed(GuiLexiconEntry parent, int pageNum) {
-		super.onDisplayed(parent, pageNum);
+	public void onDisplayed(GuiLexiconEntry parent) {
+		super.onDisplayed(parent);
 		
 		textRender = new LexiconTextRenderer(parent, text, 0, 120);
 		imageRes = new ResourceLocation(image);

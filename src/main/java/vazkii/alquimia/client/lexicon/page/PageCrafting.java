@@ -8,6 +8,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.IShapedRecipe;
+import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
@@ -26,11 +27,19 @@ public class PageCrafting extends LexiconPage {
 	transient LexiconTextRenderer textRender;
 	
 	@Override
-	public void onDisplayed(GuiLexiconEntry parent, int pageNum) {
-		super.onDisplayed(parent, pageNum);
+	public void build(LexiconEntry entry, int pageNum) {
+		super.build(entry, pageNum);
+		
+		recipeObj = CraftingManager.getRecipe(new ResourceLocation(recipe));
+		if(recipeObj != null)
+			entry.addRelevantStack(recipeObj.getRecipeOutput(), pageNum);
+	}
+	
+	@Override
+	public void onDisplayed(GuiLexiconEntry parent) {
+		super.onDisplayed(parent);
 		
 		textRender = new LexiconTextRenderer(parent, text, 0, 100);
-		recipeObj = CraftingManager.getRecipe(new ResourceLocation(recipe));
 	}
 	
 	@Override
@@ -39,7 +48,7 @@ public class PageCrafting extends LexiconPage {
 			mc.renderEngine.bindTexture(OVERLAY_TEXTURE);
 			GlStateManager.enableBlend();
 			
-			int recipeX = 10;
+			int recipeX = GuiLexicon.PAGE_WIDTH / 2 - 49;
 			int recipeY = 25;
 			parent.drawModalRectWithCustomSizedTexture(recipeX, recipeY, 0, 0, 98, 60, 128, 128);
 			

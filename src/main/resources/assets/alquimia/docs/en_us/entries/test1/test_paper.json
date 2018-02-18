@@ -1,0 +1,17 @@
+{
+	"name": "Test Paper",
+	"icon": "minecraft:paper",
+	"category": "test1",
+	"priority": false,
+	"pages": [
+		{
+			"type": "text",
+			"text": "How to make paper I guess"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:paper",
+			"text": "Paper is made like this"
+		}
+	]
+}

@@ -1,0 +1,37 @@
+{
+	"name": "Test Recipes",
+	"icon": "minecraft:golden_chestplate",
+	"category": "test1",
+	"priority": false,
+	"pages": [
+		{
+			"type": "text",
+			"text": "How to craft the various armor pieces!"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:golden_helmet",
+			"text": "Helmet"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:golden_chestplate",
+			"text": "Chestplate"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:golden_leggings",
+			"text": "Leggings"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:golden_boots",
+			"text": "Boots"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:chest",
+			"text": "Chest"
+		}
+	]
+}

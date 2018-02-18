@@ -1,10 +1,15 @@
 package vazkii.alquimia.client.lexicon;
 
-import net.minecraft.item.Item;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.lib.LibMisc;
+import vazkii.alquimia.common.util.ItemStackUtils;
+import vazkii.alquimia.common.util.ItemStackUtils.StackWrapper;
 
 public class LexiconEntry implements Comparable<LexiconEntry> {
 
@@ -15,6 +20,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	
 	transient LexiconCategory lcategory = null;
 	transient ItemStack iconItem = null;
+	transient List<StackWrapper> relevantStacks = new LinkedList();
 	
 	public String getName() {
 		return name;
@@ -34,7 +40,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	
 	public ItemStack getIconItem() {
 		if(iconItem == null)
-			iconItem = LexiconUtils.loadStackFromString(icon);
+			iconItem = ItemStackUtils.loadStackFromString(icon);
 		
 		return iconItem;
 	}
@@ -55,6 +61,23 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 			return this.priority ? -1 : 1;
 		
 		return this.name.compareTo(o.name);
+	}
+	
+	public void build() {
+		for(int i = 0; i < pages.length; i++)
+			pages[i].build(this, i);
+	}
+	
+	public void addRelevantStack(ItemStack stack, int page) {
+		StackWrapper wrapper = ItemStackUtils.wrapStack(stack);
+		relevantStacks.add(wrapper);
+		
+		if(!LexiconRegistry.INSTANCE.RECIPE_MAPPINGS.containsKey(wrapper))
+			LexiconRegistry.INSTANCE.RECIPE_MAPPINGS.put(wrapper, Pair.of(this, page / 2));
+	}
+	
+	public boolean isStackRelevant(ItemStack stack) {
+		return relevantStacks.contains(ItemStackUtils.wrapStack(stack));
 	}
 	
 	@Override

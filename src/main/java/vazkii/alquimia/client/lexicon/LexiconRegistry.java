@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -16,12 +18,15 @@ import net.minecraft.client.resources.IReloadableResourceManager;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.page.PageCrafting;
 import vazkii.alquimia.client.lexicon.page.PageImage;
 import vazkii.alquimia.client.lexicon.page.PageText;
 import vazkii.alquimia.common.lib.LibMisc;
+import vazkii.alquimia.common.util.ItemStackUtils;
+import vazkii.alquimia.common.util.ItemStackUtils.StackWrapper;
 
 public class LexiconRegistry implements IResourceManagerReloadListener {
 
@@ -35,6 +40,8 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	
 	public final List<ResourceLocation> CATEGORY_KEYS = new LinkedList();
 	public final List<ResourceLocation> ENTRY_KEYS = new LinkedList();
+	
+	public final Map<StackWrapper, Pair<LexiconEntry, Integer>> RECIPE_MAPPINGS = new HashMap();
 	
 	private Gson gson;
 	private String currentLang;
@@ -78,22 +85,33 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		registerEntry("intro", "test2");
 		registerEntry("intro", "test3");
 		registerEntry("intro", "test_prio");
+		
+		registerEntry("test1", "test_recipes");
+		registerEntry("test1", "test_paper");
 	}
 	
-	private void registerCategory(String category) {
-		registerCategory(new ResourceLocation(LibMisc.MOD_ID, category));
+	private ResourceLocation registerCategory(String category) {
+		ResourceLocation res = new ResourceLocation(LibMisc.MOD_ID, category); 
+		return registerCategory(res);
 	}
 	
-	private void registerEntry(String category, String entry) {
-		registerEntry(new ResourceLocation(LibMisc.MOD_ID, category + "/" + entry));
+	private ResourceLocation registerEntry(String category, String entry) {
+		ResourceLocation res = new ResourceLocation(LibMisc.MOD_ID, category + "/" + entry);
+		return registerEntry(res);
 	}
 	
-	public void registerCategory(ResourceLocation res) {
+	public ResourceLocation registerCategory(ResourceLocation res) {
 		CATEGORY_KEYS.add(res);
+		return res;
 	}
 	
-	public void registerEntry(ResourceLocation res) {
+	public ResourceLocation registerEntry(ResourceLocation res) {
 		ENTRY_KEYS.add(res);
+		return res;
+	}
+	
+	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {
+		return RECIPE_MAPPINGS.get(ItemStackUtils.wrapStack(stack));
 	}
 	
 	@Override
@@ -101,11 +119,14 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		GuiLexicon.onReload();
 		CATEGORIES.clear();
 		ENTRIES.clear();
+		RECIPE_MAPPINGS.clear();
 		
 		currentLang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 		
 		CATEGORY_KEYS.forEach(res -> loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
 		ENTRY_KEYS.forEach(res -> loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
+		
+		ENTRIES.forEach((res, entry) -> entry.build());		
 	}
 	
 	private void loadCategory(ResourceLocation key, ResourceLocation res) {

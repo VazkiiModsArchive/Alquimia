@@ -1,8 +1,6 @@
 package vazkii.alquimia.client.lexicon;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
@@ -14,7 +12,7 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.util.ITooltipFlag.TooltipFlags;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
@@ -28,11 +26,14 @@ public abstract class LexiconPage {
 	
 	String type;
 	
-	public void onDisplayed(GuiLexiconEntry parent, int pageNum) { 
+	public void build(LexiconEntry entry, int pageNum) {
+		this.pageNum = pageNum;
+	}
+	
+	public void onDisplayed(GuiLexiconEntry parent) { 
 		mc = parent.mc;
 		fontRenderer = mc.fontRenderer;
-		this.parent = parent;
-		this.pageNum = pageNum;
+		this.parent = parent;	
 	}
 	
 	public void render(int mouseX, int mouseY, float pticks) { }
@@ -42,6 +43,7 @@ public abstract class LexiconPage {
 		if(stack == null || stack.isEmpty())
 			return;
 		
+		RenderHelper.enableGUIStandardItemLighting();
 		mc.getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
 		mc.getRenderItem().renderItemOverlays(fontRenderer, stack, x, y);
 		
