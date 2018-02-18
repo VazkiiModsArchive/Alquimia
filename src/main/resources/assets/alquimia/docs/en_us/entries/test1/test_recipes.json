@@ -26,7 +26,13 @@
 		{
 			"type": "crafting",
 			"recipe": "minecraft:golden_boots",
-			"text": "Boots"
+			"text": "How to craft $(item)Golden Boots$()!"
+		},
+		{
+			"type": "crafting",
+			"recipe": "minecraft:golden_pickaxe",
+			"recipe2": "minecraft:golden_sword",
+			"text": "Two recipes in one page!"
 		},
 		{
 			"type": "crafting",

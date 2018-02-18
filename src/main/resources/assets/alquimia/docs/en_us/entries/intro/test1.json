@@ -14,7 +14,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Page #3 contains $(3)Formatting Codes$()!"
+			"text": "Page #3 contains $(3)Formatting Codes$()!$(br2)Also a link to Test 3: $(l:intro/test3)Click me for link$()"
 		},
 		{
 			"type": "crafting",

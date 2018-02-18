@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import vazkii.alquimia.client.lexicon.LexiconEntry;
+import vazkii.alquimia.client.lexicon.LexiconRegistry;
+import vazkii.alquimia.common.lib.LibMisc;
 
 public class LexiconTextRenderer {
 	
@@ -182,8 +186,7 @@ public class LexiconTextRenderer {
 		final String text;
 		final int color;
 		final String codes;
-		final String href;
-		final boolean hasHref;
+		final ResourceLocation href;
 		final List<Word> linkCluster;
 		
 		Word(FontRenderer font, int x, int y, int width, String text, int color, String codes, String href, List<Word> linkCluster) {
@@ -195,34 +198,39 @@ public class LexiconTextRenderer {
 			this.text = text;
 			this.color = color;
 			this.codes = codes;
-			this.href = href;
-			this.hasHref = (href != null && !href.isEmpty());
+			this.href = href == null ? null : new ResourceLocation(href.contains(":") ? href : (LibMisc.PREFIX_MOD + href));
 			this.linkCluster = linkCluster;
 		}
 		
 		public void render(int mouseX, int mouseY) {
 			String renderTarget = codes + text;
 			int renderColor = color;
-			if(isClusterHovered(mouseX, mouseY) && hasHref)
+			if(isClusterHovered(mouseX, mouseY) && href != null) {
 				renderColor = LINK_COLOR_HOVER;
-			
-//			if(hasHref) {
-//				gui.drawRect(x, y, x + width, y + height, 0x33FF0000);
-//				gui.drawRect(mouseX - 3 - gui.bookLeft, mouseY - 3 - gui.bookTop, mouseX + 3 - gui.bookLeft, mouseY + 3 - gui.bookTop, 0x33FF0000);
-//				font.drawString("(" + mouseX + ", " + mouseY + ")", mouseX - 3 - gui.bookLeft, mouseY - 12 - gui.bookTop, 0xFF000000);
-//			}
+				LexiconEntry entry = getHrefEntry();
+				if(entry != null) 
+					gui.setTooltip(true, entry.getName());
+				else gui.setTooltip(true, "BAD LINK " + href);
+			}
 			
 			font.drawString(renderTarget, x, y, renderColor);
 		}
 		
 		public void click(int mouseX, int mouseY, int mouseButton) {
-			if(hasHref && mouseButton == 0 && isHovered(mouseX, mouseY))
+			if(href != null && mouseButton == 0 && isHovered(mouseX, mouseY))
 				onClicked();
 		}
 		
 		private void onClicked() {
-			if(hasHref)
-				gui.mc.player.sendMessage(new TextComponentString("Clicked link: " + text));
+			if(href != null) {
+				LexiconEntry entry = getHrefEntry();
+				if(entry != null)
+					gui.displayLexiconGui(new GuiLexiconEntry(entry), true);
+			}
+		}
+		
+		private LexiconEntry getHrefEntry() {
+			return LexiconRegistry.INSTANCE.ENTRIES.get(href);
 		}
 		
 		private boolean isHovered(int mouseX, int mouseY) {
