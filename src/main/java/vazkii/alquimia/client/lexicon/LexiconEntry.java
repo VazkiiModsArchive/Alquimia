@@ -19,11 +19,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	public String getName() {
 		return name;
 	}
-	
-	public String getDescription() {
-		return description;
-	}
-	
+
 	public LexiconPage[] getPages() {
 		return pages;
 	}
