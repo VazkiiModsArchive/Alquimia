@@ -66,7 +66,7 @@ public abstract class LexiconPage {
 	        JsonObject obj = json.getAsJsonObject();
 	        JsonPrimitive prim = (JsonPrimitive) obj.get("type");
 	        String type = prim.getAsString();
-	        Class<? extends LexiconPage> clazz = LexiconRegistry.INSTANCE.PAGE_TYPES.get(type);
+	        Class<? extends LexiconPage> clazz = LexiconRegistry.INSTANCE.pageTypes.get(type);
 	        if(clazz == null)
 	        	return null;
 	        

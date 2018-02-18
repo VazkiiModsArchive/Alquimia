@@ -12,6 +12,7 @@ import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonCategory;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonIndex;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconEdit;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconResize;
 import vazkii.alquimia.common.item.ModItems;
@@ -30,19 +31,26 @@ public class GuiLexiconLanding extends GuiLexicon {
 		buttonList.add(new GuiButtonLexiconEdit(this, bookLeft + 44, bookTop + FULL_HEIGHT - 72));
 		
 		int i = 0;
-		List<LexiconCategory> categories = new ArrayList(LexiconRegistry.INSTANCE.CATEGORIES.values());
+		List<LexiconCategory> categories = new ArrayList(LexiconRegistry.INSTANCE.categories.values());
 		Collections.sort(categories);
 		
 		for(LexiconCategory category : categories) {
 			if(category.getParentCategory() != null)
 				continue;
 			
-			int x = RIGHT_PAGE_X + 10 + (i % 4) * 24;
-			int y = TOP_PADDING + 20 + (i /4) * 24;
-			
-			buttonList.add(new GuiButtonCategory(this, x, y, category));
+			addCategoryButton(i, category);
 			i++;
 		}
+		addCategoryButton(i, null);
+	}
+	
+	void addCategoryButton(int i, LexiconCategory category) {
+		int x = RIGHT_PAGE_X + 10 + (i % 4) * 24;
+		int y = TOP_PADDING + 20 + (i /4) * 24;
+		
+		if(category == null)
+			buttonList.add(new GuiButtonIndex(this, x, y));	
+		else buttonList.add(new GuiButtonCategory(this, x, y, category));
 	}
 	
 	@Override
@@ -81,6 +89,8 @@ public class GuiLexiconLanding extends GuiLexicon {
 		
 		if(button instanceof GuiButtonLexiconEdit)
 			displayLexiconGui(new GuiLexiconWriter(), true);
+		else if(button instanceof GuiButtonIndex)
+			displayLexiconGui(new GuiLexiconIndex(), true);
 		else if(button instanceof GuiButtonCategory)
 			displayLexiconGui(new GuiLexiconCategory(((GuiButtonCategory) button).getCategory()), true);
 	}

@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.item.ItemStack;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 
@@ -13,14 +14,22 @@ public class GuiButtonCategory extends GuiButton {
 	
 	GuiLexicon parent;
 	LexiconCategory category;
+	ItemStack stack;
+	String name;
 	int u, v;
 	
 	public GuiButtonCategory(GuiLexicon parent, int x, int y, LexiconCategory category) {
+		this(parent, x, y, category.getIconItem(), category.getName());
+		this.category = category;
+	}
+	
+	public GuiButtonCategory(GuiLexicon parent, int x, int y, ItemStack stack, String name) {
 		super(0, parent.bookLeft + x, parent.bookTop + y, 20, 20, "");
 		this.parent = parent;
 		this.u = x;
 		this.v = y;
-		this.category = category;
+		this.stack = stack;
+		this.name = name;
 	}
 	
 	@Override
@@ -29,7 +38,7 @@ public class GuiButtonCategory extends GuiButton {
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			
 			RenderHelper.enableGUIStandardItemLighting();
-			mc.getRenderItem().renderItemIntoGUI(category.getIconItem(), x + 2, y + 2);
+			mc.getRenderItem().renderItemIntoGUI(stack, x + 2, y + 2);
 			
 			if(!hovered) {
 				GlStateManager.pushMatrix();
@@ -38,7 +47,7 @@ public class GuiButtonCategory extends GuiButton {
 				GuiLexicon.drawFromTexture(x, y, u, v, width, height);
 				GlStateManager.color(1F, 1F, 1F, 1F);
 				GlStateManager.popMatrix();
-			} else parent.setTooltip(true, category.getName());
+			} else parent.setTooltip(true, name);
 		}
 	}
 	

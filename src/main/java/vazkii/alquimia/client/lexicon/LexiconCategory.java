@@ -43,7 +43,7 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	
 	public LexiconCategory getParentCategory() {
 		if(!checkedParent && parent != null) {
-			parentCategory = LexiconRegistry.INSTANCE.CATEGORIES.get(new ResourceLocation(parent));
+			parentCategory = LexiconRegistry.INSTANCE.categories.get(new ResourceLocation(parent));
 			checkedParent = true;
 		}
 		

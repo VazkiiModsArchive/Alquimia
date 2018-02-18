@@ -48,8 +48,8 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	public LexiconCategory getCategory() {
 		if(lcategory == null) {
 			if(category.contains(":"))
-				lcategory = LexiconRegistry.INSTANCE.CATEGORIES.get(new ResourceLocation(category));
-			else lcategory = LexiconRegistry.INSTANCE.CATEGORIES.get(new ResourceLocation(LibMisc.MOD_ID, category));
+				lcategory = LexiconRegistry.INSTANCE.categories.get(new ResourceLocation(category));
+			else lcategory = LexiconRegistry.INSTANCE.categories.get(new ResourceLocation(LibMisc.MOD_ID, category));
 		}
 		
 		return lcategory;
@@ -72,8 +72,8 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 		StackWrapper wrapper = ItemStackUtils.wrapStack(stack);
 		relevantStacks.add(wrapper);
 		
-		if(!LexiconRegistry.INSTANCE.RECIPE_MAPPINGS.containsKey(wrapper))
-			LexiconRegistry.INSTANCE.RECIPE_MAPPINGS.put(wrapper, Pair.of(this, page / 2));
+		if(!LexiconRegistry.INSTANCE.recipeMappings.containsKey(wrapper))
+			LexiconRegistry.INSTANCE.recipeMappings.put(wrapper, Pair.of(this, page / 2));
 	}
 	
 	public boolean isStackRelevant(ItemStack stack) {

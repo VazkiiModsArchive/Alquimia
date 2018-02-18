@@ -230,7 +230,7 @@ public class LexiconTextRenderer {
 		}
 		
 		private LexiconEntry getHrefEntry() {
-			return LexiconRegistry.INSTANCE.ENTRIES.get(href);
+			return LexiconRegistry.INSTANCE.entries.get(href);
 		}
 		
 		private boolean isHovered(int mouseX, int mouseY) {

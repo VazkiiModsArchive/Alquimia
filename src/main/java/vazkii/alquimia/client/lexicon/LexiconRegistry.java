@@ -34,14 +34,14 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	private static final ResourceLocation FALLBACK_CATEGORY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/categories/fallback.json", DEFAULT_LANG));
 	private static final ResourceLocation FALLBACK_ENTRY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/entries/fallback.json", DEFAULT_LANG));
 
-	public final Map<ResourceLocation, LexiconCategory> CATEGORIES = new HashMap();
-	public final Map<ResourceLocation, LexiconEntry> ENTRIES = new HashMap();
-	public final Map<String, Class<? extends LexiconPage>> PAGE_TYPES = new HashMap();
+	public final Map<ResourceLocation, LexiconCategory> categories = new HashMap();
+	public final Map<ResourceLocation, LexiconEntry> entries = new HashMap();
+	public final Map<String, Class<? extends LexiconPage>> pageTypes = new HashMap();
 	
-	public final List<ResourceLocation> CATEGORY_KEYS = new LinkedList();
-	public final List<ResourceLocation> ENTRY_KEYS = new LinkedList();
+	public final List<ResourceLocation> categoryKeys = new LinkedList();
+	public final List<ResourceLocation> entryKeys = new LinkedList();
 	
-	public final Map<StackWrapper, Pair<LexiconEntry, Integer>> RECIPE_MAPPINGS = new HashMap();
+	public final Map<StackWrapper, Pair<LexiconEntry, Integer>> recipeMappings = new HashMap();
 	
 	private Gson gson;
 	private String currentLang;
@@ -66,9 +66,9 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	}
 	
 	private void addPageTypes() {
-		PAGE_TYPES.put("text", PageText.class);
-		PAGE_TYPES.put("crafting", PageCrafting.class);
-		PAGE_TYPES.put("image", PageImage.class);
+		pageTypes.put("text", PageText.class);
+		pageTypes.put("crafting", PageCrafting.class);
+		pageTypes.put("image", PageImage.class);
 	}
 	
 	private void addCategories() {
@@ -101,32 +101,32 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	}
 	
 	public ResourceLocation registerCategory(ResourceLocation res) {
-		CATEGORY_KEYS.add(res);
+		categoryKeys.add(res);
 		return res;
 	}
 	
 	public ResourceLocation registerEntry(ResourceLocation res) {
-		ENTRY_KEYS.add(res);
+		entryKeys.add(res);
 		return res;
 	}
 	
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {
-		return RECIPE_MAPPINGS.get(ItemStackUtils.wrapStack(stack));
+		return recipeMappings.get(ItemStackUtils.wrapStack(stack));
 	}
 	
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
 		GuiLexicon.onReload();
-		CATEGORIES.clear();
-		ENTRIES.clear();
-		RECIPE_MAPPINGS.clear();
+		categories.clear();
+		entries.clear();
+		recipeMappings.clear();
 		
 		currentLang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 		
-		CATEGORY_KEYS.forEach(res -> loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
-		ENTRY_KEYS.forEach(res -> loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
+		categoryKeys.forEach(res -> loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
+		entryKeys.forEach(res -> loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
 		
-		ENTRIES.forEach((res, entry) -> entry.build());		
+		entries.forEach((res, entry) -> entry.build());		
 	}
 	
 	private void loadCategory(ResourceLocation key, ResourceLocation res) {
@@ -138,7 +138,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		if(category == null)
 			throw new IllegalArgumentException(res + " does not exist.");
 		
-		CATEGORIES.put(key, category);
+		categories.put(key, category);
 	}
 	
 	private void loadEntry(ResourceLocation key, ResourceLocation res) {
@@ -155,7 +155,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 			category.addEntry(entry);
 		else new RuntimeException("Entry " + key + " does not have a valid category.").printStackTrace();
 		
-		ENTRIES.put(key, entry);	
+		entries.put(key, entry);	
 	}
 	
 	private InputStream loadLocalizedJson(ResourceLocation res, ResourceLocation fallback) {
