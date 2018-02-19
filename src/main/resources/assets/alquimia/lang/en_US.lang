@@ -16,6 +16,9 @@ alquimia.gui.lexicon.editor_info=This is an editor for Alquimia book entries. It
 alquimia.gui.lexicon.shift_for_recipe=Shift-Click for Recipe
 alquimia.gui.lexicon.index=Lexicon Index
 alquimia.gui.lexicon.index.info=An index of every chapter available in this tome.$(br2)You may search through the index, or any other category, by simply typing in your query. A search bar will then appear to assist you.
+alquimia.gui.lexicon.shapeless=Shapeless
+alquimia.gui.lexicon.no_results=No Results
+alquimia.gui.lexicon.sad=:(
 
 alquimia.gui.lexicon.button.prev_page=Previous
 alquimia.gui.lexicon.button.next_page=Next

@@ -10,13 +10,14 @@ import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 
 public class GuiButtonCategory extends GuiButton {
 
-	float hoverTime;
-	
+	private static final int ANIM_TIME = 5;
+
 	GuiLexicon parent;
 	LexiconCategory category;
 	ItemStack stack;
 	String name;
 	int u, v;
+	float timeHovered;
 	
 	public GuiButtonCategory(GuiLexicon parent, int x, int y, LexiconCategory category) {
 		this(parent, x, y, category.getIconItem(), category.getName());
@@ -37,17 +38,25 @@ public class GuiButtonCategory extends GuiButton {
 		if(enabled && visible) {
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			
+			if(hovered)
+				timeHovered = Math.min(ANIM_TIME, timeHovered + parent.timeDelta);
+			else timeHovered = Math.max(0, timeHovered - parent.timeDelta);
+			
+			float time = Math.max(0, Math.min(ANIM_TIME, timeHovered + (hovered ? partialTicks : -partialTicks)));
+			float transparency = 0.5F - ((float) time / ANIM_TIME) * 0.5F;
+
 			RenderHelper.enableGUIStandardItemLighting();
 			mc.getRenderItem().renderItemIntoGUI(stack, x + 2, y + 2);
 			
-			if(!hovered) {
-				GlStateManager.pushMatrix();
-				GlStateManager.color(1F, 1F, 1F, 0.5F);
-				GlStateManager.translate(0, 0, 200);
-				GuiLexicon.drawFromTexture(x, y, u, v, width, height);
-				GlStateManager.color(1F, 1F, 1F, 1F);
-				GlStateManager.popMatrix();
-			} else parent.setTooltip(true, name);
+			GlStateManager.pushMatrix();
+			GlStateManager.color(1F, 1F, 1F, transparency);
+			GlStateManager.translate(0, 0, 200);
+			GuiLexicon.drawFromTexture(x, y, u, v, width, height);
+			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.popMatrix();
+			
+			if(hovered)
+				parent.setTooltip(name);
 		}
 	}
 	

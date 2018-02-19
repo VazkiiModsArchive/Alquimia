@@ -44,9 +44,11 @@ public abstract class GuiLexicon extends GuiScreen {
 	private List<String> tooltip;
 	private ItemStack tooltipStack;
 	private Pair<LexiconEntry, Integer> targetPage;
-	private boolean tooltipLocked = false;
 	protected int page = 0, maxpages = 0;
+	
 	public int ticksInBook;
+	private float lastTime, lastPartialTicks;
+	public float timeDelta;
 
 	public static GuiLexicon getCurrentGui() {
 		if(currentGui == null)
@@ -84,6 +86,11 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	@Override
 	public final void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		float time = ticksInBook + partialTicks;
+		timeDelta = time - lastTime + lastPartialTicks;
+		lastTime = time;
+		lastPartialTicks = partialTicks;
+		
 		resetTooltip();
 		drawDefaultBackground();
 
@@ -126,7 +133,6 @@ public abstract class GuiLexicon extends GuiScreen {
 	final void resetTooltip() {
 		tooltipStack = null;
 		tooltip = null;
-		tooltipLocked = false;
 		targetPage = null;
 	}
 
@@ -212,19 +218,16 @@ public abstract class GuiLexicon extends GuiScreen {
 		return !guiStack.isEmpty();
 	}
 
-	public void setTooltip(boolean locked, String... strings) {
-		setTooltip(locked, Arrays.asList(strings));
+	public void setTooltip(String... strings) {
+		setTooltip(Arrays.asList(strings));
 	}
 
-	public void setTooltip(boolean locked, List<String> strings) {
-		if(!tooltipLocked) {
-			tooltip = strings;
-			this.tooltipLocked = locked;
-		}
+	public void setTooltip(List<String> strings) {
+		tooltip = strings;
 	}
 	
 	public void setTooltipStack(ItemStack stack) {
-		setTooltip(true);
+		setTooltip();
 		tooltipStack = stack;
 	}
 
@@ -253,7 +256,7 @@ public abstract class GuiLexicon extends GuiScreen {
 
 		String progressStr = unlockedEntries + "/" + totalEntries;
 		if(isMouseInRelativeRange(mouseX, mouseY, barLeft, barTop, barWidth, barHeight))
-			setTooltip(true, progressStr);
+			setTooltip(progressStr);
 	}
 	
 	public void drawSeparator(int x, int y) {

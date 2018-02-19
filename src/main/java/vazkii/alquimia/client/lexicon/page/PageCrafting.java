@@ -7,6 +7,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconPage;
@@ -67,8 +68,13 @@ public class PageCrafting extends LexiconPage {
 		parent.drawModalRectWithCustomSizedTexture(recipeX, recipeY, 0, 0, 98, 60, 128, 128);
 		
 		boolean shaped = recipe instanceof IShapedRecipe;
-		if(!shaped)
-			parent.drawModalRectWithCustomSizedTexture(recipeX + 62, recipeY + 2, 0, 60, 11, 11, 128, 128);
+		if(!shaped) {
+			int iconX = recipeX + 62;
+			int iconY = recipeY + 2;
+			parent.drawModalRectWithCustomSizedTexture(iconX, iconY, 0, 60, 11, 11, 128, 128);
+			if(parent.isMouseInRelativeRange(mouseX, mouseY, iconX, iconY, 11, 11))
+				parent.setTooltip(I18n.translateToLocal("alquimia.gui.lexicon.shapeless"));
+		}
 
 		ItemStack output = recipe.getRecipeOutput();
 		parent.drawCenteredStringNoShadow(output.getDisplayName(), GuiLexicon.PAGE_WIDTH / 2, recipeY - 10, 0x333333);

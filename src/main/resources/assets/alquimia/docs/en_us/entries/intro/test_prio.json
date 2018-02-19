@@ -6,15 +6,7 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Page #1"
-		},
-		{
-			"type": "text",
-			"text": "Page #2"
-		},
-		{
-			"type": "text",
-			"text": "Page #3"
+			"text": "This entry has priority, so it appears at the top of the list even though it's not the first alphabetically."
 		}
 	]
 }

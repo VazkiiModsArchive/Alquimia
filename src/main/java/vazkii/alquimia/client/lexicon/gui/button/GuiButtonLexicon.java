@@ -39,7 +39,7 @@ public class GuiButtonLexicon extends GuiButton {
 		if(visible) {
 			GuiLexicon.drawFromTexture(x, y, u + (hovered ? width : 0), v, width, height);
 			if(hovered)
-				parent.setTooltip(false, getTooltip());
+				parent.setTooltip(getTooltip());
 		}
 	}
 	

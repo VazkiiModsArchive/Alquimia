@@ -18,7 +18,7 @@
 		},
 		{
 			"type": "text",
-			"text": "Page #4 has a lot of $(#f00)formatting codes$()!$(br2)Yeah, we also $(italic)have$(bold) those$() . Pretty cool huh? We can even do weird custom colors like this funky $(#050)dark green!$()$(br2)There's also $(l:test)links to other parts of the book$(/l) though they don't work yet :("
+			"text": "Page #4 has a lot of $(#f00)formatting codes$()!$(br2)Yeah, we also $(italic)have$(bold) those$() . Pretty cool huh? We can even do weird custom colors like this funky $(#050)dark green!$()$(br2)There's also $(l:intro/test_prio)links to other parts of the book$(/l)."
 		},
 		{
 			"type": "image",

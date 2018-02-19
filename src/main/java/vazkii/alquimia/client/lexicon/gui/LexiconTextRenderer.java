@@ -209,8 +209,8 @@ public class LexiconTextRenderer {
 				renderColor = LINK_COLOR_HOVER;
 				LexiconEntry entry = getHrefEntry();
 				if(entry != null) 
-					gui.setTooltip(true, entry.getName());
-				else gui.setTooltip(true, "BAD LINK " + href);
+					gui.setTooltip(entry.getName());
+				else gui.setTooltip("BAD LINK " + href);
 			}
 			
 			font.drawString(renderTarget, x, y, renderColor);

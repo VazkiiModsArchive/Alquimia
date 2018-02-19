@@ -39,13 +39,6 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 		allEntries = new ArrayList<>(getEntries());
 		Collections.sort(allEntries);
 		
-		maxpages = 1;
-		
-		int count = allEntries.size();
-		count -= ENTRIES_IN_FIRST_PAGE;
-		if(count > 0)
-			maxpages += (int) Math.ceil((float) count / (ENTRIES_PER_PAGE * 2));
-		
 		searchField = new GuiTextField(0, fontRenderer, 160, 170, 90, 12);
 		searchField.setMaxStringLength(32);
 		searchField.setEnableBackgroundDrawing(false);
@@ -90,6 +83,13 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 			fontRenderer.setUnicodeFlag(true);
 			fontRenderer.drawString(searchField.getText(), searchField.x + 7, searchField.y + 1, 0);
 			fontRenderer.setUnicodeFlag(unicode);
+		}
+		
+		if(visibleEntries.isEmpty()) {
+			drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.no_results"), GuiLexicon.RIGHT_PAGE_X + GuiLexicon.PAGE_WIDTH / 2, 80, 0x333333);
+			GlStateManager.scale(2F, 2F, 2F);
+			drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.sad"), GuiLexicon.RIGHT_PAGE_X / 2 + GuiLexicon.PAGE_WIDTH / 4, 47, 0x999999);
+			GlStateManager.scale(0.5F, 0.5F, 0.5F);
 		}
 	}
 	
@@ -137,6 +137,13 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 		visibleEntries.clear();
 		
 		allEntries.stream().filter((e) -> e.getName().toLowerCase().contains(searchField.getText().toLowerCase())).forEach(visibleEntries::add);
+
+		maxpages = 1;
+		int count = visibleEntries.size();
+		count -= ENTRIES_IN_FIRST_PAGE;
+		if(count > 0)
+			maxpages += (int) Math.ceil((float) count / (ENTRIES_PER_PAGE * 2));
+		
 		while(getEntryCountStart() > visibleEntries.size())
 			page--;
 		
