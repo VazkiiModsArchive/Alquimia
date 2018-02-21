@@ -2,7 +2,6 @@ package vazkii.alquimia.client.lexicon;
 
 import java.lang.reflect.Type;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -16,6 +15,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
+import vazkii.alquimia.common.util.SerializationUtil;
 
 public abstract class LexiconPage {
 
@@ -58,8 +58,6 @@ public abstract class LexiconPage {
 	}
 	
 	public static class LexiconPageAdapter implements JsonDeserializer<LexiconPage> {
-
-		Gson rawGson = new Gson();
 		
 		@Override
 		public LexiconPage deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -70,7 +68,7 @@ public abstract class LexiconPage {
 	        if(clazz == null)
 	        	return null;
 	        
-	        return rawGson.fromJson(json, clazz);
+	        return SerializationUtil.RAW_GSON.fromJson(json, clazz);
 		}
 		
 	}

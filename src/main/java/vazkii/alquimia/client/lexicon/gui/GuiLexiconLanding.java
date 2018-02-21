@@ -9,6 +9,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.translation.I18n;
+import vazkii.alquimia.client.base.PersistentData;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonCategory;
@@ -87,12 +88,22 @@ public class GuiLexiconLanding extends GuiLexicon {
 	public void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
 		
-		if(button instanceof GuiButtonLexiconEdit)
-			displayLexiconGui(new GuiLexiconWriter(), true);
-		else if(button instanceof GuiButtonIndex)
+
+		if(button instanceof GuiButtonIndex)
 			displayLexiconGui(new GuiLexiconIndex(), true);
 		else if(button instanceof GuiButtonCategory)
 			displayLexiconGui(new GuiLexiconCategory(((GuiButtonCategory) button).getCategory()), true);
+		else if(button instanceof GuiButtonLexiconEdit)
+			displayLexiconGui(new GuiLexiconWriter(), true);
+		else if(button instanceof GuiButtonLexiconResize) {
+			if(PersistentData.data.lexiconGuiScale >= maxScale)
+				PersistentData.data.lexiconGuiScale = 2;
+			else PersistentData.data.lexiconGuiScale = Math.max(2, PersistentData.data.lexiconGuiScale + 1);
+
+			PersistentData.save();
+			displayLexiconGui(this, false);
+		}
+			
 	}
 
 }

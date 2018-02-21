@@ -8,8 +8,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.common.lib.LibMisc;
-import vazkii.alquimia.common.util.ItemStackUtils;
-import vazkii.alquimia.common.util.ItemStackUtils.StackWrapper;
+import vazkii.alquimia.common.util.ItemStackUtil;
+import vazkii.alquimia.common.util.ItemStackUtil.StackWrapper;
 
 public class LexiconEntry implements Comparable<LexiconEntry> {
 
@@ -40,7 +40,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	
 	public ItemStack getIconItem() {
 		if(iconItem == null)
-			iconItem = ItemStackUtils.loadStackFromString(icon);
+			iconItem = ItemStackUtil.loadStackFromString(icon);
 		
 		return iconItem;
 	}
@@ -69,7 +69,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	}
 	
 	public void addRelevantStack(ItemStack stack, int page) {
-		StackWrapper wrapper = ItemStackUtils.wrapStack(stack);
+		StackWrapper wrapper = ItemStackUtil.wrapStack(stack);
 		relevantStacks.add(wrapper);
 		
 		if(!LexiconRegistry.INSTANCE.recipeMappings.containsKey(wrapper))
@@ -77,7 +77,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	}
 	
 	public boolean isStackRelevant(ItemStack stack) {
-		return relevantStacks.contains(ItemStackUtils.wrapStack(stack));
+		return relevantStacks.contains(ItemStackUtil.wrapStack(stack));
 	}
 	
 	@Override

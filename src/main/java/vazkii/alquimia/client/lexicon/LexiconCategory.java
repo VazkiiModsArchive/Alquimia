@@ -5,7 +5,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import vazkii.alquimia.common.util.ItemStackUtils;
+import vazkii.alquimia.common.util.ItemStackUtil;
 
 public class LexiconCategory implements Comparable<LexiconCategory> {
 
@@ -28,7 +28,7 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	
 	public ItemStack getIconItem() {
 		if(iconItem == null)
-			iconItem = ItemStackUtils.loadStackFromString(icon);
+			iconItem = ItemStackUtil.loadStackFromString(icon);
 		
 		return iconItem;
 	}

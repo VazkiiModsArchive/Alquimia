@@ -25,8 +25,8 @@ import vazkii.alquimia.client.lexicon.page.PageCrafting;
 import vazkii.alquimia.client.lexicon.page.PageImage;
 import vazkii.alquimia.client.lexicon.page.PageText;
 import vazkii.alquimia.common.lib.LibMisc;
-import vazkii.alquimia.common.util.ItemStackUtils;
-import vazkii.alquimia.common.util.ItemStackUtils.StackWrapper;
+import vazkii.alquimia.common.util.ItemStackUtil;
+import vazkii.alquimia.common.util.ItemStackUtil.StackWrapper;
 
 public class LexiconRegistry implements IResourceManagerReloadListener {
 
@@ -111,7 +111,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	}
 	
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {
-		return recipeMappings.get(ItemStackUtils.wrapStack(stack));
+		return recipeMappings.get(ItemStackUtil.wrapStack(stack));
 	}
 	
 	@Override

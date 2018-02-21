@@ -12,11 +12,13 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
+import vazkii.alquimia.client.base.PersistentData;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
@@ -45,10 +47,12 @@ public abstract class GuiLexicon extends GuiScreen {
 	private ItemStack tooltipStack;
 	private Pair<LexiconEntry, Integer> targetPage;
 	protected int page = 0, maxpages = 0;
-	
+
 	public int ticksInBook;
 	private float lastTime, lastPartialTicks;
 	public float timeDelta;
+	
+	public int maxScale;
 
 	public static GuiLexicon getCurrentGui() {
 		if(currentGui == null)
@@ -72,6 +76,18 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	@Override
 	public void initGui() {
+		int guiScale = mc.gameSettings.guiScale;
+		maxScale = getMaxAllowedScale();
+		int persistentScale = Math.min(PersistentData.data.lexiconGuiScale, maxScale);
+
+		if(persistentScale > 0 && persistentScale != guiScale) {
+			mc.gameSettings.guiScale = persistentScale;
+			ScaledResolution res = new ScaledResolution(mc);
+			width = res.getScaledWidth();
+			height = res.getScaledHeight();
+			mc.gameSettings.guiScale = guiScale;
+		}
+		
 		bookLeft = width / 2 - FULL_WIDTH / 2;
 		bookTop = height / 2 - FULL_HEIGHT / 2;
 
@@ -86,11 +102,37 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	@Override
 	public final void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		ScaledResolution res = new ScaledResolution(mc);
+		int guiScale = mc.gameSettings.guiScale;
+
+		GlStateManager.pushMatrix();
+		int persistentScale = Math.min(PersistentData.data.lexiconGuiScale, maxScale);
+
+		if(persistentScale > 0 && persistentScale != guiScale) {
+			mc.gameSettings.guiScale = persistentScale;
+			float s = (float) persistentScale / (float) res.getScaleFactor();
+
+			GlStateManager.scale(s, s, s);
+
+			res = new ScaledResolution(mc);
+			int sw = res.getScaledWidth();
+			int sh = res.getScaledHeight();
+			mouseX = Mouse.getX() * sw / mc.displayWidth;
+			mouseY = sh - Mouse.getY() * sh / mc.displayHeight - 1;
+		}
+
+		drawScreenAfterScale(mouseX, mouseY, partialTicks);
+
+		mc.gameSettings.guiScale = guiScale;
+		GlStateManager.popMatrix();
+	}
+
+	final void drawScreenAfterScale(int mouseX, int mouseY, float partialTicks) {
 		float time = ticksInBook + partialTicks;
 		timeDelta = time - lastTime + lastPartialTicks;
 		lastTime = time;
 		lastPartialTicks = partialTicks;
-		
+
 		resetTooltip();
 		drawDefaultBackground();
 
@@ -104,7 +146,7 @@ public abstract class GuiLexicon extends GuiScreen {
 
 		drawTooltip(mouseX, mouseY);
 	}
-	
+
 	@Override
 	public void updateScreen() {
 		if(!isShiftKeyDown())
@@ -120,7 +162,7 @@ public abstract class GuiLexicon extends GuiScreen {
 	final void drawTooltip(int mouseX, int mouseY) {
 		if(tooltipStack != null) {
 			renderToolTip(tooltipStack, mouseX, mouseY);
-			
+
 			Pair<LexiconEntry, Integer> provider = LexiconRegistry.INSTANCE.getEntryForStack(tooltipStack);
 			if(provider != null && (!(this instanceof GuiLexiconEntry) || ((GuiLexiconEntry) this).entry != provider.getLeft())) {
 				RenderHelper.renderTooltipOrange(mouseX, mouseY - 20, Arrays.asList(TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.shift_for_recipe")));
@@ -129,7 +171,7 @@ public abstract class GuiLexicon extends GuiScreen {
 		} else if(tooltip != null && !tooltip.isEmpty())
 			RenderHelper.renderTooltip(mouseX, mouseY, tooltip);
 	}
-	
+
 	final void resetTooltip() {
 		tooltipStack = null;
 		tooltip = null;
@@ -201,11 +243,11 @@ public abstract class GuiLexicon extends GuiScreen {
 			if(left)
 				page--;
 			else page++;
-			
+
 			onPageChanged();
 		}
 	}
-	
+
 	void onPageChanged() {
 		// NO-OP
 	}
@@ -213,7 +255,7 @@ public abstract class GuiLexicon extends GuiScreen {
 	public boolean canSeePageButton(boolean left) {
 		return left ? page > 0 : (page + 1) < maxpages; 
 	}
-	
+
 	public boolean canSeeBackButton() {
 		return !guiStack.isEmpty();
 	}
@@ -225,7 +267,7 @@ public abstract class GuiLexicon extends GuiScreen {
 	public void setTooltip(List<String> strings) {
 		tooltip = strings;
 	}
-	
+
 	public void setTooltipStack(ItemStack stack) {
 		setTooltip();
 		tooltipStack = stack;
@@ -258,21 +300,31 @@ public abstract class GuiLexicon extends GuiScreen {
 		if(isMouseInRelativeRange(mouseX, mouseY, barLeft, barTop, barWidth, barHeight))
 			setTooltip(progressStr);
 	}
-	
+
 	public void drawSeparator(int x, int y) {
 		int w = 110;
 		int h = 3;
 		int rx = x + PAGE_WIDTH / 2 - w / 2;
-		
+
 		GlStateManager.enableBlend();
 		GlStateManager.color(1F, 1F, 1F, 0.8F);
 		drawFromTexture(rx, y, 140, 180, w, h);
 		GlStateManager.color(1F, 1F, 1F, 1F);
 	}
-	
+
 	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {
 		fontRenderer.drawString(s, x - fontRenderer.getStringWidth(s) / 2, y, color);
 	}
-	
+
+	int getMaxAllowedScale() {
+		Minecraft mc = Minecraft.getMinecraft();
+		int scale = mc.gameSettings.guiScale;
+		mc.gameSettings.guiScale = 0;
+		ScaledResolution res = new ScaledResolution(mc);
+		mc.gameSettings.guiScale = scale;
+
+		return res.getScaleFactor();
+	}
+
 }
 

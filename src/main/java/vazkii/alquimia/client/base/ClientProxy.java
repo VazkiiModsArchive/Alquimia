@@ -12,6 +12,7 @@ public class ClientProxy extends CommonProxy {
 		super.preInit(event);
 		
 		LexiconRegistry.INSTANCE.init();
+		PersistentData.setup(event.getSuggestedConfigurationFile().getParentFile().getParentFile());
 	}
 	
 }
