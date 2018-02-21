@@ -58,4 +58,14 @@ public class GuiLexiconCategory extends GuiLexiconEntryList {
 		}
 	}
 	
+	@Override
+	boolean doesEntryCountForProgress(LexiconEntry entry) {
+		return entry.getCategory() == category;
+	}
+	
+	@Override
+	boolean canBeOpened() {
+		return !category.isLocked();
+	}
+	
 }

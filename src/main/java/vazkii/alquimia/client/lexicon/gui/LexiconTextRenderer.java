@@ -8,6 +8,8 @@ import java.util.Map;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.common.lib.LibMisc;
@@ -209,7 +211,7 @@ public class LexiconTextRenderer {
 				renderColor = LINK_COLOR_HOVER;
 				LexiconEntry entry = getHrefEntry();
 				if(entry != null) 
-					gui.setTooltip(entry.getName());
+					gui.setTooltip(entry.isLocked() ? (TextFormatting.GRAY +  I18n.translateToLocal("alquimia.gui.lexicon.locked")) : entry.getName());
 				else gui.setTooltip("BAD LINK " + href);
 			}
 			

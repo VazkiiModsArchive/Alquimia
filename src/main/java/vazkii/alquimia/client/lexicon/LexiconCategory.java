@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.client.base.ClientAdvancements;
 import vazkii.alquimia.common.util.ItemStackUtil;
 
 public class LexiconCategory implements Comparable<LexiconCategory> {
@@ -14,9 +15,10 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	
 	transient boolean checkedParent = false;
 	transient LexiconCategory parentCategory;
+	transient List<LexiconCategory> children = new ArrayList<>();
 	transient List<LexiconEntry> entries = new ArrayList<>();
-	
-	private transient ItemStack iconItem = null;
+	transient boolean locked;
+	transient ItemStack iconItem = null;
 	
 	public String getName() {
 		return name;
@@ -37,12 +39,16 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 		this.entries.add(entry);
 	}
 	
+	public void addChildCategory(LexiconCategory category) {
+		
+	}
+	
 	public List<LexiconEntry> getEntries() {
 		return entries;
 	}
 	
 	public LexiconCategory getParentCategory() {
-		if(!checkedParent && parent != null) {
+		if(!checkedParent && !isRootCategory()) {
 			parentCategory = LexiconRegistry.INSTANCE.categories.get(new ResourceLocation(parent));
 			checkedParent = true;
 		}
@@ -50,9 +56,47 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 		return parentCategory;
 	}
 	
+	public void updateLockStatus(boolean rootOnly) {
+		if(rootOnly && !isRootCategory())
+			return;
+
+		children.forEach((c) ->  c.updateLockStatus(false));
+		
+		locked = true;
+		for(LexiconCategory c : children)
+			if(!c.isLocked()) {
+				locked = false;
+				return;
+			}
+		
+		for(LexiconEntry e : entries) {
+			if(!e.isLocked()) {
+				locked = false;
+				return;
+			}
+		}
+	}
+	
+	public boolean isLocked() {
+		return locked;
+	}
+	
+	public boolean isRootCategory() {
+		return parent == null || parent.isEmpty();
+	}
+	
 	@Override
 	public int compareTo(LexiconCategory o) {
+		if(o.locked != this.locked)
+			return this.locked ? 1 : -1;
+		
 		return this.sortnum - o.sortnum;
+	}
+	
+	public void build() {
+		LexiconCategory parent = getParentCategory();
+		if(parent != null)
+			parent.addChildCategory(this);
 	}
 	
 }

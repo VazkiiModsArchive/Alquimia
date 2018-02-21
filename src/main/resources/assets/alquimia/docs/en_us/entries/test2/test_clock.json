@@ -1,0 +1,13 @@
+{
+	"name": "Test Lock",
+	"icon": "minecraft:dye:3",
+	"category": "test2",
+	"advancement": "alquimia:test2",
+	"priority": false,
+	"pages": [
+		{
+			"type": "text",
+			"text": "This has been unlocked now!"
+		}
+	]
+}

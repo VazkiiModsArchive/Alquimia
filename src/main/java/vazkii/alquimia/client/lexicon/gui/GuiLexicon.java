@@ -67,11 +67,13 @@ public abstract class GuiLexicon extends GuiScreen {
 	}
 
 	public static void displayLexiconGui(GuiLexicon gui, boolean push) {
-		Minecraft mc = Minecraft.getMinecraft();
-		if(push && mc.currentScreen instanceof GuiLexicon && gui != mc.currentScreen)
-			guiStack.push((GuiLexicon) mc.currentScreen);
+		if(gui.canBeOpened()) {
+			Minecraft mc = Minecraft.getMinecraft();
+			if(push && mc.currentScreen instanceof GuiLexicon && gui != mc.currentScreen)
+				guiStack.push((GuiLexicon) mc.currentScreen);
 
-		mc.displayGuiScreen(gui);
+			mc.displayGuiScreen(gui);
+		}
 	}
 
 	@Override
@@ -182,6 +184,10 @@ public abstract class GuiLexicon extends GuiScreen {
 		Minecraft.getMinecraft().renderEngine.bindTexture(LEXICON_TEXTURE);
 		drawModalRectWithCustomSizedTexture(x, y, u, v, w, h, 512, 256);
 	}
+	
+	public static void drawLock(int x, int y) {
+		drawFromTexture(x, y, 250, 180, 16, 16);
+	}
 
 	@Override
 	public boolean doesGuiPauseGame() {
@@ -251,6 +257,10 @@ public abstract class GuiLexicon extends GuiScreen {
 	void onPageChanged() {
 		// NO-OP
 	}
+	
+	boolean canBeOpened() {
+		return true;
+	}
 
 	public boolean canSeePageButton(boolean left) {
 		return left ? page > 0 : (page + 1) < maxpages; 
@@ -285,10 +295,18 @@ public abstract class GuiLexicon extends GuiScreen {
 		int barWidth = PAGE_WIDTH - 10;
 		int barHeight = 12;
 
-		int totalEntries = 100;
-		int unlockedEntries = 20;
-		float unlockFract = (float) unlockedEntries / (float) totalEntries;
-		int progressWidth = (int) (((float) barWidth - 2) * unlockFract);
+		int totalEntries = 0;
+		int unlockedEntries = 0;
+		
+		for(LexiconEntry entry : LexiconRegistry.INSTANCE.entries.values())
+			if(filter.test(entry)) {
+				totalEntries++;
+				if(!entry.isLocked())
+					unlockedEntries++;
+			}
+		
+		float unlockFract = (float) unlockedEntries / Math.max(1, (float) totalEntries);
+		int progressWidth = (int) (((float) barWidth - 1) * unlockFract);
 
 		drawRect(barLeft, barTop, barLeft + barWidth, barTop + barHeight, 0xFF333333);
 		drawGradientRect(barLeft + 1, barTop + 1, barLeft + barWidth - 1, barTop + barHeight - 1, 0xFFDDDDDD, 0xFFBBBBBB);

@@ -2,6 +2,7 @@
 	"name": "Test 2",
 	"icon": "minecraft:golden_shovel",
 	"category": "intro",
+	"advancement": "alquimia:test1",
 	"priority": false,
 	"pages": [
 		{

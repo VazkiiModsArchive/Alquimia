@@ -20,6 +20,7 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.client.base.ClientAdvancements;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.page.PageCrafting;
 import vazkii.alquimia.client.lexicon.page.PageImage;
@@ -88,6 +89,8 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		
 		registerEntry("test1", "test_recipes");
 		registerEntry("test1", "test_paper");
+		
+		registerEntry("test2", "test_clock");
 	}
 	
 	private ResourceLocation registerCategory(String category) {
@@ -126,7 +129,9 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		categoryKeys.forEach(res -> loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
 		entryKeys.forEach(res -> loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
 		
-		entries.forEach((res, entry) -> entry.build());		
+		entries.forEach((res, entry) -> entry.build());
+		categories.forEach((res, category) -> category.build());
+		ClientAdvancements.updateLockStatus();
 	}
 	
 	private void loadCategory(ResourceLocation key, ResourceLocation res) {

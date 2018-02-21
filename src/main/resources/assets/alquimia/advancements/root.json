@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:lexicon"
+        },
+        "title": {
+            "translate": "alquimia.advancement.root"
+        },
+        "description": {
+            "translate": "alquimia.advancement.root.desc"
+        },
+        "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+    },
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:lexicon"
+                    }
+                ]
+            }
+        }
+    }
+}

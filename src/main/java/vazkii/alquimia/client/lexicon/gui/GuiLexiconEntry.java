@@ -80,4 +80,9 @@ public class GuiLexiconEntry extends GuiLexicon {
 		return entry;
 	}
 	
+	@Override
+	boolean canBeOpened() {
+		return !entry.isLocked();
+	}
+	
 }

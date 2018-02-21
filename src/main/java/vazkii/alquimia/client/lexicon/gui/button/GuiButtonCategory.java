@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 
@@ -44,9 +46,15 @@ public class GuiButtonCategory extends GuiButton {
 			
 			float time = Math.max(0, Math.min(ANIM_TIME, timeHovered + (hovered ? partialTicks : -partialTicks)));
 			float transparency = 0.5F - ((float) time / ANIM_TIME) * 0.5F;
+			boolean locked = category != null && category.isLocked();
 
-			RenderHelper.enableGUIStandardItemLighting();
-			mc.getRenderItem().renderItemIntoGUI(stack, x + 2, y + 2);
+			if(locked) {
+				GlStateManager.color(1F, 1F, 1F, 0.7F);
+				GuiLexicon.drawLock(x + 2, y + 2); 
+			} else {
+				RenderHelper.enableGUIStandardItemLighting();
+				mc.getRenderItem().renderItemIntoGUI(stack, x + 2, y + 2);	
+			}
 			
 			GlStateManager.pushMatrix();
 			GlStateManager.color(1F, 1F, 1F, transparency);
@@ -56,7 +64,7 @@ public class GuiButtonCategory extends GuiButton {
 			GlStateManager.popMatrix();
 			
 			if(hovered)
-				parent.setTooltip(name);
+				parent.setTooltip(locked ? (TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.locked")) : name);
 		}
 	}
 	

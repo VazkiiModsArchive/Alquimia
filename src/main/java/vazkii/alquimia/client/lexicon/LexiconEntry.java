@@ -7,6 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.client.base.ClientAdvancements;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.util.ItemStackUtil;
 import vazkii.alquimia.common.util.ItemStackUtil.StackWrapper;
@@ -17,10 +18,12 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	boolean priority = false;
 	LexiconPage[] pages;
 	String[] relations;
+	String advancement;
 	
 	transient LexiconCategory lcategory = null;
 	transient ItemStack iconItem = null;
 	transient List<StackWrapper> relevantStacks = new LinkedList();
+	transient boolean locked;
 	
 	public String getName() {
 		return name;
@@ -55,8 +58,19 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 		return lcategory;
 	}
 	
+	public void updateLockStatus() {
+		locked = advancement != null && !advancement.isEmpty() && !ClientAdvancements.hasDone(advancement);
+	}
+	
+	public boolean isLocked() {
+		return locked;
+	}
+	
 	@Override
 	public int compareTo(LexiconEntry o) {
+		if(o.locked != this.locked)
+			return this.locked ? 1 : -1;
+
 		if(o.priority != this.priority)
 			return this.priority ? -1 : 1;
 		

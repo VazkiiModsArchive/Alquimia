@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 
@@ -36,18 +37,31 @@ public class GuiButtonEntry extends GuiButton {
 			
 			float time = Math.max(0, Math.min(ANIM_TIME, timeHovered + (hovered ? partialTicks : -partialTicks)));
 			float widthFract = (float) time / ANIM_TIME;
+			boolean locked = entry.isLocked();
 			
 			GlStateManager.scale(0.5F, 0.5F, 0.5F);
 			Gui.drawRect(x * 2, y * 2, (x + (int) ((float) width * widthFract)) * 2, (y + height) * 2, 0x22000000);
-			
-			RenderHelper.enableGUIStandardItemLighting();
-			
-			mc.getRenderItem().renderItemIntoGUI(entry.getIconItem(), x * 2 + 2, y * 2 + 2);
+			GlStateManager.enableBlend();
+
+			if(locked) {
+				GlStateManager.color(1F, 1F, 1F, 0.7F);
+				GuiLexicon.drawLock(x * 2 + 2, y * 2 + 2); 
+			} else {
+				RenderHelper.enableGUIStandardItemLighting();
+				mc.getRenderItem().renderItemIntoGUI(entry.getIconItem(), x * 2 + 2, y * 2 + 2);	
+			}
 			GlStateManager.scale(2F, 2F, 2F);
+
+			int color = 0;
+			String name = (entry.isPriority() ? TextFormatting.ITALIC : "") + entry.getName();
+			if(locked) {
+				name = I18n.translateToLocal("alquimia.gui.lexicon.locked");
+				color = 0x77000000;
+			}
 			
 			boolean unicode = mc.fontRenderer.getUnicodeFlag();
 			mc.fontRenderer.setUnicodeFlag(true);
-			mc.fontRenderer.drawString((entry.isPriority() ? TextFormatting.ITALIC : "") + entry.getName(), x + 12, y, 0);
+			mc.fontRenderer.drawString(name, x + 12, y, color);
 			mc.fontRenderer.setUnicodeFlag(unicode);
 		}
 	}

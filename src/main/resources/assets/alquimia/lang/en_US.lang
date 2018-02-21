@@ -5,6 +5,10 @@ alqmisc.wip=WIP
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia
 
+# Advancements
+alquimia.advancement.root=Alquimia
+alquimia.advancement.root.desc=Craft a Lexica Alquimia
+
 # Gui Strings
 alquimia.gui.lexicon.default_version=Writer's Edition
 alquimia.gui.lexicon.landing_info=A Vazkii self-published encyclopedia. The quintessential guide to alchemical engineering for students and veterans of all skill levels.
@@ -19,6 +23,7 @@ alquimia.gui.lexicon.index.info=An index of every chapter available in this tome
 alquimia.gui.lexicon.shapeless=Shapeless
 alquimia.gui.lexicon.no_results=No Results
 alquimia.gui.lexicon.sad=:(
+alquimia.gui.lexicon.locked=(Locked)
 
 alquimia.gui.lexicon.button.prev_page=Previous
 alquimia.gui.lexicon.button.next_page=Next

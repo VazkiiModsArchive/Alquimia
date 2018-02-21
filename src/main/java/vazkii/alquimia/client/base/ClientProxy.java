@@ -1,5 +1,6 @@
 package vazkii.alquimia.client.base;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
@@ -13,6 +14,8 @@ public class ClientProxy extends CommonProxy {
 		
 		LexiconRegistry.INSTANCE.init();
 		PersistentData.setup(event.getSuggestedConfigurationFile().getParentFile().getParentFile());
+		
+		MinecraftForge.EVENT_BUS.register(ClientAdvancements.class);
 	}
 	
 }
