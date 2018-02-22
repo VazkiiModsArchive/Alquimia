@@ -26,7 +26,7 @@ public class GuiLexiconWriter extends GuiLexicon {
 		textfield.setMaxStringLength(Integer.MAX_VALUE);
 		textfield.setText(savedText);
 		
-		buttonList.add(new GuiButtonLexiconResize(this, bookLeft + 120, bookTop + TOP_PADDING, false));
+		buttonList.add(new GuiButtonLexiconResize(this, bookLeft + 115, bookTop + PAGE_HEIGHT - 36, false));
 		
 		Keyboard.enableRepeatEvents(true);
 		refreshText();
@@ -36,8 +36,9 @@ public class GuiLexiconWriter extends GuiLexicon {
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) {
 		super.drawForegroundElements(mouseX, mouseY, partialTicks);
 		
-		mc.fontRenderer.drawString(I18n.translateToLocal("alquimia.gui.lexicon.editor"), LEFT_PAGE_X, TOP_PADDING + 5, 0);
-		
+		drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.editor"), LEFT_PAGE_X + PAGE_WIDTH / 2, TOP_PADDING, 0x333333);
+		drawSeparator(LEFT_PAGE_X, TOP_PADDING + 12);
+
 		if(drawHeader) {
 			drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.editor.mock_header"), RIGHT_PAGE_X + PAGE_WIDTH / 2, TOP_PADDING, 0x333333);
 			drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12);
