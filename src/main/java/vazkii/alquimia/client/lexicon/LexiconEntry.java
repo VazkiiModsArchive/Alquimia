@@ -18,7 +18,6 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	String name, icon, category;
 	boolean priority = false;
 	LexiconPage[] pages;
-	String[] relations;
 	String advancement;
 	
 	transient ResourceLocation resource;
@@ -33,10 +32,6 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 
 	public LexiconPage[] getPages() {
 		return pages;
-	}
-	
-	public String[] getRelations() {
-		return relations;
 	}
 	
 	public boolean isPriority() {
