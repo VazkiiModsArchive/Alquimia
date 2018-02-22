@@ -1,4 +1,4 @@
-package vazkii.alquimia.client.base;
+package vazkii.alquimia.client.gui;
 
 import java.util.Set;
 
@@ -33,7 +33,7 @@ public class GuiFactory implements IModGuiFactory {
 		return null;
 	}
 	
-	public class GuiAlquimiaConfig extends GuiConfig {
+	public static class GuiAlquimiaConfig extends GuiConfig {
 
 		public GuiAlquimiaConfig(GuiScreen parentScreen) {
 			super(parentScreen, new ConfigElement(AlquimiaConfig.config.getCategory(Configuration.CATEGORY_GENERAL)).getChildElements(), LibMisc.MOD_ID, false, false, GuiConfig.getAbridgedConfigPath(AlquimiaConfig.config.toString()));
