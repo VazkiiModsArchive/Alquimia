@@ -10,14 +10,17 @@ import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 
 public class GuiButtonLexiconResize extends GuiButtonLexicon {
 
-	public GuiButtonLexiconResize(GuiLexicon parent, int x, int y) {
+	final boolean uiscale;
+	
+	public GuiButtonLexiconResize(GuiLexicon parent, int x, int y, boolean uiscale) {
 		super(parent, x, y, 330, 9, 11, 11,
 				I18n.translateToLocal("alquimia.gui.lexicon.button.resize"));
+		this.uiscale = uiscale;
 	}
 	
 	@Override
 	public List<String> getTooltip() {
-		return Arrays.asList(new String[] { 
+		return !uiscale ? tooltip : Arrays.asList(new String[] { 
 				tooltip.get(0),
 				TextFormatting.GRAY + I18n.translateToLocalFormatted("alquimia.gui.lexicon.button.resize.size" + PersistentData.data.lexiconGuiScale)});
 	}

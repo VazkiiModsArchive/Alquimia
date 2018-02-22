@@ -29,7 +29,7 @@ public class GuiLexiconLanding extends GuiLexicon {
 		
 		text = new LexiconTextRenderer(this, I18n.translateToLocal("alquimia.gui.lexicon.landing_info"), LEFT_PAGE_X, TOP_PADDING + 25);
 
-		buttonList.add(new GuiButtonLexiconResize(this, bookLeft + 24, bookTop + FULL_HEIGHT - 72));
+		buttonList.add(new GuiButtonLexiconResize(this, bookLeft + 24, bookTop + FULL_HEIGHT - 72, true));
 		buttonList.add(new GuiButtonLexiconEdit(this, bookLeft + 44, bookTop + FULL_HEIGHT - 72));
 		
 		int i = 0;
