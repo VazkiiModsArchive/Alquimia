@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.client.base.ClientAdvancements;
 import vazkii.alquimia.client.base.PersistentData;
+import vazkii.alquimia.common.base.AlquimiaConfig;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.util.ItemStackUtil;
 import vazkii.alquimia.common.util.ItemStackUtil.StackWrapper;
@@ -60,7 +61,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	}
 	
 	public boolean isLocked() {
-		return locked;
+		return !AlquimiaConfig.disableAdvancementLocking && locked;
 	}
 	
 	public boolean isUnread() {

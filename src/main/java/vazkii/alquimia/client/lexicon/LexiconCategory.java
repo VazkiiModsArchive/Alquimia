@@ -6,6 +6,7 @@ import java.util.List;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.client.base.ClientAdvancements;
+import vazkii.alquimia.common.base.AlquimiaConfig;
 import vazkii.alquimia.common.util.ItemStackUtil;
 
 public class LexiconCategory implements Comparable<LexiconCategory> {
@@ -79,7 +80,7 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	}
 	
 	public boolean isLocked() {
-		return locked;
+		return !AlquimiaConfig.disableAdvancementLocking && locked;
 	}
 	
 	public boolean isUnread() {

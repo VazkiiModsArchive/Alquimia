@@ -15,6 +15,8 @@ import vazkii.alquimia.common.network.ModPackets;
 public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
+		AlquimiaConfig.loadConfig(event.getSuggestedConfigurationFile());
+		
 		ModItems.preInit();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(Alquimia.instance, new GuiHandler());

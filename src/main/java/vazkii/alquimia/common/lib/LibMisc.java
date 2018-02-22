@@ -17,5 +17,6 @@ public final class LibMisc {
 	// Proxy Constants
 	public static final String PROXY_COMMON = "vazkii.alquimia.common.base.CommonProxy";
 	public static final String PROXY_CLIENT = "vazkii.alquimia.client.base.ClientProxy";
-	
+	public static final String GUI_FACTORY = "vazkii.alquimia.client.base.GuiFactory";
+
 }
