@@ -8,6 +8,7 @@ import java.util.List;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.base.PersistentData;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
@@ -87,15 +88,19 @@ public class GuiLexiconLanding extends GuiLexicon {
 	@Override
 	public void actionPerformed(GuiButton button) throws IOException {
 		super.actionPerformed(button);
-		
 
 		if(button instanceof GuiButtonIndex)
 			displayLexiconGui(new GuiLexiconIndex(), true);
 		else if(button instanceof GuiButtonCategory)
 			displayLexiconGui(new GuiLexiconCategory(((GuiButtonCategory) button).getCategory()), true);
-		else if(button instanceof GuiButtonLexiconEdit)
-			displayLexiconGui(new GuiLexiconWriter(), true);
-		else if(button instanceof GuiButtonLexiconResize) {
+		else if(button instanceof GuiButtonLexiconEdit) {
+			if(isCtrlKeyDown()) {
+				long time = System.currentTimeMillis();
+				LexiconRegistry.INSTANCE.reloadLexiconRegistry();
+				displayLexiconGui(new GuiLexiconLanding(), false);
+				mc.player.sendMessage(new TextComponentTranslation("alquimia.gui.lexicon.reloaded", (System.currentTimeMillis() - time)));
+			} else displayLexiconGui(new GuiLexiconWriter(), true);
+		} else if(button instanceof GuiButtonLexiconResize) {
 			if(PersistentData.data.lexiconGuiScale >= maxScale)
 				PersistentData.data.lexiconGuiScale = 2;
 			else PersistentData.data.lexiconGuiScale = Math.max(2, PersistentData.data.lexiconGuiScale + 1);

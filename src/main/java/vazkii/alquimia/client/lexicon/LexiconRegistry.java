@@ -3,8 +3,8 @@ package vazkii.alquimia.client.lexicon;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,12 +35,11 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	private static final ResourceLocation FALLBACK_CATEGORY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/categories/fallback.json", DEFAULT_LANG));
 	private static final ResourceLocation FALLBACK_ENTRY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/entries/fallback.json", DEFAULT_LANG));
 
+	public final List<ResourceLocation> rootFiles = new ArrayList();
+	
 	public final Map<ResourceLocation, LexiconCategory> categories = new HashMap();
 	public final Map<ResourceLocation, LexiconEntry> entries = new HashMap();
 	public final Map<String, Class<? extends LexiconPage>> pageTypes = new HashMap();
-	
-	public final List<ResourceLocation> categoryKeys = new LinkedList();
-	public final List<ResourceLocation> entryKeys = new LinkedList();
 	
 	public final Map<StackWrapper, Pair<LexiconEntry, Integer>> recipeMappings = new HashMap();
 	
@@ -57,8 +56,8 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	
 	public void init() {
 		addPageTypes();
-		addCategories();
-		addEntries();
+		
+		rootFiles.add(new ResourceLocation(LibMisc.MOD_ID, "docs/root.json"));
 		
 		IResourceManager manager = Minecraft.getMinecraft().getResourceManager();
 		if(manager instanceof IReloadableResourceManager)
@@ -72,53 +71,16 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		pageTypes.put("image", PageImage.class);
 	}
 	
-	private void addCategories() {
-		registerCategory("intro");
-		registerCategory("test1");
-		registerCategory("test2");
-		registerCategory("test3");
-		registerCategory("test4");
-		registerCategory("test5");
-	}
-	
-	private void addEntries() {
-		registerEntry("intro", "test1");
-		registerEntry("intro", "test2");
-		registerEntry("intro", "test3");
-		registerEntry("intro", "test_prio");
-		
-		registerEntry("test1", "test_recipes");
-		registerEntry("test1", "test_paper");
-		
-		registerEntry("test2", "test_clock");
-	}
-	
-	private ResourceLocation registerCategory(String category) {
-		ResourceLocation res = new ResourceLocation(LibMisc.MOD_ID, category); 
-		return registerCategory(res);
-	}
-	
-	private ResourceLocation registerEntry(String category, String entry) {
-		ResourceLocation res = new ResourceLocation(LibMisc.MOD_ID, category + "/" + entry);
-		return registerEntry(res);
-	}
-	
-	public ResourceLocation registerCategory(ResourceLocation res) {
-		categoryKeys.add(res);
-		return res;
-	}
-	
-	public ResourceLocation registerEntry(ResourceLocation res) {
-		entryKeys.add(res);
-		return res;
-	}
-	
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {
 		return recipeMappings.get(ItemStackUtil.wrapStack(stack));
 	}
 	
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
+		reloadLexiconRegistry();
+	}
+	
+	public void reloadLexiconRegistry() {
 		GuiLexicon.onReload();
 		categories.clear();
 		entries.clear();
@@ -126,12 +88,31 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		
 		currentLang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 		
-		categoryKeys.forEach(res -> loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
-		entryKeys.forEach(res -> loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
+		List<LexiconRootObject> roots = new ArrayList();
+		rootFiles.forEach((res) -> roots.add(loadRootObject(res)));
+		
+		roots.forEach((root) -> {
+			root.categories.forEach(c -> {
+				ResourceLocation res = new ResourceLocation(root.namespace, c);
+				loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath())));
+			});
+			root.entries.forEach(e -> {
+				ResourceLocation res = new ResourceLocation(root.namespace, e);
+				loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath())));
+			});
+		});
 		
 		entries.forEach((res, entry) -> entry.build(res));
 		categories.forEach((res, category) -> category.build(res));
 		ClientAdvancements.updateLockStatus();
+	}
+	
+	private LexiconRootObject loadRootObject(ResourceLocation res) {
+		InputStream stream = loadJson(res, null);
+		if(stream == null)
+			throw new IllegalArgumentException(res + " does not exist.");
+
+		return gson.fromJson(new InputStreamReader(stream), LexiconRootObject.class);
 	}
 	
 	private void loadCategory(ResourceLocation key, ResourceLocation res) {
@@ -184,6 +165,14 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		}
 		
 		return res.getInputStream();
+	}
+	
+	static class LexiconRootObject {
+		
+		String namespace;
+		List<String> categories;
+		List<String> entries;
+		
 	}
 	
 }

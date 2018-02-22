@@ -14,7 +14,6 @@ public class ClientAdvancements {
 	static List<String> doneAdvancements;
 	
 	public static void setDoneAdvancements(String[] done) {
-		System.out.println("synced");
 		doneAdvancements = Arrays.asList(done);
 		updateLockStatus();
 	}
