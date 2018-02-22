@@ -9,6 +9,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
+import vazkii.arl.util.ClientTicker;
 
 public class GuiButtonCategory extends GuiButton {
 
@@ -20,10 +21,12 @@ public class GuiButtonCategory extends GuiButton {
 	String name;
 	int u, v;
 	float timeHovered;
+	boolean unread;
 	
 	public GuiButtonCategory(GuiLexicon parent, int x, int y, LexiconCategory category) {
 		this(parent, x, y, category.getIconItem(), category.getName());
 		this.category = category;
+		unread = category.isUnread();
 	}
 	
 	public GuiButtonCategory(GuiLexicon parent, int x, int y, ItemStack stack, String name) {
@@ -41,8 +44,8 @@ public class GuiButtonCategory extends GuiButton {
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			
 			if(hovered)
-				timeHovered = Math.min(ANIM_TIME, timeHovered + parent.timeDelta);
-			else timeHovered = Math.max(0, timeHovered - parent.timeDelta);
+				timeHovered = Math.min(ANIM_TIME, timeHovered + ClientTicker.delta);
+			else timeHovered = Math.max(0, timeHovered - ClientTicker.delta);
 			
 			float time = Math.max(0, Math.min(ANIM_TIME, timeHovered + (hovered ? partialTicks : -partialTicks)));
 			float transparency = 0.5F - ((float) time / ANIM_TIME) * 0.5F;
@@ -61,11 +64,14 @@ public class GuiButtonCategory extends GuiButton {
 			GlStateManager.translate(0, 0, 200);
 			GuiLexicon.drawFromTexture(x, y, u, v, width, height);
 			GlStateManager.color(1F, 1F, 1F, 1F);
+			
+			if(unread) 
+				parent.drawWarning(x, y, 0);
 			GlStateManager.popMatrix();
 			
 			if(hovered)
-				parent.setTooltip(locked ? (TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.locked")) : name);
-		}
+				parent.setTooltip(locked ? (TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.locked")) : name);		
+			}
 	}
 	
 	public LexiconCategory getCategory() {

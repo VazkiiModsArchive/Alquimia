@@ -129,8 +129,8 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		categoryKeys.forEach(res -> loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath()))));
 		entryKeys.forEach(res -> loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath()))));
 		
-		entries.forEach((res, entry) -> entry.build());
-		categories.forEach((res, category) -> category.build());
+		entries.forEach((res, entry) -> entry.build(res));
+		categories.forEach((res, category) -> category.build(res));
 		ClientAdvancements.updateLockStatus();
 	}
 	

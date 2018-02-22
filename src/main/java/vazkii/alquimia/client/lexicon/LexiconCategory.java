@@ -19,6 +19,7 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	transient List<LexiconEntry> entries = new ArrayList<>();
 	transient boolean locked;
 	transient ItemStack iconItem = null;
+	transient ResourceLocation resource;
 	
 	public String getName() {
 		return name;
@@ -40,7 +41,7 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	}
 	
 	public void addChildCategory(LexiconCategory category) {
-		
+		children.add(category);
 	}
 	
 	public List<LexiconEntry> getEntries() {
@@ -81,8 +82,20 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 		return locked;
 	}
 	
+	public boolean isUnread() {
+		for(LexiconEntry e : entries)
+			if(e.isUnread())
+				return true;
+		
+		return false;
+	}
+	
 	public boolean isRootCategory() {
 		return parent == null || parent.isEmpty();
+	}
+	
+	public ResourceLocation getResource() {
+		return resource;
 	}
 	
 	@Override
@@ -93,7 +106,8 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 		return this.sortnum - o.sortnum;
 	}
 	
-	public void build() {
+	public void build(ResourceLocation resource) {
+		this.resource = resource;
 		LexiconCategory parent = getParentCategory();
 		if(parent != null)
 			parent.addChildCategory(this);

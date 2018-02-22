@@ -9,12 +9,14 @@ import java.io.OutputStreamWriter;
 import java.util.function.Supplier;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import jline.internal.InputStreamReader;
 
 public class SerializationUtil {
 
 	public static final Gson RAW_GSON = new Gson();
+	public static final Gson PRETTY_GSON = new GsonBuilder().setPrettyPrinting().create();
 
 	public static <T> T loadFromFile(File f, Class<? extends T> clazz, Supplier<T> baseCase) {
 		return loadFromFile(RAW_GSON, f, clazz, baseCase);

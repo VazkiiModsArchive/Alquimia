@@ -1,6 +1,8 @@
 package vazkii.alquimia.client.base;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import vazkii.alquimia.common.util.SerializationUtil;
 
@@ -20,12 +22,13 @@ public final class PersistentData {
 	}
 	
 	public static void save() {
-		SerializationUtil.saveToFile(saveFile, DataHolder.class, data);
+		SerializationUtil.saveToFile(SerializationUtil.PRETTY_GSON, saveFile, DataHolder.class, data);
 	}
 	
 	public static final class DataHolder {
 		
 		public int lexiconGuiScale = 0;
+		public List<String> viewedEntries = new ArrayList();
 		
 	}
 	

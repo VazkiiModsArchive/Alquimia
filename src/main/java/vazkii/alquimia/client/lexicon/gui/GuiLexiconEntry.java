@@ -3,6 +3,7 @@ package vazkii.alquimia.client.lexicon.gui;
 import java.io.IOException;
 
 import net.minecraft.client.renderer.GlStateManager;
+import vazkii.alquimia.client.base.PersistentData;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconPage;
 
@@ -17,7 +18,7 @@ public class GuiLexiconEntry extends GuiLexicon {
 	
 	public GuiLexiconEntry(LexiconEntry entry, int page) {
 		this.entry = entry;
-		this.page = page;
+		this.page = page; 
 	}
 	
 	@Override
@@ -26,6 +27,12 @@ public class GuiLexiconEntry extends GuiLexicon {
 		
 		maxpages = (int) Math.ceil((float) entry.getPages().length / 2);
 		setupPages();
+		
+		String key = entry.getResource().toString();
+		if(!PersistentData.data.viewedEntries.contains(key)) {
+			PersistentData.data.viewedEntries.add(key);
+			PersistentData.save();
+		}
 	}
 	
 	@Override

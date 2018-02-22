@@ -24,6 +24,7 @@ import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
 import vazkii.alquimia.common.lib.LibMisc;
+import vazkii.arl.util.ClientTicker;
 import vazkii.arl.util.RenderHelper;
 
 public abstract class GuiLexicon extends GuiScreen {
@@ -49,9 +50,6 @@ public abstract class GuiLexicon extends GuiScreen {
 	protected int page = 0, maxpages = 0;
 
 	public int ticksInBook;
-	private float lastTime, lastPartialTicks;
-	public float timeDelta;
-	
 	public int maxScale;
 
 	public static GuiLexicon getCurrentGui() {
@@ -130,11 +128,6 @@ public abstract class GuiLexicon extends GuiScreen {
 	}
 
 	final void drawScreenAfterScale(int mouseX, int mouseY, float partialTicks) {
-		float time = ticksInBook + partialTicks;
-		timeDelta = time - lastTime + lastPartialTicks;
-		lastTime = time;
-		lastPartialTicks = partialTicks;
-
 		resetTooltip();
 		drawDefaultBackground();
 
@@ -183,10 +176,6 @@ public abstract class GuiLexicon extends GuiScreen {
 	public static void drawFromTexture(int x, int y, int u, int v, int w, int h) {
 		Minecraft.getMinecraft().renderEngine.bindTexture(LEXICON_TEXTURE);
 		drawModalRectWithCustomSizedTexture(x, y, u, v, w, h, 512, 256);
-	}
-	
-	public static void drawLock(int x, int y) {
-		drawFromTexture(x, y, 250, 180, 16, 16);
 	}
 
 	@Override
@@ -328,6 +317,21 @@ public abstract class GuiLexicon extends GuiScreen {
 		GlStateManager.color(1F, 1F, 1F, 0.8F);
 		drawFromTexture(rx, y, 140, 180, w, h);
 		GlStateManager.color(1F, 1F, 1F, 1F);
+	}
+	
+	
+	public static void drawLock(int x, int y) {
+		drawFromTexture(x, y, 250, 180, 16, 16);
+	}
+	
+	public static void drawWarning(int x, int y, int rand) {
+		GlStateManager.enableBlend();
+		GlStateManager.disableAlpha();
+		float alpha = (float) Math.sin(ClientTicker.total * 0.2F) * 0.3F + 0.7F;
+		GlStateManager.color(1F, 1F, 1F, alpha);
+		drawFromTexture(x, y, 140, 197, 8, 8);
+		GlStateManager.enableAlpha();
+		GlStateManager.color(1F, 1F, 1F);
 	}
 
 	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {

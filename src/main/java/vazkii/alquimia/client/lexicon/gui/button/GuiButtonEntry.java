@@ -9,6 +9,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
+import vazkii.arl.util.ClientTicker;
 
 public class GuiButtonEntry extends GuiButton {
 	
@@ -18,12 +19,14 @@ public class GuiButtonEntry extends GuiButton {
 	LexiconEntry entry;
 	int i;
 	float timeHovered;
+	boolean unread;
 
 	public GuiButtonEntry(GuiLexicon parent, int x, int y, LexiconEntry entry, int i) {
 		super(0, x, y, GuiLexicon.PAGE_WIDTH, 10, "");
 		this.parent = parent;
 		this.entry = entry;
 		this.i = i;
+		unread = entry.isUnread();
 	}
 	
 	@Override
@@ -32,8 +35,8 @@ public class GuiButtonEntry extends GuiButton {
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			
 			if(hovered)
-				timeHovered = Math.min(ANIM_TIME, timeHovered + parent.timeDelta);
-			else timeHovered = Math.max(0, timeHovered - parent.timeDelta);
+				timeHovered = Math.min(ANIM_TIME, timeHovered + ClientTicker.delta);
+			else timeHovered = Math.max(0, timeHovered - ClientTicker.delta);
 			
 			float time = Math.max(0, Math.min(ANIM_TIME, timeHovered + (hovered ? partialTicks : -partialTicks)));
 			float widthFract = (float) time / ANIM_TIME;
@@ -63,6 +66,9 @@ public class GuiButtonEntry extends GuiButton {
 			mc.fontRenderer.setUnicodeFlag(true);
 			mc.fontRenderer.drawString(name, x + 12, y, color);
 			mc.fontRenderer.setUnicodeFlag(unicode);
+			
+			if(unread)
+				parent.drawWarning(x + width - 5, y, entry.hashCode());
 		}
 	}
 	
