@@ -74,7 +74,8 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 
 			text.render(mouseX, mouseY);
 			drawProgressBar(mouseX, mouseY, this::doesEntryCountForProgress);
-		}
+		} else if(page % 2 == 1 && page == maxpages - 1)
+			drawPageFiller();
 		
 		if(!searchField.getText().isEmpty()) {
 			GlStateManager.color(1F, 1F, 1F, 1F);

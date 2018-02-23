@@ -65,13 +65,13 @@ public class PageCrafting extends LexiconPage {
 	void drawRecipe(IRecipe recipe, int recipeX, int recipeY, int mouseX, int mouseY) {
 		mc.renderEngine.bindTexture(OVERLAY_TEXTURE);
 		GlStateManager.enableBlend();
-		parent.drawModalRectWithCustomSizedTexture(recipeX, recipeY, 0, 0, 98, 60, 128, 128);
+		parent.drawModalRectWithCustomSizedTexture(recipeX - 2, recipeY - 2, 0, 0, 100, 62, 128, 128);
 		
 		boolean shaped = recipe instanceof IShapedRecipe;
 		if(!shaped) {
 			int iconX = recipeX + 62;
 			int iconY = recipeY + 2;
-			parent.drawModalRectWithCustomSizedTexture(iconX, iconY, 0, 60, 11, 11, 128, 128);
+			parent.drawModalRectWithCustomSizedTexture(iconX, iconY, 0, 64, 11, 11, 128, 128);
 			if(parent.isMouseInRelativeRange(mouseX, mouseY, iconX, iconY, 11, 11))
 				parent.setTooltip(I18n.translateToLocal("alquimia.gui.lexicon.shapeless"));
 		}

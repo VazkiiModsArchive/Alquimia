@@ -39,6 +39,9 @@ public class GuiLexiconEntry extends GuiLexicon {
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) {
 		drawPage(leftPage, LEFT_PAGE_X, TOP_PADDING, mouseX, mouseY, partialTicks);
 		drawPage(rightPage, RIGHT_PAGE_X, TOP_PADDING, mouseX, mouseY, partialTicks);
+		
+		if(rightPage == null)
+			drawPageFiller();
 	}
 	
 	@Override

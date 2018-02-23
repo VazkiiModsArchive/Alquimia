@@ -30,6 +30,7 @@ import vazkii.arl.util.RenderHelper;
 public abstract class GuiLexicon extends GuiScreen {
 
 	public static final ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/lexicon.png"); 
+	public static final ResourceLocation FILLER_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/elements.png"); 
 
 	public static final int FULL_WIDTH = 272;
 	public static final int FULL_HEIGHT = 180;
@@ -332,6 +333,13 @@ public abstract class GuiLexicon extends GuiScreen {
 		drawFromTexture(x, y, 140, 197, 8, 8);
 		GlStateManager.enableAlpha();
 		GlStateManager.color(1F, 1F, 1F);
+	}
+	
+	public static void drawPageFiller() {
+		GlStateManager.enableBlend();
+		GlStateManager.color(1F, 1F, 1F, 1F);
+		Minecraft.getMinecraft().renderEngine.bindTexture(FILLER_TEXTURE);
+		drawModalRectWithCustomSizedTexture(RIGHT_PAGE_X + PAGE_WIDTH / 2 - 64, TOP_PADDING + PAGE_HEIGHT / 2 - 74, 0, 0, 128, 128, 128, 128);
 	}
 
 	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {

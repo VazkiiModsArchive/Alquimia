@@ -37,7 +37,7 @@ public class PageImage extends LexiconPage {
 		parent.drawTexturedModalRect(x * 2, y * 2, 0, 0, 200, 200);
 		if(border) {
 			GlStateManager.scale(2F, 2F, 2F);
-			GuiLexicon.drawFromTexture(x - 3, y - 3, 406, 150, 106, 106);
+			GuiLexicon.drawFromTexture(x - 3, y - 3, 405, 149, 106, 106);
 		}
 		GlStateManager.popMatrix();
 		
