@@ -24,7 +24,9 @@ import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.client.base.ClientAdvancements;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.page.PageCrafting;
+import vazkii.alquimia.client.lexicon.page.PageEmpty;
 import vazkii.alquimia.client.lexicon.page.PageImage;
+import vazkii.alquimia.client.lexicon.page.PageSpotlight;
 import vazkii.alquimia.client.lexicon.page.PageText;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.util.ItemStackUtil;
@@ -70,6 +72,8 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		pageTypes.put("text", PageText.class);
 		pageTypes.put("crafting", PageCrafting.class);
 		pageTypes.put("image", PageImage.class);
+		pageTypes.put("spotlight", PageSpotlight.class);
+		pageTypes.put("empty", PageEmpty.class);
 	}
 
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {

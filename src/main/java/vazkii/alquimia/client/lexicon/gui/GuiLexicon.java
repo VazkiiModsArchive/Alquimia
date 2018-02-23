@@ -31,6 +31,7 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	public static final ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/lexicon.png"); 
 	public static final ResourceLocation FILLER_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/elements.png"); 
+	public static final ResourceLocation CRAFTING_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/crafting.png"); 
 
 	public static final int FULL_WIDTH = 272;
 	public static final int FULL_HEIGHT = 180;
@@ -320,7 +321,6 @@ public abstract class GuiLexicon extends GuiScreen {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 	}
 	
-	
 	public static void drawLock(int x, int y) {
 		drawFromTexture(x, y, 250, 180, 16, 16);
 	}
@@ -336,10 +336,14 @@ public abstract class GuiLexicon extends GuiScreen {
 	}
 	
 	public static void drawPageFiller() {
+		drawPageFiller(RIGHT_PAGE_X, TOP_PADDING);
+	}
+	
+	public static void drawPageFiller(int x, int y) {
 		GlStateManager.enableBlend();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(FILLER_TEXTURE);
-		drawModalRectWithCustomSizedTexture(RIGHT_PAGE_X + PAGE_WIDTH / 2 - 64, TOP_PADDING + PAGE_HEIGHT / 2 - 74, 0, 0, 128, 128, 128, 128);
+		drawModalRectWithCustomSizedTexture(x + PAGE_WIDTH / 2 - 64, y + PAGE_HEIGHT / 2 - 74, 0, 0, 128, 128, 128, 128);
 	}
 
 	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {

@@ -19,8 +19,6 @@ import vazkii.arl.util.RenderHelper;
 
 public class PageCrafting extends LexiconPage {
 
-	public static final ResourceLocation OVERLAY_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/crafting.png"); 
-	
 	String recipe, recipe2;
 	String text;
 	
@@ -63,7 +61,7 @@ public class PageCrafting extends LexiconPage {
 	}
 	
 	void drawRecipe(IRecipe recipe, int recipeX, int recipeY, int mouseX, int mouseY) {
-		mc.renderEngine.bindTexture(OVERLAY_TEXTURE);
+		mc.renderEngine.bindTexture(GuiLexicon.CRAFTING_TEXTURE);
 		GlStateManager.enableBlend();
 		parent.drawModalRectWithCustomSizedTexture(recipeX - 2, recipeY - 2, 0, 0, 100, 62, 128, 128);
 		
