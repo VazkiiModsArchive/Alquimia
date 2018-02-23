@@ -157,7 +157,6 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	}
 
 	private InputStream loadJson(ResourceLocation resloc, ResourceLocation fallback) {
-		System.out.println("Loading " + resloc);
 		IResource res = null;
 		try {
 			res = Minecraft.getMinecraft().getResourceManager().getResource(resloc);

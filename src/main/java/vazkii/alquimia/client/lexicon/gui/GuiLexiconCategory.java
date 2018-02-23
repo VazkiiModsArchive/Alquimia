@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconCategory;
@@ -64,8 +65,13 @@ public class GuiLexiconCategory extends GuiLexiconEntryList {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		return obj == this || (obj instanceof GuiLexiconCategory && ((GuiLexiconCategory) obj).category == category && ((GuiLexiconCategory) obj).page == page);
+	}
+	
+	@Override
 	boolean canBeOpened() {
-		return !category.isLocked();
+		return !category.isLocked() && !equals(Minecraft.getMinecraft().currentScreen);
 	}
 	
 }

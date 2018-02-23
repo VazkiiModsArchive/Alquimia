@@ -19,9 +19,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.base.PersistentData;
+import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBookmark;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.arl.util.ClientTicker;
@@ -53,6 +55,8 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	public int ticksInBook;
 	public int maxScale;
+	
+	boolean needsBookmarkUpdate = false;
 
 	public static GuiLexicon getCurrentGui() {
 		if(currentGui == null)
@@ -100,6 +104,8 @@ public abstract class GuiLexicon extends GuiScreen {
 		buttonList.add(new GuiButtonLexiconBack(this, width / 2 - 9, bookTop + FULL_HEIGHT - 5));
 		buttonList.add(new GuiButtonLexiconLR(this, bookLeft - 4, bookTop + FULL_HEIGHT - 6, true));
 		buttonList.add(new GuiButtonLexiconLR(this, bookLeft + FULL_WIDTH - 14, bookTop + FULL_HEIGHT - 6, false));
+		
+		addBookmarkButtons();
 	}
 
 	@Override
@@ -144,10 +150,35 @@ public abstract class GuiLexicon extends GuiScreen {
 		drawTooltip(mouseX, mouseY);
 	}
 
+	void addBookmarkButtons() {
+		buttonList.removeIf((b) -> b instanceof GuiButtonLexiconBookmark);
+		int i = 0;
+		for(; i < PersistentData.data.bookmarks.size(); i++) {
+			Bookmark bookmark = PersistentData.data.bookmarks.get(i);
+			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + i * 12, bookmark));
+		}
+		
+		if(shouldAddAddBookmarkButton())
+			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + i * 12, null));
+	}
+	
+	boolean shouldAddAddBookmarkButton() {
+		return false;
+	}
+	
+	void bookmarkThis() {
+		// NO-OP
+	}
+	
 	@Override
 	public void updateScreen() {
 		if(!isShiftKeyDown())
 			ticksInBook++;
+		
+		if(needsBookmarkUpdate) {
+			needsBookmarkUpdate = false;
+			addBookmarkButtons();
+		}
 	}
 
 	final void drawBackgroundElements(int mouseX, int mouseY, float partialTicks) {
@@ -191,6 +222,19 @@ public abstract class GuiLexicon extends GuiScreen {
 			back();
 		else if(button instanceof GuiButtonLexiconLR)
 			changePage(((GuiButtonLexiconLR) button).left);
+		else if(button instanceof GuiButtonLexiconBookmark) {
+			GuiButtonLexiconBookmark bookmarkButton = (GuiButtonLexiconBookmark) button;
+			Bookmark bookmark = bookmarkButton.bookmark;
+			if(bookmark == null || bookmark.getEntry() == null)
+				bookmarkThis();
+			else {
+				if(isShiftKeyDown()) {
+					PersistentData.data.bookmarks.remove(bookmark);
+					PersistentData.save();
+					needsBookmarkUpdate = true;
+				} else displayLexiconGui(new GuiLexiconEntry(bookmark.getEntry(), bookmark.page), true);
+			}
+		}
 	}
 
 	@Override
