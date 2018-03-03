@@ -39,6 +39,8 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		list = p_78018_1_;
 
 		addItem(ModItems.lexicon);
+		
+		addItem(ModItems.test_rod);
 	}
 
 	private void addItem(Item item) {

@@ -4,6 +4,7 @@ alqmisc.wip=WIP
 
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia
+item.alquimia:test_rod.name=Test Rod
 
 # Advancements
 alquimia.advancement.root=Alquimia
