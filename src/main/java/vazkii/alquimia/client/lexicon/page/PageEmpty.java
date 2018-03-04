@@ -1,5 +1,6 @@
 package vazkii.alquimia.client.lexicon.page;
 
+import net.minecraft.client.gui.GuiButton;
 import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;

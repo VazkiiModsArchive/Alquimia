@@ -1,6 +1,8 @@
 package vazkii.alquimia.client.lexicon;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -11,6 +13,7 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
@@ -23,6 +26,8 @@ public abstract class LexiconPage {
 	protected transient FontRenderer fontRenderer;
 	protected transient GuiLexiconEntry parent;
 	protected transient int pageNum;
+	private transient List<GuiButton> buttons;
+	public transient int left, top;
 	
 	String type;
 	
@@ -30,14 +35,38 @@ public abstract class LexiconPage {
 		this.pageNum = pageNum;
 	}
 	
-	public void onDisplayed(GuiLexiconEntry parent) { 
+	public void onDisplayed(GuiLexiconEntry parent, int left, int top) { 
 		mc = parent.mc;
 		fontRenderer = mc.fontRenderer;
-		this.parent = parent;	
+		this.parent = parent;
+		this.left = left;
+		this.top = top;
+		buttons = new ArrayList();
+	}
+	
+	public void onHidden(GuiLexiconEntry parent) {
+		parent.getButtonList().removeAll(buttons);
+	}
+	
+	protected void adddButton(GuiButton button) {
+		button.x += (parent.bookLeft + left);
+		button.y += (parent.bookTop + top);
+		buttons.add(button);
+		parent.getButtonList().add(button);
 	}
 	
 	public void render(int mouseX, int mouseY, float pticks) { }
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) { }
+	protected void onButtonClicked(GuiButton button) { }
+	
+	public boolean interceptButton(GuiButton button) {
+		if(buttons.contains(button)) {
+			onButtonClicked(button);
+			return true;
+		}
+		
+		return false;
+	}
 	
 	public void renderItem(int x, int y, int mouseX, int mouseY, ItemStack stack) {
 		if(stack == null || stack.isEmpty())

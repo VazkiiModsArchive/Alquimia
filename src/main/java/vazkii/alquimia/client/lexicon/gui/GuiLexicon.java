@@ -403,6 +403,10 @@ public abstract class GuiLexicon extends GuiScreen {
 
 		return res.getScaleFactor();
 	}
+	
+	public List<GuiButton> getButtonList() {
+		return buttonList;
+	}
 
 }
 

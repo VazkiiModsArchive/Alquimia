@@ -36,8 +36,8 @@ public class PageMultiblock extends LexiconPage {
 	}
 
 	@Override
-	public void onDisplayed(GuiLexiconEntry parent) {
-		super.onDisplayed(parent);
+	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
+		super.onDisplayed(parent, left, top);
 
 		textRender = new LexiconTextRenderer(parent, text, 0, 115);
 	}

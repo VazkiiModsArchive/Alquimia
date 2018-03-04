@@ -3,6 +3,7 @@ package vazkii.alquimia.client.lexicon.gui;
 import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import vazkii.alquimia.client.base.PersistentData;
 import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
@@ -39,8 +40,8 @@ public class GuiLexiconEntry extends GuiLexicon {
 
 	@Override
 	void drawForegroundElements(int mouseX, int mouseY, float partialTicks) {
-		drawPage(leftPage, LEFT_PAGE_X, TOP_PADDING, mouseX, mouseY, partialTicks);
-		drawPage(rightPage, RIGHT_PAGE_X, TOP_PADDING, mouseX, mouseY, partialTicks);
+		drawPage(leftPage, mouseX, mouseY, partialTicks);
+		drawPage(rightPage, mouseX, mouseY, partialTicks);
 
 		if(rightPage == null)
 			drawPageFiller();
@@ -50,23 +51,31 @@ public class GuiLexiconEntry extends GuiLexicon {
 	protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
 		super.mouseClicked(mouseX, mouseY, mouseButton);
 
-		clickPage(leftPage, LEFT_PAGE_X, TOP_PADDING, mouseX, mouseY, mouseButton);
-		clickPage(rightPage, RIGHT_PAGE_X, TOP_PADDING, mouseX, mouseY, mouseButton);
+		clickPage(leftPage, mouseX, mouseY, mouseButton);
+		clickPage(rightPage, mouseX, mouseY, mouseButton);
 	}
 
-	void drawPage(LexiconPage page, int x, int y, int mouseX, int mouseY, float pticks) {
+	@Override
+	public void actionPerformed(GuiButton button) throws IOException {
+		if((leftPage != null && leftPage.interceptButton(button)) || (rightPage != null && rightPage.interceptButton(button)))
+			return;
+		
+		super.actionPerformed(button);
+	}
+	
+	void drawPage(LexiconPage page, int mouseX, int mouseY, float pticks) {
 		if(page == null)
 			return;
 
 		GlStateManager.pushMatrix();
-		GlStateManager.translate(x, y, 0);
-		page.render(mouseX - x, mouseY - y, pticks);
+		GlStateManager.translate(page.left, page.top, 0);
+		page.render(mouseX - page.left, mouseY - page.top, pticks);
 		GlStateManager.popMatrix();
 	}
 
-	void clickPage(LexiconPage page, int x, int y, int mouseX, int mouseY, int mouseButton) {
+	void clickPage(LexiconPage page, int mouseX, int mouseY, int mouseButton) {
 		if(page != null)
-			page.mouseClicked(mouseX - x, mouseY - y, mouseButton);
+			page.mouseClicked(mouseX - page.left, mouseY - page.top, mouseButton);
 	}
 
 	@Override
@@ -76,6 +85,11 @@ public class GuiLexiconEntry extends GuiLexicon {
 	}
 
 	void setupPages() {
+		if(leftPage != null)
+			leftPage.onHidden(this);
+		if(rightPage != null)
+			rightPage.onHidden(this);
+		
 		LexiconPage[] pages = entry.getPages();
 		int leftNum = page * 2;
 		int rightNum = (page * 2) + 1;
@@ -84,9 +98,9 @@ public class GuiLexiconEntry extends GuiLexicon {
 		rightPage = rightNum < pages.length ? pages[rightNum] : null;
 
 		if(leftPage != null)
-			leftPage.onDisplayed(this);
+			leftPage.onDisplayed(this, LEFT_PAGE_X, TOP_PADDING);
 		if(rightPage != null)
-			rightPage.onDisplayed(this);
+			rightPage.onDisplayed(this, RIGHT_PAGE_X, TOP_PADDING);
 	}
 
 	public LexiconEntry getEntry() {
@@ -124,5 +138,5 @@ public class GuiLexiconEntry extends GuiLexicon {
 		PersistentData.save();
 		needsBookmarkUpdate = true;
 	}
-
+	
 }
