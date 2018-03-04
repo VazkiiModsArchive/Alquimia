@@ -25,12 +25,12 @@ public class CrucibleRecipes {
 	public static final List<CrucibleRecipe> CRUCIBLE_RECIPES = new ArrayList();
 
 	public static void init() {
-		registerRecipe("ash", Ingredient.fromItem(Item.getItemFromBlock(Blocks.COBBLESTONE)), new ItemStack(Items.GUNPOWDER), 20, 10); // TODO
+		registerRecipe("ash", Ingredient.fromItem(Item.getItemFromBlock(Blocks.COBBLESTONE)), new ItemStack(Items.GUNPOWDER), 20); // TODO placeholder
 	}
 
-	private static void registerRecipe(String name, Ingredient input, ItemStack output, int time, int xp) {
+	private static void registerRecipe(String name, Ingredient input, ItemStack output, int time) {
 		ResourceLocation res = new ResourceLocation(LibMisc.MOD_ID, name);
-		CrucibleRecipe recipe = new CrucibleRecipe(input, output, time, xp);
+		CrucibleRecipe recipe = new CrucibleRecipe(input, output, time);
 		RECIPE_MAPPING.put(res, recipe);
 		CRUCIBLE_RECIPES.add(recipe);
 	}

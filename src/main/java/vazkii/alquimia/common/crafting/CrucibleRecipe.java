@@ -14,13 +14,12 @@ public class CrucibleRecipe {
 
 	public final Ingredient ingredient;
 	public final ItemStack output;
-	public final int time, xp;
+	public final int time;
 	
-	public CrucibleRecipe(Ingredient ingredient, ItemStack output, int time, int xp) {
+	public CrucibleRecipe(Ingredient ingredient, ItemStack output, int time) {
 		this.ingredient = ingredient;
 		this.output = output;
 		this.time = time;
-		this.xp = xp;
 	}
 	
 	public boolean tick(EntityItem entity, int burnTime) {
@@ -61,8 +60,6 @@ public class CrucibleRecipe {
 				}
 			}
 			((WorldServer) entity.world).spawnParticle(smoke, pos.getX() + 0.5, pos.getY() + 0.4, pos.getZ() + 0.5, particleCount, 0.1, 0.1, 0.1, 0.02);
-			
-			// TODO add XP
 		}
 		
 		return matches;
