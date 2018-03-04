@@ -22,6 +22,8 @@ public class CommonProxy {
 		
 		ModItems.preInit();
 		
+		ModMultiblocks.preInit();
+		
 		NetworkRegistry.INSTANCE.registerGuiHandler(Alquimia.instance, new GuiHandler());
 		
 		MinecraftForge.EVENT_BUS.register(AdvancementSyncHandler.class);
@@ -32,7 +34,6 @@ public class CommonProxy {
 	public void init(FMLInitializationEvent event) {
 		ModPackets.registerPackets();
 		
-		ModMultiblocks.init();
 		CrucibleRecipes.init();
 	}
 	

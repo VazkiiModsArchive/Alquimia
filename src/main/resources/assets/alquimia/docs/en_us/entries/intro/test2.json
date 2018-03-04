@@ -7,11 +7,19 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "Page #1"
+			"text": "Spotlights for multiblocks!$(br2)----->"
 		},
 		{
-			"type": "text",
-			"text": "Page #2"
+			"type": "multiblock",
+			"name": "Crucible",
+			"multiblock": "alquimia:crucible",
+			"text": "This is a crucible!"
+		},
+		{
+			"type": "multiblock",
+			"name": "Weird Bone Thing",
+			"multiblock": "alquimia:weird_bone_thing",
+			"text": "Example of a non symmetrical structure."
 		},
 		{
 			"type": "text",

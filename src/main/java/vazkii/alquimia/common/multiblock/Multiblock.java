@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import org.apache.commons.lang3.tuple.Pair;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import vazkii.alquimia.common.util.RotationUtil;
 
 public class Multiblock {
 
 	final String[][] pattern;
 	
-	StateMatcher[][][] stateTargets;
+	public StateMatcher[][][] stateTargets;
+	public int sizeX, sizeY, sizeZ;
 	int centerX, centerY, centerZ;
 	int offX, offY, offZ;
-	int sizeX, sizeY, sizeZ;
 	boolean symmetrical;
 	
 	public Multiblock(String[][] pattern, Object... targets) {
@@ -46,32 +46,43 @@ public class Multiblock {
 		return this;
 	}
 	
-	public void place(World world, BlockPos pos) {
-		BlockPos start = pos.add(-offX, -offY, -offZ);
+	public void place(World world, BlockPos pos, Rotation rotation) {
+		BlockPos start = pos.add(RotationUtil.x(rotation, -offX, -offZ), -offY, RotationUtil.z(rotation, -offX, -offZ));
 		for(int x = 0; x < sizeX; x++)
 			for(int y = 0; y < sizeY; y++)
-				for(int z = 0; z < sizeZ; z++)
-					world.setBlockState(start.add(x, y, z), stateTargets[x][y][z].displayState);
+				for(int z = 0; z < sizeZ; z++) {
+					BlockPos placePos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
+					world.setBlockState(placePos, stateTargets[x][y][z].displayState);
+				}
 	}
 	
 	public boolean validate(World world, BlockPos pos) {
-		// TODO validate when asymmetrical
+		if(symmetrical)
+			return validate(world, pos, Rotation.NONE);
 		
-		BlockPos start = pos.add(-offX, -offY, -offZ);
-		if(!test(world, start, centerX, centerY, centerZ))
+		else return validate(world, pos, Rotation.NONE)
+			|| validate(world, pos, Rotation.CLOCKWISE_90)
+			|| validate(world, pos, Rotation.CLOCKWISE_180)
+			|| validate(world, pos, Rotation.COUNTERCLOCKWISE_90);
+	}
+
+	
+	public boolean validate(World world, BlockPos pos, Rotation rotation) {
+		BlockPos start = pos.add(RotationUtil.x(rotation, -offX, -offZ), -offY, RotationUtil.z(rotation, -offX, -offZ));
+		if(!test(world, start, centerX, centerY, centerZ, rotation))
 			return false;
 		
 		for(int x = 0; x < sizeX; x++)
 			for(int y = 0; y < sizeY; y++)
 				for(int z = 0; z < sizeZ; z++)
-					if(!test(world, start, x, y, z))
+					if(!test(world, start, x, y, z, rotation))
 						return false;
 		
 		return true;
 	}
 	
-	private boolean test(World world, BlockPos start, int x, int y, int z) {
-		BlockPos checkPos = start.add(x, y, z);
+	private boolean test(World world, BlockPos start, int x, int y, int z, Rotation rotation) {
+		BlockPos checkPos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
 		Predicate<IBlockState> pred = stateTargets[x][y][z].statePredicate;
 		return pred.test(world.getBlockState(checkPos));
 	}
@@ -154,8 +165,8 @@ public class Multiblock {
 	
 	public static class StateMatcher {
 		
-		final IBlockState displayState;
-		final Predicate<IBlockState> statePredicate;
+		public final IBlockState displayState;
+		public final Predicate<IBlockState> statePredicate;
 		
 		public StateMatcher(IBlockState displayState, Predicate<IBlockState> statePredicate) {
 			this.displayState = displayState;

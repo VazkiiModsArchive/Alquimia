@@ -26,6 +26,7 @@ import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.page.PageCrafting;
 import vazkii.alquimia.client.lexicon.page.PageEmpty;
 import vazkii.alquimia.client.lexicon.page.PageImage;
+import vazkii.alquimia.client.lexicon.page.PageMultiblock;
 import vazkii.alquimia.client.lexicon.page.PageSpotlight;
 import vazkii.alquimia.client.lexicon.page.PageText;
 import vazkii.alquimia.common.lib.LibMisc;
@@ -74,6 +75,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		pageTypes.put("image", PageImage.class);
 		pageTypes.put("spotlight", PageSpotlight.class);
 		pageTypes.put("empty", PageEmpty.class);
+		pageTypes.put("multiblock", PageMultiblock.class);
 	}
 
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {

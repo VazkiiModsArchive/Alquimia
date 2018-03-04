@@ -4,6 +4,7 @@ import net.minecraft.block.BlockCocoa;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
@@ -12,6 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -31,11 +33,14 @@ public class ItemTestRod extends ItemMod implements IAlquimiaItem {
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(!worldIn.isRemote) {
-			boolean valid = ModMultiblocks.crucible.validate(worldIn, pos);
-			player.sendMessage(new TextComponentString("Crucible = " + valid));
+		if(!worldIn.isRemote) try {
+//			mb.place(worldIn, pos, Rotation.values()[player.getHorizontalFacing().ordinal() - 2]);
+			boolean is = ModMultiblocks.weird_bone_thing.validate(worldIn, pos);
+			player.sendMessage(new TextComponentString("Is Structure: " + is));
+		} catch(IllegalArgumentException e) {
+			e.printStackTrace();
 		}
-		
+
 		return EnumActionResult.SUCCESS;
 	}
 
