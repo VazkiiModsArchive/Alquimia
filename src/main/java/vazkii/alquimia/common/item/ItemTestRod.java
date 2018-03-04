@@ -13,10 +13,12 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaItem;
-import vazkii.alquimia.common.base.multiblock.Multiblock;
+import vazkii.alquimia.common.multiblock.ModMultiblocks;
+import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.arl.item.ItemMod;
 
 public class ItemTestRod extends ItemMod implements IAlquimiaItem {
@@ -29,21 +31,11 @@ public class ItemTestRod extends ItemMod implements IAlquimiaItem {
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		try {
-
-			Multiblock mb = new Multiblock(new String[][] {
-				{ "   ", " 0 ", "   " },
-				{ "SSS", "SFS", "SSS" }},
-					'0', Blocks.CAULDRON,
-					'F', Blocks.FIRE.getDefaultState().withProperty(BlockFire.UPPER, true),
-					'S', Blocks.STONEBRICK).offset(0, -1, 0);
-
-			mb.place(worldIn, pos);
-
-		} catch(IllegalArgumentException e) {
-			e.printStackTrace();
+		if(!worldIn.isRemote) {
+			boolean valid = ModMultiblocks.crucible.validate(worldIn, pos);
+			player.sendMessage(new TextComponentString("Crucible = " + valid));
 		}
-
+		
 		return EnumActionResult.SUCCESS;
 	}
 
