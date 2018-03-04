@@ -98,9 +98,9 @@ public class Multiblock {
 			StateMatcher state = null;
 			
 			if(o instanceof Block) 
-				state = new StateMatcher((Block) o);
+				state = StateMatcher.fromBlockLoose((Block) o);
 			else if(o instanceof IBlockState)
-				state = new StateMatcher((IBlockState) o);
+				state = StateMatcher.fromState((IBlockState) o);
 			else if(o instanceof StateMatcher)
 				state = (StateMatcher) o;
 			else throw new IllegalArgumentException("Invalid target " + o);
@@ -109,9 +109,9 @@ public class Multiblock {
 		}
 		
 		if(!stateMap.containsKey(' '))
-			stateMap.put(' ', new StateMatcher(Blocks.AIR));
+			stateMap.put(' ', StateMatcher.AIR);
 		if(!stateMap.containsKey('0'))
-			stateMap.put('0', new StateMatcher(Blocks.AIR));
+			stateMap.put('0', StateMatcher.AIR);
 			
 		boolean foundCenter = false;
 		
@@ -165,30 +165,41 @@ public class Multiblock {
 	
 	public static class StateMatcher {
 		
+		public static final StateMatcher ANY = displayOnly(Blocks.AIR.getDefaultState());
+		public static final StateMatcher AIR = fromState(Blocks.AIR.getDefaultState());
+
 		public final IBlockState displayState;
 		public final Predicate<IBlockState> statePredicate;
 		
-		public StateMatcher(IBlockState displayState, Predicate<IBlockState> statePredicate) {
+		private StateMatcher(IBlockState displayState, Predicate<IBlockState> statePredicate) {
 			this.displayState = displayState;
 			this.statePredicate = statePredicate;
 		}
 		
-		public StateMatcher(IBlockState displayState, boolean strict) {
-			this(displayState, 
+		public static StateMatcher fromState(IBlockState displayState, boolean strict) {
+			return new StateMatcher(displayState, 
 					strict ? ((state) -> state.getBlock() == displayState.getBlock() && state.getProperties().equals(displayState.getProperties()))
 							: ((state) -> state.getBlock() == displayState.getBlock()));
 		}
 		
-		public StateMatcher(IBlockState displayState) {
-			this(displayState, true);
+		public static StateMatcher fromState(IBlockState displayState) {
+			return fromState(displayState, true);
 		}
 		
-		public StateMatcher(Block block) {
-			this(block.getDefaultState(), false);
+		public static StateMatcher fromBlockLoose(Block block) {
+			return fromState(block.getDefaultState(), false);
 		}
 		
-		public StateMatcher() {
-			this(Blocks.AIR.getDefaultState(), (state) -> true);
+		public static StateMatcher fromBlockStrict(Block block) {
+			return fromState(block.getDefaultState(), true);
+		}
+		
+		public static StateMatcher displayOnly(IBlockState state) {
+			return new StateMatcher(state, (s) -> true);
+		}
+		
+		public static StateMatcher displayOnly(Block block) {
+			return displayOnly(block.getDefaultState());
 		}
 
 	}

@@ -25,7 +25,7 @@ public class ModMultiblocks {
 						'0', Blocks.CAULDRON,
 						'F', Blocks.FIRE,
 						'S', Blocks.STONEBRICK,
-						' ', new StateMatcher()))
+						' ', StateMatcher.ANY))
 				.setSymmetrical(true);
 
 		weird_bone_thing = registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "weird_bone_thing"), 
