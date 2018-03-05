@@ -18,8 +18,8 @@ public class Multiblock {
 	
 	public StateMatcher[][][] stateTargets;
 	public int sizeX, sizeY, sizeZ;
+	public int offX, offY, offZ;
 	int centerX, centerY, centerZ;
-	int offX, offY, offZ;
 	boolean symmetrical;
 	
 	public Multiblock(String[][] pattern, Object... targets) {

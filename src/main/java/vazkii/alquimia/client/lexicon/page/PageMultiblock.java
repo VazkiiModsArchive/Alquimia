@@ -4,13 +4,13 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
@@ -29,6 +29,7 @@ public class PageMultiblock extends LexiconPage {
 
 	transient LexiconTextRenderer textRender;
 	transient Multiblock multiblockObj;
+	transient GuiButton visualizeButton;
 
 	@Override
 	public void build(LexiconEntry entry, int pageNum) {
@@ -40,6 +41,7 @@ public class PageMultiblock extends LexiconPage {
 		super.onDisplayed(parent, left, top);
 
 		textRender = new LexiconTextRenderer(parent, text, 0, 115);
+		adddButton(visualizeButton = new GuiButton(0, 90, 114, 20, 20, "X"));
 	}
 
 	@Override
@@ -59,6 +61,12 @@ public class PageMultiblock extends LexiconPage {
 	@Override
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
 		textRender.click(mouseX, mouseY, mouseButton);
+	}
+	
+	@Override
+	protected void onButtonClicked(GuiButton button) {
+		if(button == visualizeButton)
+			MultiblockVisualizationHandler.setMultiblock(multiblockObj, name, true);
 	}
 
 	private void renderMultiblock() {
