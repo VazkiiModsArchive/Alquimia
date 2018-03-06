@@ -32,6 +32,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
+import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
 import vazkii.alquimia.common.lib.LibObfuscation;
 import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.alquimia.common.multiblock.Multiblock.StateMatcher;
@@ -40,10 +41,12 @@ import vazkii.arl.util.ClientTicker;
 
 public class MultiblockVisualizationHandler {
 
+	public static boolean hasMultiblock;
+	public static Bookmark bookmark;
+	
 	private static Multiblock multiblock;
 	private static String name;
 	private static BlockPos pos;
-	private static boolean hasMultiblock;
 	private static boolean isAnchored;
 	private static Rotation facingRotation;
 	private static int blocks, blocksDone;
@@ -51,12 +54,13 @@ public class MultiblockVisualizationHandler {
 	private static IBlockState lookingState;
 	private static BlockPos lookingPos;
 
-	public static void setMultiblock(Multiblock multiblock, String name, boolean flip) {
+	public static void setMultiblock(Multiblock multiblock, String name, Bookmark bookmark, boolean flip) {
 		if(flip && hasMultiblock)
 			hasMultiblock = false;
 		else {
 			MultiblockVisualizationHandler.multiblock = multiblock;
 			MultiblockVisualizationHandler.name = name;
+			MultiblockVisualizationHandler.bookmark = bookmark;
 			pos = null;
 			hasMultiblock = true;
 			isAnchored = false;

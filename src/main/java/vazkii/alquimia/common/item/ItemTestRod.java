@@ -46,7 +46,7 @@ public class ItemTestRod extends ItemMod implements IAlquimiaItem {
 							'D', Blocks.OAK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST))
 					.offset(0, -1, 0);
 			
-			MultiblockVisualizationHandler.setMultiblock(mb, "Test Majig", false);
+			MultiblockVisualizationHandler.setMultiblock(mb, "Test Majig", null, false);
 		} catch(IllegalArgumentException e) {
 			e.printStackTrace();
 		}

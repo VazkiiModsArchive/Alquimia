@@ -20,12 +20,14 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.base.PersistentData;
 import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
+import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBookmark;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
 import vazkii.alquimia.common.lib.LibMisc;
+import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.arl.util.ClientTicker;
 import vazkii.arl.util.RenderHelper;
 
@@ -150,16 +152,21 @@ public abstract class GuiLexicon extends GuiScreen {
 		drawTooltip(mouseX, mouseY);
 	}
 
-	void addBookmarkButtons() {
+	public void addBookmarkButtons() {
 		buttonList.removeIf((b) -> b instanceof GuiButtonLexiconBookmark);
-		int i = 0;
-		for(; i < PersistentData.data.bookmarks.size(); i++) {
+		int y = 0;
+		for(int i = 0; i < PersistentData.data.bookmarks.size(); i++) {
 			Bookmark bookmark = PersistentData.data.bookmarks.get(i);
-			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + i * 12, bookmark));
+			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + y, bookmark));
+			y += 12;
 		}
 		
-		if(shouldAddAddBookmarkButton())
-			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + i * 12, null));
+		y += (y == 0 ? 0 : 2);
+		if(shouldAddAddBookmarkButton() && PersistentData.data.bookmarks.size() <= 10)
+			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + y, null));
+		
+		if(MultiblockVisualizationHandler.hasMultiblock && MultiblockVisualizationHandler.bookmark != null)
+			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + PAGE_HEIGHT - 20, MultiblockVisualizationHandler.bookmark, true));
 	}
 	
 	boolean shouldAddAddBookmarkButton() {
@@ -228,7 +235,7 @@ public abstract class GuiLexicon extends GuiScreen {
 			if(bookmark == null || bookmark.getEntry() == null)
 				bookmarkThis();
 			else {
-				if(isShiftKeyDown()) {
+				if(isShiftKeyDown() && !bookmarkButton.multiblock) {
 					PersistentData.data.bookmarks.remove(bookmark);
 					PersistentData.save();
 					needsBookmarkUpdate = true;

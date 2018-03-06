@@ -10,6 +10,8 @@ import net.minecraft.client.renderer.BlockRendererDispatcher;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.client.base.PersistentData;
+import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
 import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconPage;
@@ -65,8 +67,12 @@ public class PageMultiblock extends LexiconPage {
 	
 	@Override
 	protected void onButtonClicked(GuiButton button) {
-		if(button == visualizeButton)
-			MultiblockVisualizationHandler.setMultiblock(multiblockObj, name, true);
+		if(button == visualizeButton) {
+			String entryKey = parent.getEntry().getResource().toString();
+			Bookmark bookmark = new Bookmark(entryKey, pageNum / 2);
+			MultiblockVisualizationHandler.setMultiblock(multiblockObj, name, bookmark, true);
+			parent.addBookmarkButtons();
+		}
 	}
 
 	private void renderMultiblock() {

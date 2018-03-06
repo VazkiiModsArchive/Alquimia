@@ -31,6 +31,7 @@ alquimia.gui.lexicon.locked=(Locked)
 alquimia.gui.lexicon.reloaded=Lexicon Reloaded. Took %d ms.
 alquimia.gui.lexicon.add_bookmark=Add Bookmark
 alquimia.gui.lexicon.remove_bookmark=(Shift-Click to Remove)
+alquimia.gui.lexicon.multiblock_bookmark=Visualized Structure
 alquimia.gui.lexicon.relations=Related Chapters
 alquimia.gui.lexicon.not_anchored=Right-Click a Block to anchor the Structure
 alquimia.gui.lexicon.structure_complete=Complete!
