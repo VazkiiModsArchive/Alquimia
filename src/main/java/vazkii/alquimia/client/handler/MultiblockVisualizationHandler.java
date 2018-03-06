@@ -201,8 +201,8 @@ public class MultiblockVisualizationHandler {
 
 					if(matcher != StateMatcher.ANY) {
 						blocks++;
-						if(!matcher.statePredicate.test(world.getBlockState(renderPos))) {
-							IBlockState renderState = matcher.displayState;
+						if(!multiblock.test(world, startPos, x, y, z, facingRotation)) {
+							IBlockState renderState = matcher.displayState.withRotation(facingRotation);
 							renderBlock(world, renderState, renderPos, alpha, dispatcher);
 						} else blocksDone++;
 					}
@@ -218,8 +218,9 @@ public class MultiblockVisualizationHandler {
 	public static void renderBlock(World world, IBlockState state, BlockPos pos, float alpha, BlockRendererDispatcher brd) {
 		if(pos != null) {
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ() + 1);
+			GlStateManager.translate(pos.getX(), pos.getY(), pos.getZ());
 			GlStateManager.color(1F, 1F, 1F, 1F);
+			GlStateManager.rotate(-90F, 0F, 1F, 0F);
 			GL14.glBlendColor(1F, 1F, 1F, alpha);
 
 			if(state.getBlock() == Blocks.AIR) {

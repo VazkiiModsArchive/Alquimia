@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Rotation;
@@ -52,7 +53,7 @@ public class Multiblock {
 			for(int y = 0; y < sizeY; y++)
 				for(int z = 0; z < sizeZ; z++) {
 					BlockPos placePos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
-					world.setBlockState(placePos, stateTargets[x][y][z].displayState);
+					world.setBlockState(placePos, stateTargets[x][y][z].displayState.withRotation(rotation));
 				}
 	}
 	
@@ -81,10 +82,11 @@ public class Multiblock {
 		return true;
 	}
 	
-	private boolean test(World world, BlockPos start, int x, int y, int z, Rotation rotation) {
+	public boolean test(World world, BlockPos start, int x, int y, int z, Rotation rotation) {
 		BlockPos checkPos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
 		Predicate<IBlockState> pred = stateTargets[x][y][z].statePredicate;
-		return pred.test(world.getBlockState(checkPos));
+		IBlockState state = world.getBlockState(checkPos).withRotation(RotationUtil.fixHorizontal(rotation));
+		return pred.test(state);
 	}
 	
 	void build(Object[] targets, int[] dimensions) {
