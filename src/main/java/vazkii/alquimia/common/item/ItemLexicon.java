@@ -38,7 +38,8 @@ public class ItemLexicon extends ItemMod implements IAlquimiaItem {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
             	Minecraft mc = Minecraft.getMinecraft();
-            	return (entityIn == mc.player && mc.currentScreen instanceof GuiLexicon) ? 1 : 0;
+            	boolean valid = entityIn == mc.player && (stack == mc.player.getHeldItemMainhand() || stack == mc.player.getHeldItemOffhand()) && mc.currentScreen instanceof GuiLexicon;
+            	return valid ? 1 : 0;
             }
             
         });
