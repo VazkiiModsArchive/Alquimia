@@ -35,6 +35,7 @@ alquimia.gui.lexicon.multiblock_bookmark=Visualized Structure
 alquimia.gui.lexicon.relations=Related Chapters
 alquimia.gui.lexicon.not_anchored=Right-Click a Block to anchor the Structure
 alquimia.gui.lexicon.structure_complete=Complete!
+alquimia.gui.lexicon.visualize_letter=V
 
 alquimia.gui.lexicon.button.prev_page=Previous
 alquimia.gui.lexicon.button.next_page=Next

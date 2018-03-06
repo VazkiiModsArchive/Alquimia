@@ -35,7 +35,10 @@ public class GuiButtonLexiconBookmark extends GuiButtonLexicon {
 			mc.getRenderItem().renderItemIntoGUI(bookmark.getEntry().getIconItem(), px, py);
 
 			GlStateManager.disableDepth();
-			mc.fontRenderer.drawStringWithShadow(Integer.toString(bookmark.page + 1), px + 12, py + 10, 0xFFFFFF);
+			String s = Integer.toString(bookmark.page + 1);
+			if(multiblock)
+				s = I18n.translateToLocal("alquimia.gui.lexicon.visualize_letter");
+			mc.fontRenderer.drawStringWithShadow(s, px + 12, py + 10, 0xFFFFFF);
 			GlStateManager.popMatrix();
 		}
 	}
