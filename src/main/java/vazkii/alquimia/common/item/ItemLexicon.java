@@ -19,6 +19,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.alquimia.client.gui.GuiAdvancementsExt;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
@@ -38,7 +39,9 @@ public class ItemLexicon extends ItemMod implements IAlquimiaItem {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
             	Minecraft mc = Minecraft.getMinecraft();
-            	boolean valid = entityIn == mc.player && (stack == mc.player.getHeldItemMainhand() || stack == mc.player.getHeldItemOffhand()) && mc.currentScreen instanceof GuiLexicon;
+            	boolean valid = entityIn == mc.player 
+            			&& (stack == mc.player.getHeldItemMainhand() || stack == mc.player.getHeldItemOffhand()) 
+            			&& (mc.currentScreen instanceof GuiLexicon || mc.currentScreen instanceof GuiAdvancementsExt);
             	return valid ? 1 : 0;
             }
             

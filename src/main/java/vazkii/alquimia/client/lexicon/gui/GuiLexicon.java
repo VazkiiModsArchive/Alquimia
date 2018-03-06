@@ -349,9 +349,15 @@ public abstract class GuiLexicon extends GuiScreen {
 
 		fontRenderer.drawString(I18n.translateToLocal("alquimia.gui.lexicon.progress_meter"), barLeft, barTop - 9, 0x444444);
 
-		String progressStr = unlockedEntries + "/" + totalEntries;
-		if(isMouseInRelativeRange(mouseX, mouseY, barLeft, barTop, barWidth, barHeight))
-			setTooltip(progressStr);
+		if(isMouseInRelativeRange(mouseX, mouseY, barLeft, barTop, barWidth, barHeight)) {
+			String progressStr = I18n.translateToLocalFormatted("alquimia.gui.lexicon.progress_tooltip", unlockedEntries, totalEntries);
+			if(unlockedEntries == totalEntries)
+				setTooltip(progressStr);
+			else {
+				String progressStr2 = TextFormatting.GRAY + I18n.translateToLocalFormatted("alquimia.gui.lexicon.progress_tooltip.info");
+				setTooltip(progressStr, progressStr2);
+			}
+		}
 	}
 
 	public void drawSeparator(int x, int y) {
