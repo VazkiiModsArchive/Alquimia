@@ -18,18 +18,17 @@ import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
+import vazkii.alquimia.client.lexicon.page.abstr.PageWithText;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.alquimia.common.multiblock.Multiblock.StateMatcher;
 import vazkii.arl.util.ClientTicker;
 
-public class PageMultiblock extends LexiconPage {
+public class PageMultiblock extends PageWithText {
 
 	String name;
-	String text;
 	String multiblock;
 
-	transient LexiconTextRenderer textRender;
 	transient Multiblock multiblockObj;
 	transient GuiButton visualizeButton;
 
@@ -42,10 +41,15 @@ public class PageMultiblock extends LexiconPage {
 	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
 		super.onDisplayed(parent, left, top);
 
-		textRender = new LexiconTextRenderer(parent, text, 0, 115);
 		adddButton(visualizeButton = new GuiButton(0, 90, 114, 20, 20, "X"));
 	}
 
+
+	@Override
+	public int getTextHeight() {
+		return 115;
+	}
+	
 	@Override
 	public void render(int mouseX, int mouseY, float pticks) {
 		int x = GuiLexicon.PAGE_WIDTH / 2 - 53;
@@ -53,18 +57,14 @@ public class PageMultiblock extends LexiconPage {
 		GlStateManager.enableBlend();
 		GuiLexicon.drawFromTexture(x, y, 405, 149, 106, 106);
 		
-		textRender.render(mouseX, mouseY);
 		parent.drawCenteredStringNoShadow(name, GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
 
 		if(multiblockObj != null)
 			renderMultiblock();
+		
+		super.render(mouseX, mouseY, pticks);
 	}
 
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-		textRender.click(mouseX, mouseY, mouseButton);
-	}
-	
 	@Override
 	protected void onButtonClicked(GuiButton button) {
 		if(button == visualizeButton) {
@@ -116,9 +116,6 @@ public class PageMultiblock extends LexiconPage {
 		IBlockState state = matcher.displayState;
 		if(state == null)
 			return;
-
-//		if(x != 0 || y != 0 || z != 0)
-//			return;
 
 		BlockRendererDispatcher brd = Minecraft.getMinecraft().getBlockRendererDispatcher();
 		Minecraft.getMinecraft().renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);

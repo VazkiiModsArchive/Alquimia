@@ -12,52 +12,15 @@ import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
+import vazkii.alquimia.client.lexicon.page.abstr.PageDoubleRecipe;
+import vazkii.alquimia.client.lexicon.page.abstr.PageWithText;
 import vazkii.alquimia.common.crafting.CrucibleRecipe;
 import vazkii.alquimia.common.crafting.CrucibleRecipes;
 
-public class PageCrucible extends LexiconPage {
+public class PageCrucible extends PageDoubleRecipe<CrucibleRecipe> {
 
-	String recipe, recipe2;
-	String text;
-	
-	transient CrucibleRecipe recipeObj1, recipeObj2;
-	transient LexiconTextRenderer textRender;
-	
 	@Override
-	public void build(LexiconEntry entry, int pageNum) {
-		super.build(entry, pageNum);
-		
-		recipeObj1 = loadRecipe(entry, recipe);
-		recipeObj2 = loadRecipe(entry, recipe2);
-		
-		if(recipeObj1 == null && recipeObj2 != null) {
-			recipeObj1 = recipeObj2;
-			recipeObj2 = null;
-		}
-	}
-	
-	@Override
-	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
-		super.onDisplayed(parent, left, top);
-		
-		textRender = new LexiconTextRenderer(parent, text, 0, recipeObj2 == null ? 56 : 120);
-	}
-	
-	@Override
-	public void render(int mouseX, int mouseY, float pticks) {
-		if(recipeObj1 != null) {
-			int recipeX = GuiLexicon.PAGE_WIDTH / 2 - 49;
-			int recipeY = 4;
-			drawRecipe(recipeObj1, recipeX, recipeY, mouseX, mouseY);
-			
-			if(recipeObj2 != null)
-				drawRecipe(recipeObj2, recipeX, recipeY + 64, mouseX, mouseY);
-		}
-		
-		textRender.render(mouseX, mouseY);
-	}
-	
-	void drawRecipe(CrucibleRecipe recipe, int recipeX, int recipeY, int mouseX, int mouseY) {
+	protected void drawRecipe(CrucibleRecipe recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second) {
 		mc.renderEngine.bindTexture(GuiLexicon.CRAFTING_TEXTURE);
 		GlStateManager.enableBlend();
 		parent.drawModalRectWithCustomSizedTexture(recipeX, recipeY + 2, 11, 64, 100, 36, 128, 128);
@@ -76,7 +39,8 @@ public class PageCrucible extends LexiconPage {
 		mc.fontRenderer.setUnicodeFlag(unicode);
 	}
 	
-	CrucibleRecipe loadRecipe(LexiconEntry entry, String loc) {
+	@Override
+	protected CrucibleRecipe loadRecipe(LexiconEntry entry, String loc) {
 		if(loc == null)
 			return null;
 		
@@ -85,6 +49,10 @@ public class PageCrucible extends LexiconPage {
 			entry.addRelevantStack(tempRecipe.output, pageNum);
 		return tempRecipe;
 	}
-
+	
+	@Override
+	protected int getRecipeHeight() {
+		return 64;
+	}
 
 }

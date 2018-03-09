@@ -15,16 +15,15 @@ import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonEntry;
+import vazkii.alquimia.client.lexicon.page.abstr.PageWithText;
 import vazkii.alquimia.common.lib.LibMisc;
 
-public class PageRelations extends LexiconPage {
+public class PageRelations extends PageWithText {
 
 	List<String> entries;
-	String text;
 	String title;
 
 	transient List<LexiconEntry> entryObjs;
-	transient LexiconTextRenderer textRender;
 
 	@Override
 	public void build(LexiconEntry entry, int pageNum) {
@@ -40,8 +39,6 @@ public class PageRelations extends LexiconPage {
 	@Override
 	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
 		super.onDisplayed(parent, left, top);
-		
-		textRender = new LexiconTextRenderer(parent, text, 0, 22 + entryObjs.size() * 11);
 		
 		List<LexiconEntry> displayedEntries = new ArrayList(entryObjs);
 		Collections.sort(displayedEntries);
@@ -62,7 +59,12 @@ public class PageRelations extends LexiconPage {
 		parent.drawCenteredStringNoShadow(title.isEmpty() ? I18n.translateToLocal("alquimia.gui.lexicon.relations") : title, GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
 		parent.drawSeparator(0, 12);
 		
-		textRender.render(mouseX, mouseY);
+		super.render(mouseX, mouseY, pticks);
+	}
+
+	@Override
+	public int getTextHeight() {
+		return 22 + entryObjs.size() * 11;
 	}
 
 }

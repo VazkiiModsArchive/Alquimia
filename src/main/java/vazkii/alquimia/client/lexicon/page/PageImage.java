@@ -6,22 +6,20 @@ import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
+import vazkii.alquimia.client.lexicon.page.abstr.PageWithText;
 import vazkii.arl.util.RenderHelper;
 
-public class PageImage extends LexiconPage {
+public class PageImage extends PageWithText {
 
-	String text;
 	String image;
 	boolean border;
 
 	transient ResourceLocation imageRes;
-	transient LexiconTextRenderer textRender;
 	
 	@Override
 	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
 		super.onDisplayed(parent, left, top);
 		
-		textRender = new LexiconTextRenderer(parent, text, 0, 120);
 		imageRes = new ResourceLocation(image);
 	}
 	
@@ -41,12 +39,12 @@ public class PageImage extends LexiconPage {
 		}
 		GlStateManager.popMatrix();
 		
-		textRender.render(mouseX, mouseY);
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-		textRender.click(mouseX, mouseY, mouseButton);
+		super.render(mouseX, mouseY, pticks);
 	}
 
+	@Override
+	public int getTextHeight() {
+		return 120;
+	}
+	
 }

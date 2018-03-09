@@ -7,15 +7,14 @@ import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
+import vazkii.alquimia.client.lexicon.page.abstr.PageWithText;
 import vazkii.alquimia.common.util.ItemStackUtil;
 
-public class PageSpotlight extends LexiconPage {
+public class PageSpotlight extends PageWithText {
 
-	String text;
 	String item;
 	boolean link_recipe;
 
-	transient LexiconTextRenderer textRender;
 	transient ItemStack itemStack;
 	
 	@Override
@@ -27,13 +26,6 @@ public class PageSpotlight extends LexiconPage {
 	}
 
 	@Override
-	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
-		super.onDisplayed(parent, left, top);
-		
-		textRender = new LexiconTextRenderer(parent, text, 0, 40);
-	}
-	
-	@Override
 	public void render(int mouseX, int mouseY, float pticks) {
 		int w = 66;
 		int h = 26;
@@ -44,13 +36,13 @@ public class PageSpotlight extends LexiconPage {
 		parent.drawCenteredStringNoShadow(itemStack.getDisplayName(), GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
 		renderItem(GuiLexicon.PAGE_WIDTH / 2 - 8, 14, mouseX, mouseY, itemStack);
 		
-		
-		textRender.render(mouseX, mouseY);
+		super.render(mouseX, mouseY, pticks);
+	}
+
+	@Override
+	public int getTextHeight() {
+		return 40;
 	}
 	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-		textRender.click(mouseX, mouseY, mouseButton);
-	}
 
 }

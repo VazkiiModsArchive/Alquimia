@@ -10,57 +10,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
-import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
-import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
-import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
-import vazkii.alquimia.common.lib.LibMisc;
-import vazkii.arl.util.RenderHelper;
+import vazkii.alquimia.client.lexicon.page.abstr.PageDoubleRecipe;
 
-public class PageCrafting extends LexiconPage {
-
-	String recipe, recipe2;
-	String text;
-	
-	transient IRecipe recipeObj1, recipeObj2;
-	transient LexiconTextRenderer textRender;
+public class PageCrafting extends PageDoubleRecipe<IRecipe> {
 	
 	@Override
-	public void build(LexiconEntry entry, int pageNum) {
-		super.build(entry, pageNum);
-		
-		recipeObj1 = loadRecipe(entry, recipe);
-		recipeObj2 = loadRecipe(entry, recipe2);
-		
-		if(recipeObj1 == null && recipeObj2 != null) {
-			recipeObj1 = recipeObj2;
-			recipeObj2 = null;
-		}
-	}
-	
-	@Override
-	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
-		super.onDisplayed(parent, left, top);
-		
-		textRender = new LexiconTextRenderer(parent, text, 0, 72);
-	}
-	
-	@Override
-	public void render(int mouseX, int mouseY, float pticks) {
-		if(recipeObj1 != null) {
-			int recipeX = GuiLexicon.PAGE_WIDTH / 2 - 49;
-			int recipeY = 4;
-			drawRecipe(recipeObj1, recipeX, recipeY, mouseX, mouseY);
-			
-			if(recipeObj2 != null)
-				drawRecipe(recipeObj2, recipeX, recipeY + 78, mouseX, mouseY);
-		}
-		
-		if(recipeObj2 == null)
-			textRender.render(mouseX, mouseY);
-	}
-	
-	void drawRecipe(IRecipe recipe, int recipeX, int recipeY, int mouseX, int mouseY) {
+	protected void drawRecipe(IRecipe recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second) {
 		mc.renderEngine.bindTexture(GuiLexicon.CRAFTING_TEXTURE);
 		GlStateManager.enableBlend();
 		parent.drawModalRectWithCustomSizedTexture(recipeX - 2, recipeY - 2, 0, 0, 100, 62, 128, 128);
@@ -88,7 +44,7 @@ public class PageCrafting extends LexiconPage {
 			renderIngredient(recipeX + (i % wrap) * 19 + 3, recipeY + (i / wrap) * 19 + 3, mouseX, mouseY, ingredients.get(i));
 	}
 	
-	IRecipe loadRecipe(LexiconEntry entry, String loc) {
+	protected IRecipe loadRecipe(LexiconEntry entry, String loc) {
 		if(loc == null)
 			return null;
 		
@@ -97,10 +53,10 @@ public class PageCrafting extends LexiconPage {
 			entry.addRelevantStack(tempRecipe.getRecipeOutput(), pageNum);
 		return tempRecipe;
 	}
-	
+
 	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-		textRender.click(mouseX, mouseY, mouseButton);
+	protected int getRecipeHeight() {
+		return 78;
 	}
 
 }

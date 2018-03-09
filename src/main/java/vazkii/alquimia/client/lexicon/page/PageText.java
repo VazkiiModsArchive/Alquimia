@@ -4,33 +4,23 @@ import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
+import vazkii.alquimia.client.lexicon.page.abstr.PageWithText;
 
-public class PageText extends LexiconPage {
-
-	String text;
-
-	transient LexiconTextRenderer textRender;
+public class PageText extends PageWithText {
 	
 	@Override
-	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
-		super.onDisplayed(parent, left, top);
-		
-		textRender = new LexiconTextRenderer(parent, text, 0, pageNum == 0 ? 22 : 0);
+	public int getTextHeight() {
+		return pageNum == 0 ? 22 : 0;
 	}
 	
 	@Override
 	public void render(int mouseX, int mouseY, float pticks) {
+		super.render(mouseX, mouseY, pticks);
+		
 		if(pageNum == 0) {
 			parent.drawCenteredStringNoShadow(parent.getEntry().getName(), GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
 			parent.drawSeparator(0, 12);
 		}
-		
-		textRender.render(mouseX, mouseY);
-	}
-	
-	@Override
-	public void mouseClicked(int mouseX, int mouseY, int mouseButton) {
-		textRender.click(mouseX, mouseY, mouseButton);
 	}
 
 }
