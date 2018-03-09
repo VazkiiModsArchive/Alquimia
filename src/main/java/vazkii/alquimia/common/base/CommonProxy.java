@@ -21,8 +21,9 @@ public class CommonProxy {
 		AlquimiaConfig.loadConfig(event.getSuggestedConfigurationFile());
 		
 		ModItems.preInit();
-		
 		ModMultiblocks.preInit();
+		
+		CrucibleRecipes.init();
 		
 		NetworkRegistry.INSTANCE.registerGuiHandler(Alquimia.instance, new GuiHandler());
 		
@@ -33,8 +34,6 @@ public class CommonProxy {
 	
 	public void init(FMLInitializationEvent event) {
 		ModPackets.registerPackets();
-		
-		CrucibleRecipes.init();
 	}
 	
 	public void postInit(FMLPostInitializationEvent event) {

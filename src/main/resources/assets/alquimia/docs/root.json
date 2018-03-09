@@ -16,6 +16,7 @@
 
 		"test1/test_recipes",
 		"test1/test_paper",
+		"test1/test_crucible",
 
 		"test2/test_clock",
 		"test2/test_clock2",

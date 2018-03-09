@@ -24,6 +24,7 @@ import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.client.base.ClientAdvancements;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.page.PageCrafting;
+import vazkii.alquimia.client.lexicon.page.PageCrucible;
 import vazkii.alquimia.client.lexicon.page.PageEmpty;
 import vazkii.alquimia.client.lexicon.page.PageImage;
 import vazkii.alquimia.client.lexicon.page.PageLink;
@@ -80,6 +81,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		pageTypes.put("multiblock", PageMultiblock.class);
 		pageTypes.put("link", PageLink.class);
 		pageTypes.put("relations", PageRelations.class);
+		pageTypes.put("crucible", PageCrucible.class);
 	}
 
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {
