@@ -124,7 +124,7 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 		if(button instanceof GuiButtonCategory)
 			displayLexiconGui(new GuiLexiconCategory(((GuiButtonCategory) button).getCategory()), true);
 		else if(button instanceof GuiButtonEntry)
-			displayLexiconGui(new GuiLexiconEntry(((GuiButtonEntry) button).getEntry()), true);
+			GuiLexiconEntry.displayOrBookmark(this, ((GuiButtonEntry) button).getEntry());
 	}
 	
 	@Override

@@ -45,6 +45,7 @@ public abstract class GuiLexicon extends GuiScreen {
 	public static final int LEFT_PAGE_X = 15;
 	public static final int RIGHT_PAGE_X = 141;
 	public static final int TEXT_LINE_HEIGHT = 9;
+	public static final int MAX_BOOKMARKS = 10;
 
 	public static Stack<GuiLexicon> guiStack = new Stack();
 	public static GuiLexicon currentGui;
@@ -162,7 +163,7 @@ public abstract class GuiLexicon extends GuiScreen {
 		}
 		
 		y += (y == 0 ? 0 : 2);
-		if(shouldAddAddBookmarkButton() && PersistentData.data.bookmarks.size() <= 10)
+		if(shouldAddAddBookmarkButton() && PersistentData.data.bookmarks.size() <= MAX_BOOKMARKS)
 			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + y, null));
 		
 		if(MultiblockVisualizationHandler.hasMultiblock && MultiblockVisualizationHandler.bookmark != null)

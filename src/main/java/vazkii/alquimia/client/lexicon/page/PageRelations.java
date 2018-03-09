@@ -51,7 +51,7 @@ public class PageRelations extends PageWithText {
 	@Override
 	protected void onButtonClicked(GuiButton button) {
 		if(button instanceof GuiButtonEntry)
-			GuiLexicon.displayLexiconGui(new GuiLexiconEntry(((GuiButtonEntry) button).getEntry()), true);
+			GuiLexiconEntry.displayOrBookmark(parent, ((GuiButtonEntry) button).getEntry());
 	}
 	
 	@Override

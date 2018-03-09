@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import vazkii.alquimia.client.base.PersistentData;
 import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
@@ -137,6 +138,25 @@ public class GuiLexiconEntry extends GuiLexicon {
 		PersistentData.data.bookmarks.add(new Bookmark(entryKey, page));
 		PersistentData.save();
 		needsBookmarkUpdate = true;
+	}
+	
+	public static void displayOrBookmark(GuiLexicon currGui, LexiconEntry entry) {
+		GuiLexiconEntry gui = new GuiLexiconEntry(entry);
+		if(GuiScreen.isShiftKeyDown()) {
+			if(gui.isBookmarkedAlready()) {
+				String key = entry.getResource().toString();
+				PersistentData.data.bookmarks.removeIf((bm) -> bm.entry.equals(key) && bm.page == 0);
+				PersistentData.save();
+				currGui.needsBookmarkUpdate = true;
+				return;
+			} else if(PersistentData.data.bookmarks.size() < MAX_BOOKMARKS) {
+				gui.bookmarkThis();
+				currGui.needsBookmarkUpdate = true;
+				return;
+			}
+		}
+		
+		displayLexiconGui(gui, true);
 	}
 	
 }
