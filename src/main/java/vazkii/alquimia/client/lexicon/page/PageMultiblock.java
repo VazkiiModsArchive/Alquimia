@@ -1,5 +1,7 @@
 package vazkii.alquimia.client.lexicon.page;
 
+import java.security.Permissions;
+
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.block.state.IBlockState;
@@ -18,6 +20,7 @@ import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.LexiconTextRenderer;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconEye;
 import vazkii.alquimia.client.lexicon.page.abstr.PageWithText;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.multiblock.Multiblock;
@@ -41,7 +44,7 @@ public class PageMultiblock extends PageWithText {
 	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
 		super.onDisplayed(parent, left, top);
 
-		adddButton(visualizeButton = new GuiButton(0, 90, 114, 20, 20, "X"));
+		adddButton(visualizeButton = new GuiButtonLexiconEye(parent, 12, 97));
 	}
 
 
@@ -72,6 +75,12 @@ public class PageMultiblock extends PageWithText {
 			Bookmark bookmark = new Bookmark(entryKey, pageNum / 2);
 			MultiblockVisualizationHandler.setMultiblock(multiblockObj, name, bookmark, true);
 			parent.addBookmarkButtons();
+			
+			if(!PersistentData.data.clickedVisualize) {
+				PersistentData.data.clickedVisualize = true;
+				PersistentData.save();
+			}
+				
 		}
 	}
 

@@ -31,6 +31,7 @@ public final class PersistentData {
 	public static final class DataHolder {
 		
 		public int lexiconGuiScale = 0;
+		public boolean clickedVisualize = false;
 		public List<String> viewedEntries = new ArrayList();
 		public List<Bookmark> bookmarks = new ArrayList();
 		

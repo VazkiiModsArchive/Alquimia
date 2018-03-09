@@ -54,3 +54,5 @@ alquimia.gui.lexicon.button.editor=Editor
 alquimia.gui.lexicon.button.editor.info=(Ctrl-Click to Reload)
 alquimia.gui.lexicon.button.advancements=Advancements
 alquimia.gui.lexicon.button.config=Configuration
+alquimia.gui.lexicon.button.visualize=Visualize
+alquimia.gui.lexicon.button.visualize.info=(Click again to clear)
