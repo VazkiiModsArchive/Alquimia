@@ -36,6 +36,8 @@ alquimia.gui.lexicon.relations=Related Chapters
 alquimia.gui.lexicon.not_anchored=Right-Click a Block to anchor the Structure
 alquimia.gui.lexicon.structure_complete=Complete!
 alquimia.gui.lexicon.visualize_letter=V
+alquimia.gui.lexicon.seconds_whole=%.0fs
+alquimia.gui.lexicon.seconds_fract=%.1fs
 
 alquimia.gui.lexicon.button.prev_page=Previous
 alquimia.gui.lexicon.button.next_page=Next

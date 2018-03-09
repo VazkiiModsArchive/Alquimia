@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.translation.I18n;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconPage;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
@@ -69,7 +70,7 @@ public class PageCrucible extends LexiconPage {
 		float secs = (float) recipe.time / 20;
 		boolean whole = Math.floor(secs) == secs;
 		boolean unicode = mc.fontRenderer.getUnicodeFlag();
-		String s = String.format(whole ? "%.0fs" : "%.1fs", secs);
+		String s = I18n.translateToLocalFormatted("alquimia.gui.lexicon.seconds_" + (whole ? "whole" : "fract"), secs);
 		mc.fontRenderer.setUnicodeFlag(true);
 		parent.drawCenteredStringNoShadow(s, recipeX + 49, recipeY + 38, 0x555555);
 		mc.fontRenderer.setUnicodeFlag(unicode);
