@@ -12,7 +12,7 @@ import vazkii.alquimia.common.util.ItemStackUtil;
 
 public class PageSpotlight extends PageWithText {
 
-	String item;
+	String item, title;
 	boolean link_recipe;
 
 	transient ItemStack itemStack;
@@ -33,7 +33,8 @@ public class PageSpotlight extends PageWithText {
 		mc.renderEngine.bindTexture(GuiLexicon.CRAFTING_TEXTURE);
 		GlStateManager.enableBlend();
 		parent.drawModalRectWithCustomSizedTexture(GuiLexicon.PAGE_WIDTH / 2 - w / 2, 10, 0, 128 - h, w, h, 128, 128);
-		parent.drawCenteredStringNoShadow(itemStack.getDisplayName(), GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
+		
+		parent.drawCenteredStringNoShadow(title != null && !title.isEmpty() ? title : itemStack.getDisplayName(), GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
 		renderItem(GuiLexicon.PAGE_WIDTH / 2 - 8, 14, mouseX, mouseY, itemStack);
 		
 		super.render(mouseX, mouseY, pticks);
