@@ -30,10 +30,9 @@ public class PageCrafting extends PageDoubleRecipe<IRecipe> {
 				parent.setTooltip(I18n.translateToLocal("alquimia.gui.lexicon.shapeless"));
 		}
 
-		ItemStack output = recipe.getRecipeOutput();
-		parent.drawCenteredStringNoShadow(output.getDisplayName(), GuiLexicon.PAGE_WIDTH / 2, recipeY - 10, 0x333333);
+		parent.drawCenteredStringNoShadow(getTitle(second), GuiLexicon.PAGE_WIDTH / 2, recipeY - 10, 0x333333);
 		
-		renderItem(recipeX + 79, recipeY + 22, mouseX, mouseY, output);
+		renderItem(recipeX + 79, recipeY + 22, mouseX, mouseY, recipe.getRecipeOutput());
 		
 		NonNullList<Ingredient> ingredients = recipe.getIngredients();
 		int wrap = 3;
@@ -57,6 +56,11 @@ public class PageCrafting extends PageDoubleRecipe<IRecipe> {
 	@Override
 	protected int getRecipeHeight() {
 		return 78;
+	}
+
+	@Override
+	protected ItemStack getRecipeOutput(IRecipe recipe) {
+		return recipe.getRecipeOutput();
 	}
 
 }

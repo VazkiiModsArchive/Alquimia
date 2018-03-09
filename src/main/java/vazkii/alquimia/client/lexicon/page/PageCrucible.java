@@ -25,15 +25,16 @@ public class PageCrucible extends PageDoubleRecipe<CrucibleRecipe> {
 		GlStateManager.enableBlend();
 		parent.drawModalRectWithCustomSizedTexture(recipeX, recipeY + 2, 11, 64, 100, 36, 128, 128);
 		
-		parent.drawCenteredStringNoShadow(recipe.output.getDisplayName(), GuiLexicon.PAGE_WIDTH / 2, recipeY - 10, 0x333333);
+		parent.drawCenteredStringNoShadow(getTitle(second), GuiLexicon.PAGE_WIDTH / 2, recipeY - 10, 0x333333);
 		
 		renderItem(recipeX + 76, recipeY + 13, mouseX, mouseY, recipe.output);
 		renderIngredient(recipeX + 4, recipeY + 13, mouseX, mouseY, recipe.ingredient);
 		
-		float secs = (float) recipe.time / 20;
-		boolean whole = Math.floor(secs) == secs;
+		float secs = (float) recipe.time / 20F;
+		boolean whole = recipe.time % 20 == 0;
 		boolean unicode = mc.fontRenderer.getUnicodeFlag();
-		String s = I18n.translateToLocalFormatted("alquimia.gui.lexicon.seconds_" + (whole ? "whole" : "fract"), secs);
+		String secsStr = String.format(whole ? "%.0f" : "%.1f", secs);
+		String s = I18n.translateToLocalFormatted("alquimia.gui.lexicon.seconds", secsStr);
 		mc.fontRenderer.setUnicodeFlag(true);
 		parent.drawCenteredStringNoShadow(s, recipeX + 49, recipeY + 38, 0x555555);
 		mc.fontRenderer.setUnicodeFlag(unicode);
@@ -53,6 +54,11 @@ public class PageCrucible extends PageDoubleRecipe<CrucibleRecipe> {
 	@Override
 	protected int getRecipeHeight() {
 		return 64;
+	}
+
+	@Override
+	protected ItemStack getRecipeOutput(CrucibleRecipe recipe) {
+		return recipe.output;
 	}
 
 }

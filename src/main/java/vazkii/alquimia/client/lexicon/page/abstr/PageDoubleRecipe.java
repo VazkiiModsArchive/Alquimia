@@ -1,18 +1,15 @@
 package vazkii.alquimia.client.lexicon.page.abstr;
 
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.item.ItemStack;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
-import vazkii.alquimia.common.crafting.CrucibleRecipe;
-import vazkii.alquimia.common.crafting.CrucibleRecipes;
 
 public abstract class PageDoubleRecipe<T> extends PageWithText {
 
-	String recipe, recipe2;
+	String recipe, recipe2, title;
 
 	protected transient T recipeObj1, recipeObj2;
+	protected transient String title1, title2;
 	
 	@Override
 	public void build(LexiconEntry entry, int pageNum) {
@@ -25,6 +22,15 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 			recipeObj1 = recipeObj2;
 			recipeObj2 = null;
 		}
+		
+		boolean customTitle = title != null && !title.isEmpty();
+		title1 = !customTitle ? getRecipeOutput(recipeObj1).getDisplayName() : title;
+		title2 = "-";
+		if(recipeObj2 != null) {
+			title2 = !customTitle ? getRecipeOutput(recipeObj2).getDisplayName() : "";
+			if(title1.equals(title2))
+				title2 = "";
+		}
 	}
 	
 	@Override
@@ -35,7 +41,7 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 			drawRecipe(recipeObj1, recipeX, recipeY, mouseX, mouseY, false);
 			
 			if(recipeObj2 != null)
-				drawRecipe(recipeObj2, recipeX, recipeY + getRecipeHeight(), mouseX, mouseY, true);
+				drawRecipe(recipeObj2, recipeX, recipeY + getRecipeHeight() - (title2.isEmpty() ? 10 : 0), mouseX, mouseY, true);
 		}
 		
 		super.render(mouseX, mouseY, pticks);
@@ -43,7 +49,7 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 	
 	@Override
 	public int getTextHeight() {
-		return getY() + getRecipeHeight() * (recipeObj2 == null ? 1 : 2) - 13;
+		return getY() + getRecipeHeight() * (recipeObj2 == null ? 1 : 2) - (title2.isEmpty() ? 23 : 13);
 	}
 	
 	@Override
@@ -53,6 +59,7 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 	
 	protected abstract void drawRecipe(T recipe, int recipeX, int recipeY, int mouseX, int mouseY, boolean second);
 	protected abstract T loadRecipe(LexiconEntry entry, String loc);
+	protected abstract ItemStack getRecipeOutput(T recipe);
 	protected abstract int getRecipeHeight();
 	
 	protected int getX() {
@@ -61,6 +68,10 @@ public abstract class PageDoubleRecipe<T> extends PageWithText {
 	
 	protected int getY() {
 		return 4;
+	}
+	
+	protected String getTitle(boolean second) {
+		return second ? title2 : title1;
 	}
 
 }

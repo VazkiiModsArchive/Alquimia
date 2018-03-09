@@ -26,6 +26,19 @@
 			"recipe": "alquimia:test_redstone",
 			"recipe2": "alquimia:test_glowstone",
 			"text": "Since the element is small enough we can still fit some text..."
-		}
+		},
+		{
+			"type": "crucible",
+			"recipe": "alquimia:test_redstone",
+			"recipe2": "alquimia:test_redstone",
+			"text": "For this one both widgets have the same recipe so it only shows the name once"
+		},
+		{
+			"type": "crucible",
+			"title": "Custom Name",
+			"recipe": "alquimia:test_redstone",
+			"recipe2": "alquimia:test_glowstone",
+			"text": "This one has a custom name!"
+		}		
 	]
 }
