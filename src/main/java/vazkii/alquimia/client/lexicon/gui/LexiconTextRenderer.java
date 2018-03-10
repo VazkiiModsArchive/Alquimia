@@ -24,6 +24,8 @@ public class LexiconTextRenderer {
 		put("$(bold)", "$(l)");
 		put("$(strike)", "$(m)");
 		put("$(italic)", "$(o)");
+		put("$(italics)", "$(o)");
+		put("$(list)", "$(li)");
 		put("$(reset)", "$()");
 		put("$(clear)", "$()");
 		put("$(2br)", "$(br2)");
@@ -101,7 +103,7 @@ public class LexiconTextRenderer {
 			
 			s = s.replaceAll("\0", "");
 			
-			int strWidth = font.getStringWidth(s) + (space ? spaceWidth : 0);
+			int strWidth = font.getStringWidth(currCodes + s) + (space ? spaceWidth : 0);
 			currLen += strWidth;
 			if(currLen > width) {
 				currLen = strWidth;
@@ -135,6 +137,15 @@ public class LexiconTextRenderer {
 				currLen = 0;
 				currX = x;
 				currY += (cmd.contains("2") ? lineHeight * 2 : lineHeight);
+			}
+			
+			else if(cmd.equals("li")) { // List Element
+				int pad = 4;
+				currY += lineHeight;
+				currLen = pad;
+				currX = x + pad;
+				
+				return TextFormatting.BLACK + "\u2022 ";
 			}
 			
 			else if(cmd.startsWith("#") && (cmd.length() == 4 || cmd.length() == 7)) { // Hex colors
