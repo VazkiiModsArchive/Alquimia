@@ -80,11 +80,14 @@ public class GuiLexiconWriter extends GuiLexicon {
 	public void refreshText() {
 		int yPos = TOP_PADDING + (drawHeader ? 22 : 0);
 		
+		boolean unicode = fontRenderer.getUnicodeFlag();
 		savedText = textfield.getText();
 		try {
 			editableText = new LexiconTextRenderer(this, savedText, RIGHT_PAGE_X, yPos);
 		} catch(Throwable e) {
 			editableText = new LexiconTextRenderer(this, "[ERROR]", RIGHT_PAGE_X, yPos);
+			e.printStackTrace();
 		}
+		fontRenderer.setUnicodeFlag(unicode); // if there's an error the state might not be reset
 	}
 }

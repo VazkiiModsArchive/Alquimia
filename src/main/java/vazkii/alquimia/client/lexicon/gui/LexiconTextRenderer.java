@@ -25,13 +25,14 @@ public class LexiconTextRenderer {
 		put("$(strike)", "$(m)");
 		put("$(italic)", "$(o)");
 		put("$(italics)", "$(o)");
-		put("$(list)", "$(li)");
+		put("$(list", "$(li"); //  The lack of ) is intended
 		put("$(reset)", "$()");
 		put("$(clear)", "$()");
 		put("$(2br)", "$(br2)");
 		put("$(p)", "$(br2)");
 		
 		put("/$", "$()");
+		put("<br>", "$(br)");
 		
 		put("$(nocolor)", "$(0)");
 		put("$(item)", "$(#05c)");
@@ -139,13 +140,16 @@ public class LexiconTextRenderer {
 				currY += (cmd.contains("2") ? lineHeight * 2 : lineHeight);
 			}
 			
-			else if(cmd.equals("li")) { // List Element
-				int pad = 4;
+			else if(cmd.matches("li\\d?")) { // List Element
+				char c = cmd.length() > 2 ? cmd.charAt(2) : '1';
+				int dist = Character.isDigit(c) ? Character.digit(c, 10) : 1;
+				int pad = dist * 4;
+				char bullet = dist % 2 == 0 ? '\u25E6' : '\u2022';
 				currY += lineHeight;
 				currLen = pad;
 				currX = x + pad;
 				
-				return TextFormatting.BLACK + "\u2022 ";
+				return TextFormatting.BLACK + "" + bullet + " ";
 			}
 			
 			else if(cmd.startsWith("#") && (cmd.length() == 4 || cmd.length() == 7)) { // Hex colors
