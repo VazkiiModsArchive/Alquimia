@@ -33,7 +33,7 @@ public final class AdvancementSyncHandler {
 			buildSyncSet(player);
 			
 			if(syncedAdvancements.contains(event.getAdvancement().getId()))
-				syncPlayer(player);
+				syncPlayer(player, true);
 		}
 	}
 	
@@ -42,7 +42,7 @@ public final class AdvancementSyncHandler {
 		if(event.player instanceof EntityPlayerMP) {
 			EntityPlayerMP player = (EntityPlayerMP) event.player;
 			buildSyncSet(player);
-			syncPlayer(player);
+			syncPlayer(player, false);
 		}
 	}
 	
@@ -58,7 +58,7 @@ public final class AdvancementSyncHandler {
 		}
 	}
 	
-	public static void syncPlayer(EntityPlayerMP player) {
+	public static void syncPlayer(EntityPlayerMP player, boolean showToast) {
 		PlayerAdvancements advancements = player.getAdvancements();
 		AdvancementManager manager = player.getServer().getAdvancementManager();
 		
@@ -71,7 +71,7 @@ public final class AdvancementSyncHandler {
 		}
 		
 		String[] completedArr = completed.toArray(new String[completed.size()]);
-		NetworkHandler.INSTANCE.sendTo(new MessageSyncAdvancements(completedArr), player);
+		NetworkHandler.INSTANCE.sendTo(new MessageSyncAdvancements(completedArr, showToast), player);
 	}
 	
 	
