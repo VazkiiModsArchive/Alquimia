@@ -1,5 +1,5 @@
 {
-	"name": "Test Crucible",
+	"name": "Crucible",
 	"icon": "minecraft:cauldron",
 	"category": "test1",
 	"priority": false,
@@ -8,7 +8,8 @@
 			"type": "spotlight",
 			"item": "minecraft:cauldron",
 			"title": "How 2 Crucible",
-			"text": "This is a cauldron, put fire under it to make a crucible!"
+			"text": "This is a cauldron, put fire under it to make a crucible!",
+			"link_recipe": true
 		},
 		{
 			"type": "multiblock",

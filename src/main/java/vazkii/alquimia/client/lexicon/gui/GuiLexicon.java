@@ -442,5 +442,9 @@ public abstract class GuiLexicon extends GuiScreen {
 		return buttonList;
 	}
 
+	public int getPage() {
+		return page;
+	}
+	
 }
 
