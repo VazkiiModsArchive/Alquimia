@@ -1,6 +1,9 @@
 # Misc
 itemGroup.alquimia=Alquimia
+
 alqmisc.wip=WIP
+alqmisc.edition=%s Edition
+alqmisc.dev_edition=Writer's
 
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia
@@ -11,7 +14,6 @@ alquimia.advancement.root=Alquimia
 alquimia.advancement.root.desc=Craft a Lexica Alquimia
 
 # Gui Strings
-alquimia.gui.lexicon.default_version=Writer's Edition
 alquimia.gui.lexicon.landing_info=A Vazkii self-published encyclopedia. The quintessential guide to alchemical engineering for students and veterans of all skill levels.
 alquimia.gui.lexicon.progress_meter=Unlock Progress:
 alquimia.gui.lexicon.progress_tooltip=%d/%d Unlocked

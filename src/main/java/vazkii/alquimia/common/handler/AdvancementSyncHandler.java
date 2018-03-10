@@ -1,10 +1,10 @@
 package vazkii.alquimia.common.handler;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.ImmutableSet;
+import java.util.Set;
 
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementManager;
@@ -15,14 +15,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.network.MessageSyncAdvancements;
 import vazkii.arl.network.NetworkHandler;
 
 public final class AdvancementSyncHandler {
 
-	// TODO allow this to be hooked
-	public static final ImmutableSet<String> TRACKED_NAMESPACES = ImmutableSet.of(LibMisc.MOD_ID);
+	public static Set<String> trackedNamespaces = new HashSet();
 	
 	public static List<ResourceLocation> syncedAdvancements = null;
 
@@ -53,7 +51,7 @@ public final class AdvancementSyncHandler {
 			
 			syncedAdvancements = new ArrayList();
 			for(Advancement a : allAdvancements)
-				if(TRACKED_NAMESPACES.contains(a.getId().getResourceDomain()))
+				if(trackedNamespaces.contains(a.getId().getResourceDomain()))
 					syncedAdvancements.add(a.getId());
 		}
 	}

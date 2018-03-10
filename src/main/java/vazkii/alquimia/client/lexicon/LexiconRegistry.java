@@ -32,6 +32,7 @@ import vazkii.alquimia.client.lexicon.page.PageMultiblock;
 import vazkii.alquimia.client.lexicon.page.PageRelations;
 import vazkii.alquimia.client.lexicon.page.PageSpotlight;
 import vazkii.alquimia.client.lexicon.page.PageText;
+import vazkii.alquimia.common.handler.AdvancementSyncHandler;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.util.ItemStackUtil;
 import vazkii.alquimia.common.util.ItemStackUtil.StackWrapper;
@@ -104,6 +105,8 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		rootFiles.forEach((res) -> roots.add(loadRootObject(res)));
 
 		roots.forEach((root) -> {
+			AdvancementSyncHandler.trackedNamespaces.add(root.namespace);
+			
 			root.categories.forEach(c -> {
 				ResourceLocation res = new ResourceLocation(root.namespace, c);
 				loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath())));

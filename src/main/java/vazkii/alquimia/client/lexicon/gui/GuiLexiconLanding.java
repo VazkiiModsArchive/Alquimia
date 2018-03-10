@@ -22,6 +22,7 @@ import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconConfig;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconEdit;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconHistory;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconResize;
+import vazkii.alquimia.common.item.ItemLexicon;
 import vazkii.alquimia.common.item.ModItems;
 
 public class GuiLexiconLanding extends GuiLexicon {
@@ -85,7 +86,7 @@ public class GuiLexiconLanding extends GuiLexicon {
 		boolean unicode = fontRenderer.getUnicodeFlag();
 		fontRenderer.drawString(new ItemStack(ModItems.lexicon).getDisplayName(), 13, 16, color);
 		fontRenderer.setUnicodeFlag(true);
-		fontRenderer.drawString(I18n.translateToLocal("alquimia.gui.lexicon.default_version"), 24, 24, color); // TODO hook up version to this
+		fontRenderer.drawString(ItemLexicon.getEdition(), 24, 24, color);
 		fontRenderer.setUnicodeFlag(unicode);
 	}
 	
