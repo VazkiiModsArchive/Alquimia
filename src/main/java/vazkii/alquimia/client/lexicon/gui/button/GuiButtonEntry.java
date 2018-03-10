@@ -1,6 +1,7 @@
 package vazkii.alquimia.client.lexicon.gui.button;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
@@ -70,6 +71,11 @@ public class GuiButtonEntry extends GuiButton {
 			if(unread)
 				parent.drawWarning(x + width - 5, y, entry.hashCode());
 		}
+	}
+	
+	@Override
+    public void playPressSound(SoundHandler soundHandlerIn) {
+		GuiLexicon.playBookFlipSound();
 	}
 	
 	public LexiconEntry getEntry() {

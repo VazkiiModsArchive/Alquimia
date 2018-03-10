@@ -10,6 +10,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.lwjgl.input.Mouse;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -26,6 +27,7 @@ import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBookmark;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
+import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.arl.util.ClientTicker;
@@ -49,6 +51,7 @@ public abstract class GuiLexicon extends GuiScreen {
 
 	public static Stack<GuiLexicon> guiStack = new Stack();
 	public static GuiLexicon currentGui;
+	private static int lastSound;
 	public int bookLeft, bookTop;
 
 	private List<String> tooltip;
@@ -232,9 +235,9 @@ public abstract class GuiLexicon extends GuiScreen {
 	@Override
 	public void actionPerformed(GuiButton button) throws IOException {
 		if(button instanceof GuiButtonLexiconBack)
-			back();
+			back(false);
 		else if(button instanceof GuiButtonLexiconLR)
-			changePage(((GuiButtonLexiconLR) button).left);
+			changePage(((GuiButtonLexiconLR) button).left, false);
 		else if(button instanceof GuiButtonLexiconBookmark) {
 			GuiButtonLexiconBookmark bookmarkButton = (GuiButtonLexiconBookmark) button;
 			Bookmark bookmark = bookmarkButton.bookmark;
@@ -260,13 +263,13 @@ public abstract class GuiLexicon extends GuiScreen {
 				displayLexiconGui(new GuiLexiconEntry(targetPage.getLeft(), targetPage.getRight()), true);
 			break;
 		case 1: 
-			back();
+			back(true);
 			break;
 		case 3:  
-			changePage(true);
+			changePage(true, true);
 			break;
 		case 4:
-			changePage(false);
+			changePage(false, true);
 			break;
 		}
 	}
@@ -277,21 +280,24 @@ public abstract class GuiLexicon extends GuiScreen {
 
 		int w = Mouse.getEventDWheel();
 		if(w < 0)
-			changePage(false);
+			changePage(false, true);
 		else if(w > 0)
-			changePage(true);
+			changePage(true, true);
 	}
 
-	void back() {
+	void back(boolean sfx) {
 		if(!guiStack.isEmpty()) {
 			if(isShiftKeyDown()) {
 				displayLexiconGui(new GuiLexiconLanding(), false);
 				guiStack.clear();
 			} else displayLexiconGui(guiStack.pop(), false);
+			
+			if(sfx)
+				playBookFlipSound();
 		}
 	}
 
-	void changePage(boolean left) {
+	void changePage(boolean left, boolean sfx) {
 		if(canSeePageButton(left)) {
 			int oldpage = page;
 			if(left)
@@ -299,6 +305,8 @@ public abstract class GuiLexicon extends GuiScreen {
 			else page++;
 
 			onPageChanged();
+			if(sfx)
+				playBookFlipSound();
 		}
 	}
 
@@ -407,6 +415,13 @@ public abstract class GuiLexicon extends GuiScreen {
 		GlStateManager.color(1F, 1F, 1F, 1F);
 		Minecraft.getMinecraft().renderEngine.bindTexture(FILLER_TEXTURE);
 		drawModalRectWithCustomSizedTexture(x + PAGE_WIDTH / 2 - 64, y + PAGE_HEIGHT / 2 - 74, 0, 0, 128, 128, 128, 128);
+	}
+	
+	public static void playBookFlipSound() {
+		if(ClientTicker.ticksInGame - lastSound > 6) {
+			Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(AlquimiaSounds.book_flip, (float) (0.7 + Math.random() * 0.3)));
+			lastSound = ClientTicker.ticksInGame;
+		}
 	}
 
 	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {

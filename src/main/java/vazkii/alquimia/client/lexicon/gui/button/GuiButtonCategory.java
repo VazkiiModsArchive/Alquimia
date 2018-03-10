@@ -1,6 +1,7 @@
 package vazkii.alquimia.client.lexicon.gui.button;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -72,6 +73,11 @@ public class GuiButtonCategory extends GuiButton {
 			if(hovered)
 				parent.setTooltip(locked ? (TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.locked")) : name);		
 			}
+	}
+	
+	@Override
+    public void playPressSound(SoundHandler soundHandlerIn) {
+		GuiLexicon.playBookFlipSound();
 	}
 	
 	public LexiconCategory getCategory() {

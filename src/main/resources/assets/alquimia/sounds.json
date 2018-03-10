@@ -1,0 +1,4 @@
+{
+	"book_flip": { "category": "player", "sounds": ["alquimia:book_flip"], "subtitle": "alquimia.subtitle.book_flip" },
+	"book_open": { "category": "player", "sounds": ["alquimia:book_open"], "subtitle": "alquimia.subtitle.book_open" }
+}

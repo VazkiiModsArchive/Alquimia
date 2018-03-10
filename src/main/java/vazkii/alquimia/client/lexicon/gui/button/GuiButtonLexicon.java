@@ -6,9 +6,13 @@ import java.util.List;
 import com.google.common.base.Supplier;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.init.SoundEvents;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
+import vazkii.alquimia.common.base.AlquimiaSounds;
 
 public class GuiButtonLexicon extends GuiButton {
 
@@ -41,6 +45,11 @@ public class GuiButtonLexicon extends GuiButton {
 			if(hovered)
 				parent.setTooltip(getTooltip());
 		}
+	}
+	
+	@Override
+    public void playPressSound(SoundHandler soundHandlerIn) {
+		GuiLexicon.playBookFlipSound();
 	}
 	
 	public List<String> getTooltip() {

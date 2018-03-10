@@ -25,6 +25,8 @@ public class CommonProxy {
 		
 		CrucibleRecipes.init();
 		
+		AlquimiaSounds.preInit();
+		
 		NetworkRegistry.INSTANCE.registerGuiHandler(Alquimia.instance, new GuiHandler());
 		
 		MinecraftForge.EVENT_BUS.register(AdvancementSyncHandler.class);
