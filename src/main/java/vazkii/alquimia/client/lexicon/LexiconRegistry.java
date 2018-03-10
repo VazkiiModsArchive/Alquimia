@@ -47,7 +47,6 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	public final Map<ResourceLocation, LexiconCategory> categories = new HashMap();
 	public final Map<ResourceLocation, LexiconEntry> entries = new HashMap();
 	public final Map<String, Class<? extends LexiconPage>> pageTypes = new HashMap();
-
 	public final Map<StackWrapper, Pair<LexiconEntry, Integer>> recipeMappings = new HashMap();
 
 	private Gson gson;
@@ -83,7 +82,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		pageTypes.put("relations", PageRelations.class);
 		pageTypes.put("crucible", PageCrucible.class);
 	}
-
+	
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {
 		return recipeMappings.get(ItemStackUtil.wrapStack(stack));
 	}
@@ -137,7 +136,8 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		if(category == null)
 			throw new IllegalArgumentException(res + " does not exist.");
 
-		categories.put(key, category);
+		if(category.canAdd())
+			categories.put(key, category);
 	}
 
 	private void loadEntry(ResourceLocation key, ResourceLocation res) {
@@ -149,12 +149,14 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		if(entry == null)
 			throw new IllegalArgumentException(res + " does not exist.");
 
-		LexiconCategory category = entry.getCategory();
-		if(category != null)
-			category.addEntry(entry);
-		else new RuntimeException("Entry " + key + " does not have a valid category.").printStackTrace();
+		if(entry.canAdd()) {
+			LexiconCategory category = entry.getCategory();
+			if(category != null)
+				category.addEntry(entry);
+			else new RuntimeException("Entry " + key + " does not have a valid category.").printStackTrace();
 
-		entries.put(key, entry);	
+			entries.put(key, entry);
+		}
 	}
 
 	private InputStream loadLocalizedJson(ResourceLocation res, ResourceLocation fallback) {

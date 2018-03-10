@@ -9,17 +9,17 @@ import vazkii.alquimia.client.lexicon.LexiconRegistry;
 public class GuiLexiconIndex extends GuiLexiconEntryList {
 
 	@Override
-	String getName() {
+	protected String getName() {
 		return I18n.translateToLocal("alquimia.gui.lexicon.index");
 	}
 
 	@Override
-	String getDescriptionText() {
+	protected String getDescriptionText() {
 		return I18n.translateToLocal("alquimia.gui.lexicon.index.info");
 	}
 
 	@Override
-	Collection<LexiconEntry> getEntries() {
+	protected Collection<LexiconEntry> getEntries() {
 		return LexiconRegistry.INSTANCE.entries.values();
 	}
 

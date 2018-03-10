@@ -37,6 +37,8 @@ alquimia.gui.lexicon.not_anchored=Right-Click a Block to anchor the Structure
 alquimia.gui.lexicon.structure_complete=Complete!
 alquimia.gui.lexicon.visualize_letter=V
 alquimia.gui.lexicon.seconds=%ss
+alquimia.gui.lexicon.history=Reading History
+alquimia.gui.lexicon.history.info=This section stores the previous few chapters you've visited.$(br2)Chapters are automatically added and removed as you browse through the lexicon. Should you wish to keep them referenced for longer, you may bookmark them. $(br2)$(o)Tip: Try shift-clicking a chapter button!$()
 
 alquimia.gui.lexicon.button.prev_page=Previous
 alquimia.gui.lexicon.button.next_page=Next
@@ -56,3 +58,4 @@ alquimia.gui.lexicon.button.advancements=Advancements
 alquimia.gui.lexicon.button.config=Configuration
 alquimia.gui.lexicon.button.visualize=Visualize
 alquimia.gui.lexicon.button.visualize.info=(Click again to clear)
+alquimia.gui.lexicon.button.history=History

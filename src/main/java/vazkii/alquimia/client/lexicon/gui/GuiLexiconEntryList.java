@@ -18,8 +18,8 @@ import vazkii.alquimia.client.lexicon.gui.button.GuiButtonEntry;
 
 public abstract class GuiLexiconEntryList extends GuiLexicon {
 
-	static final int ENTRIES_PER_PAGE = 13;
-	static final int ENTRIES_IN_FIRST_PAGE = 11;
+	public static final int ENTRIES_PER_PAGE = 13;
+	public static final int ENTRIES_IN_FIRST_PAGE = 11;
 	
 	LexiconTextRenderer text;
 	
@@ -37,7 +37,8 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 		
 		visibleEntries = new ArrayList<>();
 		allEntries = new ArrayList<>(getEntries());
-		Collections.sort(allEntries);
+		if(shouldSortEntryList())
+			Collections.sort(allEntries);
 		
 		searchField = new GuiTextField(0, fontRenderer, 160, 170, 90, 12);
 		searchField.setMaxStringLength(32);
@@ -49,15 +50,23 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 		buildEntryButtons();
 	}
 	
-	abstract String getName();
-	abstract String getDescriptionText();
-	abstract Collection<LexiconEntry> getEntries();
+	protected abstract String getName();
+	protected abstract String getDescriptionText();
+	protected abstract Collection<LexiconEntry> getEntries();
 	
-	boolean doesEntryCountForProgress(LexiconEntry entry) {
+	protected boolean doesEntryCountForProgress(LexiconEntry entry) {
 		return true;
 	}
 	
-	void addSubcategoryButtons() {
+	protected boolean shouldDrawProgressBar() {
+		return true;
+	}
+	
+	protected boolean shouldSortEntryList() {
+		return true;
+	}
+	
+	protected void addSubcategoryButtons() {
 		// NO-OP
 	}
 	
@@ -73,7 +82,8 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 			drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12);
 
 			text.render(mouseX, mouseY);
-			drawProgressBar(mouseX, mouseY, this::doesEntryCountForProgress);
+			if(shouldDrawProgressBar())
+				drawProgressBar(mouseX, mouseY, this::doesEntryCountForProgress);
 		} else if(page % 2 == 1 && page == maxpages - 1)
 			drawPageFiller();
 		

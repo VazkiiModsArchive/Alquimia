@@ -40,4 +40,8 @@ public class CommonProxy {
 		
 	}
 	
+	public void onConfigChanged(boolean firstChange) {
+		// NO-OP
+	}
+	
 }

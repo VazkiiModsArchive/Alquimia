@@ -20,6 +20,7 @@ import vazkii.alquimia.client.lexicon.gui.button.GuiButtonIndex;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconAdvancements;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconConfig;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconEdit;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconHistory;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconResize;
 import vazkii.alquimia.common.item.ModItems;
 
@@ -33,10 +34,14 @@ public class GuiLexiconLanding extends GuiLexicon {
 		
 		text = new LexiconTextRenderer(this, I18n.translateToLocal("alquimia.gui.lexicon.landing_info"), LEFT_PAGE_X, TOP_PADDING + 25);
 
-		buttonList.add(new GuiButtonLexiconResize(this, bookLeft + 20, bookTop + FULL_HEIGHT - 62, true));
-		buttonList.add(new GuiButtonLexiconAdvancements(this, bookLeft + 34, bookTop + FULL_HEIGHT - 62));
-		buttonList.add(new GuiButtonLexiconConfig(this, bookLeft + 48, bookTop + FULL_HEIGHT - 62));
-		buttonList.add(new GuiButtonLexiconEdit(this, bookLeft + 62, bookTop + FULL_HEIGHT - 62));
+		int x = bookLeft + 20;
+		int y = bookTop + FULL_HEIGHT - 62;
+		int dist = 15;
+		buttonList.add(new GuiButtonLexiconResize(this, x + dist * 0, y, true));
+		buttonList.add(new GuiButtonLexiconHistory(this, x + dist * 1, y));
+		buttonList.add(new GuiButtonLexiconAdvancements(this, x + dist * 2, y));
+		buttonList.add(new GuiButtonLexiconConfig(this, x + dist * 3, y));
+		buttonList.add(new GuiButtonLexiconEdit(this, x + dist * 4, y));
 		
 		int i = 0;
 		List<LexiconCategory> categories = new ArrayList(LexiconRegistry.INSTANCE.categories.values());
@@ -99,6 +104,8 @@ public class GuiLexiconLanding extends GuiLexicon {
 			displayLexiconGui(new GuiLexiconIndex(), true);
 		else if(button instanceof GuiButtonCategory)
 			displayLexiconGui(new GuiLexiconCategory(((GuiButtonCategory) button).getCategory()), true);
+		else if(button instanceof GuiButtonLexiconHistory)
+			displayLexiconGui(new GuiLexiconHistory(), true);
 		else if(button instanceof GuiButtonLexiconConfig)
 			mc.displayGuiScreen(new GuiFactory.GuiAlquimiaConfig(this));
 		else if(button instanceof GuiButtonLexiconAdvancements)

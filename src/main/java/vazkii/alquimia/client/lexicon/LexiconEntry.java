@@ -1,5 +1,6 @@
 package vazkii.alquimia.client.lexicon;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import vazkii.alquimia.common.util.ItemStackUtil.StackWrapper;
 
 public class LexiconEntry implements Comparable<LexiconEntry> {
 
-	String name, icon, category;
+	String name, icon, category, flag;
 	boolean priority = false;
 	LexiconPage[] pages;
 	String advancement;
@@ -24,6 +25,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	transient ResourceLocation resource;
 	transient LexiconCategory lcategory = null;
 	transient ItemStack iconItem = null;
+	transient List<LexiconPage> realPages = new ArrayList();
 	transient List<StackWrapper> relevantStacks = new LinkedList();
 	transient boolean locked;
 	
@@ -31,8 +33,8 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 		return name;
 	}
 
-	public LexiconPage[] getPages() {
-		return pages;
+	public List<LexiconPage> getPages() {
+		return realPages;
 	}
 	
 	public boolean isPriority() {
@@ -72,6 +74,10 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 		return resource;
 	}
 	
+	public boolean canAdd() {
+		return (flag == null || flag.isEmpty() || AlquimiaConfig.getConfigFlag(flag)) && getCategory() != null;
+	}
+	
 	@Override
 	public int compareTo(LexiconEntry o) {
 		if(o.locked != this.locked)
@@ -86,7 +92,10 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	public void build(ResourceLocation resource) {
 		this.resource = resource;
 		for(int i = 0; i < pages.length; i++)
-			pages[i].build(this, i);
+			if(pages[i].canAdd()) {
+				realPages.add(pages[i]);
+				pages[i].build(this, i);
+			}
 	}
 	
 	public void addRelevantStack(ItemStack stack, int page) {
@@ -101,22 +110,4 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 		return relevantStacks.contains(ItemStackUtil.wrapStack(stack));
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("LexiconEntry[");
-		builder.append(name);
-		builder.append(" / Pages:");
-		builder.append(pages.length);
-		for(LexiconPage page : pages) {
-			builder.append(" ");
-			if(page == null)
-				builder.append("NULL");
-			else builder.append(page.type);
-		}
-		builder.append("]");
-		
-		return builder.toString();
-	}
-
 }

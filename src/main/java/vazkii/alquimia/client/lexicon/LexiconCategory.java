@@ -11,7 +11,7 @@ import vazkii.alquimia.common.util.ItemStackUtil;
 
 public class LexiconCategory implements Comparable<LexiconCategory> {
 
-	String name, description, icon, parent;
+	String name, description, icon, parent, flag;
 	int sortnum;
 	
 	transient boolean checkedParent = false;
@@ -97,6 +97,10 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 	
 	public ResourceLocation getResource() {
 		return resource;
+	}
+	
+	public boolean canAdd() {
+		return flag == null || flag.isEmpty() || AlquimiaConfig.getConfigFlag(flag);
 	}
 	
 	@Override

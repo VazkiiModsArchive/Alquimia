@@ -1,6 +1,7 @@
 package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
+import java.util.List;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -29,14 +30,36 @@ public class GuiLexiconEntry extends GuiLexicon {
 	public void initGui() {
 		super.initGui();
 
-		maxpages = (int) Math.ceil((float) entry.getPages().length / 2);
+		maxpages = (int) Math.ceil((float) entry.getPages().size() / 2);
 		setupPages();
 
+	}
+	
+	@Override
+	public void onFirstOpened() {
+		super.onFirstOpened();
+
+		boolean dirty = false;
 		String key = entry.getResource().toString();
 		if(!PersistentData.data.viewedEntries.contains(key)) {
 			PersistentData.data.viewedEntries.add(key);
-			PersistentData.save();
+			dirty = true;
 		}
+		
+		int index = PersistentData.data.history.indexOf(key);
+		if(index != 0) {
+			if(index > 0)
+				PersistentData.data.history.remove(key);
+			
+			PersistentData.data.history.add(0, key);
+			while(PersistentData.data.history.size() > GuiLexiconEntryList.ENTRIES_PER_PAGE)
+				PersistentData.data.history.remove(GuiLexiconEntryList.ENTRIES_PER_PAGE);
+			
+			dirty = true;
+		}
+
+		if(dirty)
+			PersistentData.save();
 	}
 
 	@Override
@@ -91,12 +114,12 @@ public class GuiLexiconEntry extends GuiLexicon {
 		if(rightPage != null)
 			rightPage.onHidden(this);
 		
-		LexiconPage[] pages = entry.getPages();
+		List<LexiconPage> pages = entry.getPages();
 		int leftNum = page * 2;
 		int rightNum = (page * 2) + 1;
 
-		leftPage  = leftNum  < pages.length ? pages[leftNum]  : null;
-		rightPage = rightNum < pages.length ? pages[rightNum] : null;
+		leftPage  = leftNum  < pages.size() ? pages.get(leftNum)  : null;
+		rightPage = rightNum < pages.size() ? pages.get(rightNum) : null;
 
 		if(leftPage != null)
 			leftPage.onDisplayed(this, LEFT_PAGE_X, TOP_PADDING);
@@ -119,7 +142,7 @@ public class GuiLexiconEntry extends GuiLexicon {
 	}
 
 	@Override
-	boolean shouldAddAddBookmarkButton() {
+	protected boolean shouldAddAddBookmarkButton() {
 		return !isBookmarkedAlready();
 	}
 	
@@ -133,7 +156,7 @@ public class GuiLexiconEntry extends GuiLexicon {
 	}
 
 	@Override
-	void bookmarkThis() {
+	public void bookmarkThis() {
 		String entryKey = entry.getResource().toString();
 		PersistentData.data.bookmarks.add(new Bookmark(entryKey, page));
 		PersistentData.save();

@@ -80,6 +80,7 @@ public abstract class GuiLexicon extends GuiScreen {
 				guiStack.push((GuiLexicon) mc.currentScreen);
 
 			mc.displayGuiScreen(gui);
+			gui.onFirstOpened();
 		}
 	}
 
@@ -170,11 +171,15 @@ public abstract class GuiLexicon extends GuiScreen {
 			buttonList.add(new GuiButtonLexiconBookmark(this, bookLeft + FULL_WIDTH, bookTop + TOP_PADDING + PAGE_HEIGHT - 20, MultiblockVisualizationHandler.bookmark, true));
 	}
 	
-	boolean shouldAddAddBookmarkButton() {
+	protected boolean shouldAddAddBookmarkButton() {
 		return false;
 	}
 	
-	void bookmarkThis() {
+	public void bookmarkThis() {
+		// NO-OP
+	}
+	
+	public void onFirstOpened() {
 		// NO-OP
 	}
 	

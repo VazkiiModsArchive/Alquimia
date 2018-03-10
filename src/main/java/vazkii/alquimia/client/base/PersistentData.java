@@ -34,6 +34,7 @@ public final class PersistentData {
 		public boolean clickedVisualize = false;
 		public List<String> viewedEntries = new ArrayList();
 		public List<Bookmark> bookmarks = new ArrayList();
+		public List<String> history = new ArrayList();
 		
 		public static final class Bookmark {
 			

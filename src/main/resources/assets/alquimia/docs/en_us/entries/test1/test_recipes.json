@@ -38,7 +38,8 @@
 			"type": "crafting",
 			"title": "Custom Name",
 			"recipe": "minecraft:chest",
-			"text": "Chest"
+			"text": "Chest",
+			"flag": "Test1"
 		}
 	]
 }

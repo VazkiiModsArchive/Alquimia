@@ -32,7 +32,7 @@ public class PageRelations extends PageWithText {
 		entryObjs = entries.stream()
 				.map((s) -> s.contains(":") ? new ResourceLocation(s) : new ResourceLocation(LibMisc.MOD_ID, s))
 				.map((res) -> LexiconRegistry.INSTANCE.entries.get(res))
-				.map((e) -> e == null ? entry : e) // map missing entries to ourselves to prevent crashes
+				.filter((e) -> e != null)
 				.collect(Collectors.toList());
 	}
 	

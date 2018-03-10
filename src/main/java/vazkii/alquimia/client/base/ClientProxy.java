@@ -19,4 +19,10 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(MultiblockVisualizationHandler.class);
 	}
 	
+	@Override
+	public void onConfigChanged(boolean firstChange) {
+		if(!firstChange)
+			LexiconRegistry.INSTANCE.reloadLexiconRegistry();
+	}
+	
 }

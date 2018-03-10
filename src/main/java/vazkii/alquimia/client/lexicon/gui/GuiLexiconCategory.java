@@ -24,22 +24,22 @@ public class GuiLexiconCategory extends GuiLexiconEntryList {
 	}
 
 	@Override
-	String getName() {
+	protected String getName() {
 		return category.getName();
 	}
 
 	@Override
-	String getDescriptionText() {
+	protected String getDescriptionText() {
 		return category.getDescription();
 	}
 
 	@Override
-	Collection<LexiconEntry> getEntries() {
+	protected Collection<LexiconEntry> getEntries() {
 		return category.getEntries();
 	}
 	
 	@Override
-	void addSubcategoryButtons() {
+	protected void addSubcategoryButtons() {
 		int i = 0;
 		List<LexiconCategory> categories = new ArrayList(LexiconRegistry.INSTANCE.categories.values());
 		Collections.sort(categories);
@@ -60,7 +60,7 @@ public class GuiLexiconCategory extends GuiLexiconEntryList {
 	}
 	
 	@Override
-	boolean doesEntryCountForProgress(LexiconEntry entry) {
+	protected boolean doesEntryCountForProgress(LexiconEntry entry) {
 		return entry.getCategory() == category;
 	}
 	

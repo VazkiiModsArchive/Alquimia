@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.management.ReflectionException;
 
@@ -14,23 +16,46 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.lib.LibMisc;
 
 public final class AlquimiaConfig {
 
 	public static Configuration config;
 
+	private static Map<String, Boolean> configFlags = new HashMap();
+	
 	@Setting(name="Disable Advancement Locking", 
 			desc="Set this to true to allow all entries and categories to be visible from the get-go rather than locked by advancements.")
 	public static boolean disableAdvancementLocking = false;
+	
+	@Setting(name="Test Flag 1", flag="Test1")
+	public static boolean testFlag1 = true;
+	
+	@Setting(name="Test Flag 2", flag="Test2")
+	public static boolean testFlag2 = true;
+	
+	private static boolean firstChange;
 
 	public static void loadConfig(File file) {
 		config = new Configuration(file);
-
+		firstChange = true;
+		
 		config.load();
 		loadConfig();
 
 		MinecraftForge.EVENT_BUS.register(ChangeListener.class);
+	}
+	
+	public static boolean getConfigFlag(String name) {
+		boolean target = true;
+		if(name.startsWith("!")) {
+			name = name.substring(1);
+			target = false;
+		}
+		
+		boolean status = (configFlags.containsKey(name) ? configFlags.get(name) : false) == target;
+		return status;
 	}
 
 	public static void loadConfig() {
@@ -43,7 +68,14 @@ public final class AlquimiaConfig {
 				e.printStackTrace();
 			}
 		
-		if(config.hasChanged())
+		boolean changed = config.hasChanged();
+		if(changed || firstChange) {
+			Alquimia.proxy.onConfigChanged(firstChange);
+			if(firstChange)
+				firstChange = false;
+		}
+				
+		if(changed)
 			config.save();
 	}
 
@@ -51,6 +83,7 @@ public final class AlquimiaConfig {
 		if(s != null) {
 			String name = s.name();
 			String desc = s.desc();
+			String flag = s.flag();
 			Object def = f.get(null);
 
 			switch(f.getType().getName()) {
@@ -61,7 +94,10 @@ public final class AlquimiaConfig {
 				f.setDouble(null, loadPropDouble(name, desc, (Double) def));
 				break;
 			case "boolean":
-				f.setBoolean(null, loadPropBoolean(name, desc, (Boolean) def));
+				boolean b = loadPropBoolean(name, desc, (Boolean) def);
+				f.setBoolean(null, b);
+				if(!flag.isEmpty())
+					configFlags.put(flag, b);
 				break;
 			case "java.lang.String":
 				f.set(null, loadPropString(name, desc, (String) def));
@@ -113,6 +149,7 @@ public final class AlquimiaConfig {
 	private static @interface Setting {
 		String name();
 		String desc() default "";
+		String flag() default "";
 	}
 
 }

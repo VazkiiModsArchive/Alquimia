@@ -18,6 +18,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import vazkii.alquimia.client.lexicon.gui.GuiLexiconEntry;
+import vazkii.alquimia.common.base.AlquimiaConfig;
 import vazkii.alquimia.common.util.SerializationUtil;
 
 public abstract class LexiconPage {
@@ -29,7 +30,7 @@ public abstract class LexiconPage {
 	private transient List<GuiButton> buttons;
 	public transient int left, top;
 	
-	String type;
+	String type, flag;
 	
 	public void build(LexiconEntry entry, int pageNum) {
 		this.pageNum = pageNum;
@@ -84,6 +85,10 @@ public abstract class LexiconPage {
 		ItemStack[] stacks = ingr.getMatchingStacks();
 		if(stacks.length > 0)
 			renderItem(x, y, mouseX, mouseY, stacks[(parent.ticksInBook / 20) % stacks.length]);
+	}
+	
+	public boolean canAdd() {
+		return flag == null || flag.isEmpty() || AlquimiaConfig.getConfigFlag(flag);
 	}
 	
 	public static class LexiconPageAdapter implements JsonDeserializer<LexiconPage> {
