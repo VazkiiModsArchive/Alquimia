@@ -44,6 +44,36 @@
         },
         {   "when": { "west": "up" },
             "apply": { "model": "redstone_up", "y": 270 }
+        },
+        {   "when": { "lit": "true" },
+            "apply": [
+				{ "model": "fire_floor0" },
+                { "model": "fire_floor1" }
+            ]
+        },
+        {   "when": { "lit": "true" },
+            "apply": [
+				{ "model": "fire_side0" },
+                { "model": "fire_side1" }
+            ]
+        },
+        {   "when": { "lit": "true" },
+            "apply": [
+				{ "model": "fire_side0", "y": 90 },
+                { "model": "fire_side1", "y": 90 }
+            ]
+        },
+        {   "when": { "lit": "true" },
+            "apply": [
+				{ "model": "fire_side0", "y": 180 },
+                { "model": "fire_side1", "y": 180 }
+            ]
+        },
+        {   "when": { "lit": "true" },
+            "apply": [
+				{ "model": "fire_side0", "y": 270 },
+                { "model": "fire_side1", "y": 270 }
+            ]
         }
     ]
 }

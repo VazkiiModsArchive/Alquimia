@@ -15,6 +15,7 @@ import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.network.GuiHandler;
 import vazkii.alquimia.common.network.ModPackets;
+import vazkii.alquimia.common.ritual.ModRituals;
 
 public class CommonProxy {
 
@@ -24,7 +25,8 @@ public class CommonProxy {
 		ModBlocks.preInit();
 		ModItems.preInit();
 		ModMultiblocks.preInit();
-		
+		ModRituals.preInit();
+
 		CrucibleRecipes.init();
 		
 		AlquimiaSounds.preInit();
