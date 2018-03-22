@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import vazkii.alquimia.common.Alquimia;
+import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.crafting.CrucibleRecipes;
 import vazkii.alquimia.common.handler.AdvancementSyncHandler;
 import vazkii.alquimia.common.handler.CrucibleHandler;
@@ -19,7 +20,8 @@ public class CommonProxy {
 
 	public void preInit(FMLPreInitializationEvent event) {
 		AlquimiaConfig.loadConfig(event.getSuggestedConfigurationFile());
-		
+
+		ModBlocks.preInit();
 		ModItems.preInit();
 		ModMultiblocks.preInit();
 		

@@ -5,9 +5,16 @@ alqmisc.wip=WIP
 alqmisc.edition=%s Edition
 alqmisc.dev_edition=Writer's
 
+# Block Names
+tile.alquimia:ash.name=Ash
+
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia
 item.alquimia:test_rod.name=Test Rod
+item.alquimia:ash.name=Ash
+item.alquimia:alchemical_ash.name=Alchemical Ash
+item.alquimia:cinnabar.name=Cinnabar
+item.alquimia:divining_rod.name=Divining Rod
 
 # Advancements
 alquimia.advancement.root=Alquimia
