@@ -7,6 +7,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.common.ritual.medium.RitualStorms;
 import vazkii.alquimia.common.ritual.small.RitualPurification;
 
 public class ModRituals {
@@ -15,9 +16,11 @@ public class ModRituals {
 	public static Multimap<RitualType, Ritual> ritualsPerType = HashMultimap.create();
 	
 	public static Ritual purification;
+	public static Ritual storms;
 	
 	public static void preInit() {
 		purification = registerRitual(new RitualPurification());
+		storms = registerRitual(new RitualStorms());
 	}
 	
 	public static Ritual registerRitual(Ritual ritual) {

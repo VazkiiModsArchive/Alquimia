@@ -9,9 +9,9 @@ import vazkii.alquimia.common.multiblock.Multiblock;
 
 public enum RitualType {
 
-	SMALL(ModMultiblocks.small_ritual_circle, (pos) -> pos.down(2)),
-	MEDIUM(ModMultiblocks.medium_ritual_circle, (pos) -> pos.down(3)),
-	LARGE(ModMultiblocks.large_ritual_circle, (pos) -> pos.down(4));
+	SMALL(ModMultiblocks.small_ritual_circle, (pos) -> pos.east(2)),
+	MEDIUM(ModMultiblocks.medium_ritual_circle, (pos) -> pos.east(3)),
+	LARGE(ModMultiblocks.large_ritual_circle, (pos) -> pos.east(4));
 	
 	private RitualType(Multiblock[] multiblock, Function<BlockPos, BlockPos> centerApplier) {
 		this.mutliblock = multiblock;

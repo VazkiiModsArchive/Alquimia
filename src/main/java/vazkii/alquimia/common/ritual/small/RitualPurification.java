@@ -1,11 +1,10 @@
 package vazkii.alquimia.common.ritual.small;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import com.google.common.collect.ImmutableSet;
 
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
@@ -23,7 +22,7 @@ import vazkii.alquimia.common.ritual.RitualType;
 
 public class RitualPurification extends Ritual {
 
-	private static Set<Object> INGREDIENTS = ImmutableSet.of();
+	private static Collection<Object> INGREDIENTS = ImmutableSet.of();
 	
 	public RitualPurification() {
 		super("purification", RitualType.SMALL, INGREDIENTS);
