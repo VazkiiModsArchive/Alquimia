@@ -1,14 +1,15 @@
 package vazkii.alquimia.common.block;
 
 import java.util.Random;
+import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -23,12 +24,16 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaBlock;
+import vazkii.alquimia.common.handler.RitualHandler;
+import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.arl.block.BlockModDust;
 
 public class BlockAsh extends BlockModDust implements IAlquimiaBlock {
 
 	public static final PropertyBool LIT = PropertyBool.create("lit");
 	public static final PropertyBool DYING = PropertyBool.create("dying");
+
+	public static final Predicate<IBlockState> LIT_PREDICATE = (state) -> state.getBlock() instanceof BlockAsh && state.getValue(LIT);
 
 	public BlockAsh() {
 		super("ash");
@@ -103,6 +108,9 @@ public class BlockAsh extends BlockModDust implements IAlquimiaBlock {
 			world.setBlockState(pos, newState);
 			world.scheduleUpdate(pos, newState.getBlock(), delay ? 12 : 2);
 			
+			if(RitualHandler.isCircle(world, pos, false))
+				RitualHandler.addCandidate(world, pos);
+			
 			if(world instanceof WorldServer) {
 	    		float x = pos.getX();
 	        	float y = pos.getY() + 0.2F;
@@ -120,8 +128,19 @@ public class BlockAsh extends BlockModDust implements IAlquimiaBlock {
 	}
 	
 	@Override
+	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+		if(state.getValue(LIT))
+			entityIn.setFire(2);
+	}
+	
+	@Override
 	public int getColor(IBlockAccess world, IBlockState state, BlockPos pos, int tint) {
 		return state.getValue(LIT) ? 0xFF9600 : 0xDDDDDD;
+	}
+	
+	@Override
+	public int getLightValue(IBlockState state) {
+		return state.getValue(LIT) ? 15 : 0;
 	}
 	
 	@Override

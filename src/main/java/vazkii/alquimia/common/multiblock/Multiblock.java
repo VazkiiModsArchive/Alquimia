@@ -178,6 +178,15 @@ public class Multiblock {
 			this.statePredicate = statePredicate;
 		}
 		
+		public static StateMatcher fromPredicate(IBlockState display, Predicate<IBlockState> predicate) {
+			return new StateMatcher(display, predicate);
+		}
+		
+		
+		public static StateMatcher fromPredicate(Block display, Predicate<IBlockState> predicate) {
+			return fromPredicate(display.getDefaultState(), predicate);
+		}
+		
 		public static StateMatcher fromState(IBlockState displayState, boolean strict) {
 			return new StateMatcher(displayState, 
 					strict ? ((state) -> state.getBlock() == displayState.getBlock() && state.getProperties().equals(displayState.getProperties()))
