@@ -7,16 +7,26 @@ import java.util.stream.Collectors;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.arl.recipe.RecipeHandler;
 
-public class Ritual {
+public abstract class Ritual {
 
-	public final List<Ingredient> ingredients;
+	public final ResourceLocation name;
 	public final RitualType type;
+	public final List<Ingredient> ingredients;
 	
-	public Ritual(Collection<Object> ingredients, RitualType type) {
-		this.ingredients = ingredients.stream().map(RecipeHandler::asIngredient).collect(Collectors.toCollection(ArrayList::new));
+	public Ritual(String name, RitualType type, Collection<Object> ingredients) {
+		this(new ResourceLocation(LibMisc.MOD_ID, name), type, ingredients);
+	}
+	
+	public Ritual(ResourceLocation name, RitualType type, Collection<Object> ingredients) {
+		this.name = name;
 		this.type = type;
+		this.ingredients = ingredients.stream().map(RecipeHandler::asIngredient).collect(Collectors.toCollection(ArrayList::new));
 	}
 	
 	public boolean matches(List<ItemStack> stacks) {
@@ -41,5 +51,10 @@ public class Ritual {
 		return true;
 	}
 	
+	public boolean canRun(World world, BlockPos center) {
+		return true;
+	}
+	
+	public abstract void run(World world, BlockPos pos);
 	
 }

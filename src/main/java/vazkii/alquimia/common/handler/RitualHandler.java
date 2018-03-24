@@ -1,11 +1,13 @@
 package vazkii.alquimia.common.handler;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.init.Blocks;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -13,8 +15,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import vazkii.alquimia.common.block.ModBlocks;
-import vazkii.alquimia.common.multiblock.ModMultiblocks;
-import vazkii.alquimia.common.multiblock.Multiblock;
+import vazkii.alquimia.common.ritual.ModRituals;
+import vazkii.alquimia.common.ritual.Ritual;
 import vazkii.alquimia.common.ritual.RitualType;
 
 public class RitualHandler {
@@ -30,8 +32,31 @@ public class RitualHandler {
 	}
 
 	public static void triggerRitual(RitualCandidate candidate) {
-		candidate.type.mutliblock[0].forEach(candidate.world, candidate.pos, Rotation.NONE, 'P', 
-				(pos) -> candidate.world.setBlockState(pos, Blocks.DIAMOND_BLOCK.getDefaultState()));
+		Collection<Ritual> possibleRituals = ModRituals.ritualsPerType.get(candidate.type);
+		if(possibleRituals != null && !possibleRituals.isEmpty()) {
+			List<ItemStack> stacks = new ArrayList();
+			List<IInventory> inventories = new ArrayList();
+			candidate.type.mutliblock[0].forEach(candidate.world, candidate.pos, Rotation.NONE, 'P', 
+					(pos) -> {
+						TileEntity tile = candidate.world.getTileEntity(pos);
+						if(tile instanceof IInventory) {
+							IInventory inv = (IInventory) tile;
+							ItemStack stack = inv.getStackInSlot(0);
+							if(!stack.isEmpty()) {
+								stacks.add(stack);
+								inventories.add(inv);
+							}
+						}
+					});
+
+			BlockPos center = candidate.type.getCenter(candidate.pos);
+			for(Ritual r : possibleRituals) {
+				if(r.matches(stacks) && r.canRun(candidate.world, center)) {
+					inventories.forEach((inv) -> inv.setInventorySlotContents(0, ItemStack.EMPTY));
+					r.run(candidate.world, center);
+				}
+			}
+		}
 	}
 
 	public static void addCandidate(World world, BlockPos pos, RitualType type) {
@@ -41,17 +66,17 @@ public class RitualHandler {
 				candidates.add(candidate);
 		}
 	}
-	
+
 	public static RitualType getCircleType(World world, BlockPos pos) {
 		for(RitualType type : RitualType.class.getEnumConstants())
 			if(type.isRitual(world, pos, false))
 				return type;
-		
+
 		return null;
 	}
 
 	private static class RitualCandidate {
-		
+
 		final World world;
 		final BlockPos pos;
 		final RitualType type;

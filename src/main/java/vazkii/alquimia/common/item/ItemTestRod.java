@@ -25,6 +25,7 @@ import vazkii.alquimia.common.base.IAlquimiaItem;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.multiblock.Multiblock;
+import vazkii.alquimia.common.ritual.ModRituals;
 import vazkii.arl.item.ItemMod;
 
 public class ItemTestRod extends ItemMod implements IAlquimiaItem {
@@ -37,20 +38,8 @@ public class ItemTestRod extends ItemMod implements IAlquimiaItem {
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(worldIn.isRemote) try {
-			Multiblock mb = new Multiblock(new String[][] {
-						{ "   ", "   ", "   ", "   ", " D " },
-						{ "   ", "   ", "   ", "   ", " X " },
-						{ "XXX", "X0X", "XXX", " X ", " X " }},
-							'X', Blocks.BONE_BLOCK.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.Y),
-							'D', Blocks.OAK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.WEST))
-					.offset(0, -1, 0);
-			
-			MultiblockVisualizationHandler.setMultiblock(mb, "Test Majig", null, false);
-		} catch(IllegalArgumentException e) {
-			e.printStackTrace();
-		}
-
+		ModRituals.purification.run(worldIn, pos.up());
+		
 		return EnumActionResult.SUCCESS;
 	}
 
