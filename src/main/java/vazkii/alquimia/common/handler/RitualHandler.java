@@ -5,6 +5,8 @@ import java.util.List;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.init.Blocks;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -13,6 +15,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.multiblock.Multiblock;
+import vazkii.alquimia.common.ritual.RitualType;
 
 public class RitualHandler {
 
@@ -27,35 +30,38 @@ public class RitualHandler {
 	}
 
 	public static void triggerRitual(RitualCandidate candidate) {
-		// TODO temporary
-		BlockPos center = candidate.pos.east(2);
-		candidate.world.addWeatherEffect(new EntityLightningBolt(candidate.world, center.getX() + 0.5, center.getY() + 0.5, center.getZ() + 0.5, true));
+		candidate.type.mutliblock[0].forEach(candidate.world, candidate.pos, Rotation.NONE, 'P', 
+				(pos) -> candidate.world.setBlockState(pos, Blocks.DIAMOND_BLOCK.getDefaultState()));
 	}
 
-	public static void addCandidate(World world, BlockPos pos) {
+	public static void addCandidate(World world, BlockPos pos, RitualType type) {
 		if(!world.isRemote) {
-			RitualCandidate candidate = new RitualCandidate(world, pos);
+			RitualCandidate candidate = new RitualCandidate(world, pos, type);
 			if(!candidates.contains(candidate))
 				candidates.add(candidate);
 		}
 	}
 	
-	public static boolean isCircle(World world, BlockPos pos, boolean lit) {
-		// TODO handle bigger ones
-		Multiblock mb = lit ? ModMultiblocks.small_ritual_circle_lit : ModMultiblocks.small_ritual_circle;
-		return mb.validate(world, pos);
+	public static RitualType getCircleType(World world, BlockPos pos) {
+		for(RitualType type : RitualType.class.getEnumConstants())
+			if(type.isRitual(world, pos, false))
+				return type;
+		
+		return null;
 	}
 
 	private static class RitualCandidate {
 		
 		final World world;
 		final BlockPos pos;
+		final RitualType type;
 
 		boolean remove;
 
-		RitualCandidate(World world, BlockPos pos) {
+		RitualCandidate(World world, BlockPos pos, RitualType type) {
 			this.world = world;
 			this.pos = pos;
+			this.type = type;
 		}
 
 		boolean check() {
@@ -65,8 +71,7 @@ public class RitualHandler {
 				return false;
 			}
 
-			// TODO not always small
-			remove = isCircle(world, pos, true);
+			remove = type.isRitual(world, pos, true);
 			return remove;
 		}
 

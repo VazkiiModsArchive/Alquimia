@@ -25,7 +25,7 @@ import net.minecraft.world.WorldServer;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaBlock;
 import vazkii.alquimia.common.handler.RitualHandler;
-import vazkii.alquimia.common.multiblock.ModMultiblocks;
+import vazkii.alquimia.common.ritual.RitualType;
 import vazkii.arl.block.BlockModDust;
 
 public class BlockAsh extends BlockModDust implements IAlquimiaBlock {
@@ -108,8 +108,9 @@ public class BlockAsh extends BlockModDust implements IAlquimiaBlock {
 			world.setBlockState(pos, newState);
 			world.scheduleUpdate(pos, newState.getBlock(), delay ? 12 : 2);
 			
-			if(RitualHandler.isCircle(world, pos, false))
-				RitualHandler.addCandidate(world, pos);
+			RitualType type = RitualHandler.getCircleType(world, pos);
+			if(type != null)
+				RitualHandler.addCandidate(world, pos, type);
 			
 			if(world instanceof WorldServer) {
 	    		float x = pos.getX();

@@ -2,10 +2,10 @@ package vazkii.alquimia.common.multiblock;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.Rotation;
@@ -54,6 +54,19 @@ public class Multiblock {
 				for(int z = 0; z < sizeZ; z++) {
 					BlockPos placePos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
 					world.setBlockState(placePos, stateTargets[x][y][z].displayState.withRotation(rotation));
+				}
+	}
+	
+	public void forEach(World world, BlockPos pos, Rotation rotation, char c, Consumer<BlockPos> action) {
+		BlockPos start = pos.add(RotationUtil.x(rotation, -offX, -offZ), -offY, RotationUtil.z(rotation, -offX, -offZ));
+		for(int x = 0; x < sizeX; x++)
+			for(int y = 0; y < sizeY; y++)
+				for(int z = 0; z < sizeZ; z++) {
+					char c1 = pattern[y][x].charAt(z);
+					if(c == c1) {
+						BlockPos actionPos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
+						action.accept(actionPos);
+					}
 				}
 	}
 	
