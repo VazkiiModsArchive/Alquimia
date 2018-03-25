@@ -4,17 +4,21 @@ import java.util.Random;
 
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Enchantments;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -23,6 +27,10 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.alquimia.client.gui.GuiAdvancementsExt;
+import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaItem;
 import vazkii.arl.item.ItemMod;
@@ -42,6 +50,15 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
 		setMaxStackSize(1);
 		MinecraftForge.EVENT_BUS.register(this);
+		
+		addPropertyOverride(new ResourceLocation("located"), new IItemPropertyGetter() {
+			
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
+            	return ItemNBTHelper.getBoolean(stack, TAG_HAS_TARGET, false) ? 1 : 0;
+            }
+            
+        });
 	}
 
 	@SubscribeEvent
@@ -67,10 +84,12 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		ItemStack stack = playerIn.getHeldItem(handIn);
-		if(ItemNBTHelper.getBoolean(stack, TAG_HAS_TARGET, false))
+		if(ItemNBTHelper.getBoolean(stack, TAG_HAS_TARGET, false) && playerIn.isSneaking()) {
 			ItemNBTHelper.setBoolean(stack, TAG_HAS_TARGET, false);
+			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		}
 
-		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+		return ActionResult.newResult(EnumActionResult.PASS, stack);
 	}
 
 	@Override
@@ -113,7 +132,7 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 		long seed = ItemNBTHelper.getLong(stack, TAG_RNG_SEED, 0);
 		Random rand = new Random(seed ^ center.hashCode());
 		int range = 6;
-		int tries = 8;
+		int tries = 4;
 
 		for(int i = 0; i < tries; i++) {
 			BlockPos pos = center.add(rand.nextInt(range * 2 + 1) - range, rand.nextInt(range * 2 + 1) - range, rand.nextInt(range * 2 + 1) - range);

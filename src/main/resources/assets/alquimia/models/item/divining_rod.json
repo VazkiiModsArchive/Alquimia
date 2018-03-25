@@ -1,6 +1,14 @@
 {
-	"parent": "item/generated",
+	"parent": "item/handheld",
 	"textures": { 
 		"layer0": "alquimia:items/divining_rod"
-	}
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"located": 1
+			},
+			"model": "alquimia:item/divining_rod_red"
+		}
+	]
 }

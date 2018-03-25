@@ -1,0 +1,6 @@
+{
+	"parent": "item/handheld",
+	"textures": { 
+		"layer0": "alquimia:items/divining_rod_red"
+	}
+}
