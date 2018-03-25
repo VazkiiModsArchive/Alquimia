@@ -73,7 +73,7 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 			if(rod.getItem() == this && ItemNBTHelper.getBoolean(rod, TAG_HAS_TARGET, false) && EnchantmentHelper.getEnchantmentLevel(Enchantments.SILK_TOUCH, pick) == 0) {
 				int fortune = EnchantmentHelper.getEnchantmentLevel(Enchantments.FORTUNE, pick);
 				event.getDrops().clear();
-				event.getDrops().add(new ItemStack(ModItems.cinnabar, 2 + fortune + world.rand.nextInt(3 + fortune)));
+				event.getDrops().add(new ItemStack(ModItems.cinnabar, 2 + world.rand.nextInt(3 + fortune)));
 				
 				ItemNBTHelper.setBoolean(rod, TAG_HAS_TARGET, false);
 				setNewSeed(rod, world);
