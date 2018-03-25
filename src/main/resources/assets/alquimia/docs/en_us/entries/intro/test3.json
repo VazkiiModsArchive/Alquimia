@@ -22,7 +22,13 @@
 		},
 		{
 			"type": "image",
-			"image": "alquimia:textures/gui/lexicon/img/eli.png",
+			"images": [
+				"alquimia:textures/gui/lexicon/img/eli.png",
+				"alquimia:textures/gui/lexicon/img/eli_i.png",
+				"alquimia:textures/gui/lexicon/img/riko.png",
+				"alquimia:textures/gui/lexicon/img/riko_i.png"
+			],
+			"title": "Best Girls",
 			"border": true,
 			"text": "Pictured: $(#36B3DD)Literal Perfection$(). (also images are working)"
 		},

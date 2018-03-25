@@ -60,7 +60,7 @@ public abstract class LexiconPage {
 	public void mouseClicked(int mouseX, int mouseY, int mouseButton) { }
 	protected void onButtonClicked(GuiButton button) { }
 	
-	public boolean interceptButton(GuiButton button) {
+	public final boolean interceptButton(GuiButton button) {
 		if(buttons.contains(button)) {
 			onButtonClicked(button);
 			return true;

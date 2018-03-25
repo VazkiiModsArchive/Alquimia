@@ -26,7 +26,7 @@ import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBookmark;
-import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconLR;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconArrow;
 import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.alquimia.common.multiblock.Multiblock;
@@ -109,8 +109,8 @@ public abstract class GuiLexicon extends GuiScreen {
 		buttonList.clear();
 
 		buttonList.add(new GuiButtonLexiconBack(this, width / 2 - 9, bookTop + FULL_HEIGHT - 5));
-		buttonList.add(new GuiButtonLexiconLR(this, bookLeft - 4, bookTop + FULL_HEIGHT - 6, true));
-		buttonList.add(new GuiButtonLexiconLR(this, bookLeft + FULL_WIDTH - 14, bookTop + FULL_HEIGHT - 6, false));
+		buttonList.add(new GuiButtonLexiconArrow(this, bookLeft - 4, bookTop + FULL_HEIGHT - 6, true));
+		buttonList.add(new GuiButtonLexiconArrow(this, bookLeft + FULL_WIDTH - 14, bookTop + FULL_HEIGHT - 6, false));
 		
 		addBookmarkButtons();
 	}
@@ -236,8 +236,8 @@ public abstract class GuiLexicon extends GuiScreen {
 	public void actionPerformed(GuiButton button) throws IOException {
 		if(button instanceof GuiButtonLexiconBack)
 			back(false);
-		else if(button instanceof GuiButtonLexiconLR)
-			changePage(((GuiButtonLexiconLR) button).left, false);
+		else if(button instanceof GuiButtonLexiconArrow)
+			changePage(((GuiButtonLexiconArrow) button).left, false);
 		else if(button instanceof GuiButtonLexiconBookmark) {
 			GuiButtonLexiconBookmark bookmarkButton = (GuiButtonLexiconBookmark) button;
 			Bookmark bookmark = bookmarkButton.bookmark;
