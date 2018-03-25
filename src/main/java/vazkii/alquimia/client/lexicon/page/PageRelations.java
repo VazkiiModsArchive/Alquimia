@@ -41,6 +41,7 @@ public class PageRelations extends PageWithText {
 		super.onDisplayed(parent, left, top);
 		
 		List<LexiconEntry> displayedEntries = new ArrayList(entryObjs);
+		displayedEntries.removeIf(LexiconEntry::shouldHide);
 		Collections.sort(displayedEntries);
 		for(int i = 0; i < displayedEntries.size(); i++) {
 			GuiButton button = new GuiButtonEntry(parent, 0, 20 + i * 11, displayedEntries.get(i), i);

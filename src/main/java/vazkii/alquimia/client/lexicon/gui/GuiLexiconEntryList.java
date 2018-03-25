@@ -37,6 +37,7 @@ public abstract class GuiLexiconEntryList extends GuiLexicon {
 		
 		visibleEntries = new ArrayList<>();
 		allEntries = new ArrayList<>(getEntries());
+		allEntries.removeIf(LexiconEntry::shouldHide);
 		if(shouldSortEntryList())
 			Collections.sort(allEntries);
 		

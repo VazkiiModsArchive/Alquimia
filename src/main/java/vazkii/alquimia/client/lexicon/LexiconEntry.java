@@ -19,6 +19,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 
 	String name, icon, category, flag;
 	boolean priority = false;
+	boolean secret = false;
 	LexiconPage[] pages;
 	String advancement;
 	
@@ -63,11 +64,21 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	}
 	
 	public boolean isLocked() {
+		if(isSecret())
+			return locked;
 		return !AlquimiaConfig.disableAdvancementLocking && locked;
 	}
 	
 	public boolean isUnread() {
 		return !isLocked() && !PersistentData.data.viewedEntries.contains(getResource().toString());
+	}
+	
+	public boolean isSecret() {
+		return secret;
+	}
+	
+	public boolean shouldHide() {
+		return isSecret() && isLocked();
 	}
 	
 	public ResourceLocation getResource() {

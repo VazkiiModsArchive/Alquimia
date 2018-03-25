@@ -62,6 +62,8 @@ public class GuiButtonEntry extends GuiButton {
 				name = I18n.translateToLocal("alquimia.gui.lexicon.locked");
 				color = 0x77000000;
 			}
+			if(entry.isSecret())
+				color = 0xAA000000; 
 			
 			boolean unicode = mc.fontRenderer.getUnicodeFlag();
 			mc.fontRenderer.setUnicodeFlag(true);

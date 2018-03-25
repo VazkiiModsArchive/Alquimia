@@ -355,7 +355,7 @@ public abstract class GuiLexicon extends GuiScreen {
 		int unlockedEntries = 0;
 		
 		for(LexiconEntry entry : LexiconRegistry.INSTANCE.entries.values())
-			if(filter.test(entry)) {
+			if(filter.test(entry) && !entry.isSecret()) {
 				totalEntries++;
 				if(!entry.isLocked())
 					unlockedEntries++;
