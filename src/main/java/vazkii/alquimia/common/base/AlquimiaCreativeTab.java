@@ -42,6 +42,7 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		addItem(ModItems.lexicon);
 		addBlock(ModBlocks.ash);
 		addItem(ModItems.alchemical_ash);
+		addItem(ModItems.orichalcum_ingot);
 		addItem(ModItems.cinnabar);
 		addItem(ModItems.divining_rod);
 		
