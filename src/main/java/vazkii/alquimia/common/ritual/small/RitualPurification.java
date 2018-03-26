@@ -15,6 +15,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.ritual.Ritual;
@@ -46,7 +47,7 @@ public class RitualPurification extends Ritual {
 		}
 
 		if(did)
-			world.playSound(null, pos, SoundEvents.BLOCK_ENCHANTMENT_TABLE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			world.playSound(null, pos, AlquimiaSounds.ash_infuse, SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 
 }

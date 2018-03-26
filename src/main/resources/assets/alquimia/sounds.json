@@ -1,4 +1,7 @@
 {
 	"book_flip": { "category": "player", "sounds": ["alquimia:book_flip"], "subtitle": "alquimia.subtitle.book_flip" },
-	"book_open": { "category": "player", "sounds": ["alquimia:book_open"], "subtitle": "alquimia.subtitle.book_open" }
+	"book_open": { "category": "player", "sounds": ["alquimia:book_open"], "subtitle": "alquimia.subtitle.book_open" },
+	"ash_infuse": { "category": "block", "sounds": ["alquimia:ash_infuse"], "subtitle": "alquimia.subtitle.ash_infuse" },
+	"divining_rod_enable": { "category": "player", "sounds": ["alquimia:divining_rod_enable"], "subtitle": "alquimia.subtitle.divining_rod_enable" },
+	"divining_rod_disable": { "category": "player", "sounds": ["alquimia:divining_rod_disable"], "subtitle": "alquimia.subtitle.divining_rod_disable" }
 }

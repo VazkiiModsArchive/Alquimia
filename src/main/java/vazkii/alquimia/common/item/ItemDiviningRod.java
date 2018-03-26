@@ -19,6 +19,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -32,6 +33,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.alquimia.client.gui.GuiAdvancementsExt;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
+import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.base.IAlquimiaItem;
 import vazkii.arl.item.ItemMod;
 import vazkii.arl.util.ItemNBTHelper;
@@ -75,7 +77,7 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 				event.getDrops().clear();
 				event.getDrops().add(new ItemStack(ModItems.cinnabar, 2 + world.rand.nextInt(3 + fortune)));
 				
-				ItemNBTHelper.setBoolean(rod, TAG_HAS_TARGET, false);
+				setHasTarget(player, rod, false, true);
 				setNewSeed(rod, world);
 			}	
 		}
@@ -85,7 +87,7 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		ItemStack stack = playerIn.getHeldItem(handIn);
 		if(ItemNBTHelper.getBoolean(stack, TAG_HAS_TARGET, false) && playerIn.isSneaking()) {
-			ItemNBTHelper.setBoolean(stack, TAG_HAS_TARGET, false);
+			setHasTarget(playerIn, stack, false, true);
 			return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 		}
 
@@ -94,7 +96,7 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(worldIn.isRemote || !(entityIn instanceof EntityPlayer))
+		if(worldIn.isRemote || !(entityIn instanceof EntityPlayer) || entityIn.posY > 26)
 			return;
 
 		if(ItemNBTHelper.getLong(stack, TAG_RNG_SEED, 0) == 0)
@@ -105,7 +107,7 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 			if(ItemNBTHelper.getBoolean(stack, TAG_HAS_TARGET, false)) {
 				BlockPos pos = getPosition(stack);
 				if(!isStone(worldIn, pos))
-					ItemNBTHelper.setBoolean(stack, TAG_HAS_TARGET, false);
+					setHasTarget(player, stack, false, true);
 				else
 					((WorldServer) worldIn).spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 2, 0.4, 0.4, 0.4, 0);
 			} else if(worldIn.getTotalWorldTime() % 10 == 0)
@@ -120,11 +122,11 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 		return new BlockPos(x, y, z);
 	}
 
-	protected void setPosition(ItemStack stack, BlockPos pos) {
+	protected void setPosition(ItemStack stack, Entity player, BlockPos pos) {
 		ItemNBTHelper.setInt(stack, TAG_TARGET_X, pos.getX());
 		ItemNBTHelper.setInt(stack, TAG_TARGET_Y, pos.getY());
 		ItemNBTHelper.setInt(stack, TAG_TARGET_Z, pos.getZ());
-		ItemNBTHelper.setBoolean(stack, TAG_HAS_TARGET, true);
+		setHasTarget(player, stack, true, true);
 	}
 
 	protected void locateNextTarget(ItemStack stack, World world, Entity viewer) {
@@ -137,8 +139,15 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 		for(int i = 0; i < tries; i++) {
 			BlockPos pos = center.add(rand.nextInt(range * 2 + 1) - range, rand.nextInt(range * 2 + 1) - range, rand.nextInt(range * 2 + 1) - range);
 			if(isStone(world, pos) && canSee(viewer, pos))
-				setPosition(stack, pos);
+				setPosition(stack, viewer, pos);
 		}
+	}
+	
+	protected void setHasTarget(Entity player, ItemStack stack, boolean target, boolean sfx) {
+		ItemNBTHelper.setBoolean(stack, TAG_HAS_TARGET, target);
+		
+		if(player != null && sfx)
+			player.world.playSound(null, player.getPosition(), (target ? AlquimiaSounds.divining_rod_enable : AlquimiaSounds.divining_rod_disable), SoundCategory.BLOCKS, 1.0F, 1.0F);
 	}
 
 	protected void setNewSeed(ItemStack stack, World world) {

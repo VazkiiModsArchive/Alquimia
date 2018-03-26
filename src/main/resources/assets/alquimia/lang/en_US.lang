@@ -14,7 +14,7 @@ item.alquimia:test_rod.name=Test Rod
 item.alquimia:ash.name=Ash
 item.alquimia:alchemical_ash.name=Alchemical Ash
 item.alquimia:orichalcum_ingot.name=Orichalcum Ingot
-item.alquimia:cinnabar.name=Cinnabar
+item.alquimia:cinnabar.name=Cinnabar Shard
 item.alquimia:divining_rod.name=Divining Rod
 
 # Advancements
@@ -71,3 +71,10 @@ alquimia.gui.lexicon.button.config=Configuration
 alquimia.gui.lexicon.button.visualize=Visualize
 alquimia.gui.lexicon.button.visualize.info=(Click again to clear)
 alquimia.gui.lexicon.button.history=History
+
+# Subtitles
+alquimia.subtitle.book_flip=Pages Flip
+alquimia.subtitle.book_open=Book Opens
+alquimia.subtitle.ash_infuse=Ash is Infused
+alquimia.subtitle.divining_rod_enabled=Divining Rod Detects
+alquimia.subtitle.divining_rod_disable=Divining Rod Resets
