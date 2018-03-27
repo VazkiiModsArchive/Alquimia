@@ -36,7 +36,11 @@ public class RitualPurification extends Ritual {
 
 		boolean did = false;
 		for(EntityItem item : items) {
-			item.setItem(new ItemStack(ModItems.alchemical_ash, item.getItem().getCount()));
+			int newCount = item.getItem().getCount() / 16;
+			if(newCount == 0)
+				continue;
+			
+			item.setItem(new ItemStack(ModItems.alchemical_ash, newCount));
 			did = true;
 			
 			if(world instanceof WorldServer) {

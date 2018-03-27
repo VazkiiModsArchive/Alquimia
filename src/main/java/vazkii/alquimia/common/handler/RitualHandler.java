@@ -8,9 +8,11 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
@@ -55,8 +57,15 @@ public class RitualHandler {
 				if(r.matches(stacks) && r.canRun(candidate.world, center)) {
 					inventories.forEach((inv) -> {
 						inv.setInventorySlotContents(0, ItemStack.EMPTY);
-						if(inv instanceof TileEntity)
+						if(inv instanceof TileEntity) {
 							VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity) inv);
+							
+							if(candidate.world instanceof WorldServer) {
+								BlockPos pos = ((TileEntity) inv).getPos();
+								((WorldServer) candidate.world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 100, 0.4, 0, 0.4, 0.01F);
+								((WorldServer) candidate.world).spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0.4, 0, 0.4, 0.05F);
+							}
+						}
 					});
 					r.run(candidate.world, center);
 				}

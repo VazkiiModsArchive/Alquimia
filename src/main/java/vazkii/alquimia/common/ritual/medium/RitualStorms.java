@@ -22,12 +22,8 @@ public class RitualStorms extends Ritual {
 
 	@Override
 	public void run(World world, BlockPos pos) {
-		world.addWeatherEffect(new EntityLightningBolt(world, pos.getX(), pos.getY(), pos.getZ(), false));
+		world.getWorldInfo().setRaining(true);
 	}
 	
-	@Override
-	public boolean canRun(World world, BlockPos center) {
-		return world.isRaining() && world.canBlockSeeSky(center);
-	}
 
 }

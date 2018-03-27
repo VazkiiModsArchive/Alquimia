@@ -1,31 +1,17 @@
 package vazkii.alquimia.common.item;
 
-import net.minecraft.block.BlockCocoa;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockFire;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
+import net.minecraft.world.WorldServer;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaItem;
-import vazkii.alquimia.common.lib.LibMisc;
-import vazkii.alquimia.common.multiblock.ModMultiblocks;
-import vazkii.alquimia.common.multiblock.Multiblock;
-import vazkii.alquimia.common.ritual.ModRituals;
 import vazkii.arl.item.ItemMod;
 
 public class ItemTestRod extends ItemMod implements IAlquimiaItem {
@@ -38,7 +24,10 @@ public class ItemTestRod extends ItemMod implements IAlquimiaItem {
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		ModRituals.purification.run(worldIn, pos.up());
+		if(worldIn instanceof WorldServer) {
+			((WorldServer) worldIn).spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 100, 0.4, 0, 0.4, 0.01F);
+			((WorldServer) worldIn).spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 1.5, pos.getZ() + 0.5, 20, 0.4, 0, 0.4, 0.05F);
+		}
 		
 		return EnumActionResult.SUCCESS;
 	}
