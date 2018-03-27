@@ -47,7 +47,7 @@ public class ModMultiblocks {
 
 	public static void buildRitualCircles() {
 		StateMatcher lit = StateMatcher.fromPredicate(ModBlocks.ash, BlockAsh.LIT_PREDICATE);
-		StateMatcher pedestal = StateMatcher.fromPredicate(Blocks.AIR, (state) -> state.getBlock() == Blocks.AIR || state.getBlock() == Blocks.DISPENSER); // TODO
+		StateMatcher pedestal = StateMatcher.fromPredicate(Blocks.AIR, (state) -> state.getBlock() == Blocks.AIR || state.getBlock() == ModBlocks.pedestal);
 
 		String[][] small = new String[][] {{
 			"__PPP__", 

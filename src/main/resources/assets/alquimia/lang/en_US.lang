@@ -7,6 +7,7 @@ alqmisc.dev_edition=Writer's
 
 # Block Names
 tile.alquimia:ash.name=Ash
+tile.alquimia:pedestal.name=Pedestal
 
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia

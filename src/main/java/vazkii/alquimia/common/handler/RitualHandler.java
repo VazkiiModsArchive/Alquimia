@@ -18,6 +18,7 @@ import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.ritual.ModRituals;
 import vazkii.alquimia.common.ritual.Ritual;
 import vazkii.alquimia.common.ritual.RitualType;
+import vazkii.arl.util.VanillaPacketDispatcher;
 
 public class RitualHandler {
 
@@ -52,7 +53,11 @@ public class RitualHandler {
 			BlockPos center = candidate.type.getCenter(candidate.pos);
 			for(Ritual r : possibleRituals) {
 				if(r.matches(stacks) && r.canRun(candidate.world, center)) {
-					inventories.forEach((inv) -> inv.setInventorySlotContents(0, ItemStack.EMPTY));
+					inventories.forEach((inv) -> {
+						inv.setInventorySlotContents(0, ItemStack.EMPTY);
+						if(inv instanceof TileEntity)
+							VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity) inv);
+					});
 					r.run(candidate.world, center);
 				}
 			}
