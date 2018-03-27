@@ -12,6 +12,7 @@ public class AlquimiaSounds {
 	public static SoundEvent ash_infuse;
 	public static SoundEvent divining_rod_enable;
 	public static SoundEvent divining_rod_disable;
+	public static SoundEvent storms;
 
 	public static void preInit() {
 		book_open = register("book_open");
@@ -19,6 +20,7 @@ public class AlquimiaSounds {
 		ash_infuse = register("ash_infuse");
 		divining_rod_enable = register("divining_rod_enable");
 		divining_rod_disable = register("divining_rod_disable");
+		storms = register("storms");
 	}
 	
 	public static SoundEvent register(String name) {
