@@ -136,7 +136,7 @@ public class BlockAsh extends BlockModDust implements IAlquimiaBlock {
 	
 	@Override
 	public int getColor(IBlockAccess world, IBlockState state, BlockPos pos, int tint) {
-		return state.getValue(LIT) ? 0xFF9600 : 0xDDDDDD;
+		return state.getValue(LIT) ? 0xFF9600 : 0xAAAAAA;
 	}
 	
 	@Override
