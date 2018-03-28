@@ -36,18 +36,18 @@ public class ItemLexicon extends ItemMod implements IAlquimiaItem {
 		setMaxStackSize(1);
 		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
 		
-		addPropertyOverride(new ResourceLocation("open"), new IItemPropertyGetter() {
-			
-            @SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
-            	Minecraft mc = Minecraft.getMinecraft();
-            	boolean valid = entityIn == mc.player 
-            			&& (stack == mc.player.getHeldItemMainhand() || stack == mc.player.getHeldItemOffhand()) 
-            			&& (mc.currentScreen instanceof GuiLexicon || mc.currentScreen instanceof GuiAdvancementsExt);
-            	return valid ? 1 : 0;
-            }
-            
-        });
+//		addPropertyOverride(new ResourceLocation("open"), new IItemPropertyGetter() {
+//			
+//            @SideOnly(Side.CLIENT)
+//            public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
+//            	Minecraft mc = Minecraft.getMinecraft();
+//            	boolean valid = entityIn == mc.player 
+//            			&& (stack == mc.player.getHeldItemMainhand() || stack == mc.player.getHeldItemOffhand()) 
+//            			&& (mc.currentScreen instanceof GuiLexicon || mc.currentScreen instanceof GuiAdvancementsExt);
+//            	return valid ? 1 : 0;
+//            }
+//            
+//        });
 	}
 	
 	@Override
