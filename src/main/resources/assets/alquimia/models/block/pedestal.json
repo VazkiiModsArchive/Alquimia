@@ -1,3 +1,51 @@
 {
-	"parent": "minecraft:block/half_slab_stone"
+	"__comment": "Designed by Wiiv with Cubik Studio - https://cubik.studio",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"particle": "alquimia:blocks/pedestal_top",
+		"texture": "alquimia:blocks/pedestal_side",
+		"texture1": "alquimia:blocks/pedestal_bottom",
+		"texture2": "alquimia:blocks/pedestal_top"
+	},
+	"elements": [ 	 
+		{
+			"__comment": "bottom",
+			"from": [ 2, 0, 2 ],
+			"to": [ 14, 2, 14 ],
+			"faces": {
+				"down": { "uv": [ 2, 2, 14, 14 ], "texture": "#texture1" },
+				"up": { "uv": [ 2, 2, 14, 14 ], "texture": "#texture1" },
+				"north": { "uv": [ 2, 14, 14, 16 ], "texture": "#texture" },
+				"south": { "uv": [ 2, 14, 14, 16 ], "texture": "#texture" },
+				"west": { "uv": [ 2, 14, 14, 16 ], "texture": "#texture" },
+				"east": { "uv": [ 2, 14, 14, 16 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "top",
+			"from": [ 2, 8, 2 ],
+			"to": [ 14, 12, 14 ],
+			"faces": {
+				"down": { "uv": [ 2, 2, 14, 14 ], "texture": "#texture1" },
+				"up": { "uv": [ 2, 2, 14, 14 ], "texture": "#texture2" },
+				"north": { "uv": [ 2, 4, 14, 8 ], "texture": "#texture" },
+				"south": { "uv": [ 2, 4, 14, 8 ], "texture": "#texture" },
+				"west": { "uv": [ 2, 4, 14, 8 ], "texture": "#texture" },
+				"east": { "uv": [ 2, 4, 14, 8 ], "texture": "#texture" }
+			}
+		},
+		{
+			"__comment": "middle",
+			"from": [ 4, 2, 4 ],
+			"to": [ 12, 8, 12 ],
+			"faces": {
+				"down": { "uv": [ 4, 3.5, 12, 12 ], "texture": "#texture" },
+				"up": { "uv": [ 4, 4, 12, 12 ], "texture": "#texture" },
+				"north": { "uv": [ 4, 8, 12, 14 ], "texture": "#texture" },
+				"south": { "uv": [ 4, 8, 12, 14 ], "texture": "#texture" },
+				"west": { "uv": [ 4, 8, 12, 14 ], "texture": "#texture" },
+				"east": { "uv": [ 4, 8, 12, 14 ], "texture": "#texture" }
+			}
+		}
+	]
 }

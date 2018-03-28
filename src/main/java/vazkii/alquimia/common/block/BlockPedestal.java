@@ -25,7 +25,7 @@ import vazkii.arl.block.BlockModContainer;
 
 public class BlockPedestal extends BlockModContainer implements IAlquimiaBlock {
 
-    protected static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 0.5, 1);
+    protected static final AxisAlignedBB AABB = new AxisAlignedBB(0.125, 0, 0.125, 0.875, 0.75, 0.875);
 	
 	public BlockPedestal() {
 		super("pedestal", Material.ROCK);
