@@ -3,6 +3,7 @@ package vazkii.alquimia.common.block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
@@ -78,6 +79,15 @@ public class BlockPedestal extends BlockModContainer implements IAlquimiaBlock {
 		return true;
 	}
 
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(tile instanceof TilePedestal) {
+			int rotation = (int) ((placer.rotationYaw - 22.5 % 360F) / 45);
+			((TilePedestal) tile).rotation = rotation;
+		}
+	}
+	
 	@Override
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
