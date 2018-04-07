@@ -17,9 +17,10 @@ public class RenderTilePedestal extends TileEntitySpecialRenderer<TilePedestal> 
 			float rot = te.rotation * 45F;
 			
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(x + 0.5, y + 0.75F + 1F / 32F, z + 0.5);
+			GlStateManager.translate(x + 0.5, y + 0.75F + 1F / 64F, z + 0.5);
 			if(stack.getItem() instanceof ItemBlock) {
-				GlStateManager.translate(0F, 0.22F, 0F);
+				GlStateManager.translate(0F, 0.11F, 0F);
+				GlStateManager.scale(0.5F, 0.5F, 0.5F);
 				GlStateManager.rotate(rot, 0F, 1F, 0F);
 			} else {
 				GlStateManager.rotate(90F, 1F, 0F, 0F);

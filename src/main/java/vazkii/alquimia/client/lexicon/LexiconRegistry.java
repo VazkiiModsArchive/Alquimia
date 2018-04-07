@@ -43,7 +43,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	private static final ResourceLocation FALLBACK_CATEGORY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/categories/fallback.json", DEFAULT_LANG));
 	private static final ResourceLocation FALLBACK_ENTRY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/entries/fallback.json", DEFAULT_LANG));
 
-	public final List<ResourceLocation> rootFiles = new ArrayList();
+	public final List<String> modsWithDocs = new ArrayList();
 
 	public final Map<ResourceLocation, LexiconCategory> categories = new HashMap();
 	public final Map<ResourceLocation, LexiconEntry> entries = new HashMap();
@@ -63,13 +63,16 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 
 	public void init() {
 		addPageTypes();
-
-		rootFiles.add(new ResourceLocation(LibMisc.MOD_ID, "docs/root.json"));
+		registerMod(LibMisc.MOD_ID);
 
 		IResourceManager manager = Minecraft.getMinecraft().getResourceManager();
 		if(manager instanceof IReloadableResourceManager)
 			((IReloadableResourceManager) manager).registerReloadListener(this);
 		else throw new RuntimeException("Minecraft's resource manager is not reloadable. Something went way wrong.");
+	}
+	
+	public void registerMod(String id) {
+		modsWithDocs.add(id);
 	}
 
 	private void addPageTypes() {
@@ -102,7 +105,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		currentLang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 
 		List<LexiconRootObject> roots = new ArrayList();
-		rootFiles.forEach((res) -> roots.add(loadRootObject(res)));
+		modsWithDocs.forEach((id) -> roots.add(loadRootObject(new ResourceLocation(id, "docs/root.json"))));
 
 		roots.forEach((root) -> {
 			AdvancementSyncHandler.trackedNamespaces.add(root.namespace);
