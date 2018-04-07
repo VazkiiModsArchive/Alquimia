@@ -16,7 +16,7 @@ import vazkii.alquimia.common.ritual.RitualType;
 
 public class RitualStorms extends Ritual {
 
-	private static Collection<Object> INGREDIENTS = Arrays.asList(new Object[] {ModItems.cinnabar, ModItems.cinnabar, Items.GUNPOWDER, Items.GUNPOWDER, "ingotIron"});
+	private static Collection<Object> INGREDIENTS = Arrays.asList(new Object[] {ModItems.cinnabar, ModItems.cinnabar, Items.GUNPOWDER, Items.WATER_BUCKET, "ingotIron"});
 	
 	public RitualStorms() {
 		super("storms", RitualType.MEDIUM, INGREDIENTS);
