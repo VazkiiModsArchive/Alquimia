@@ -7,14 +7,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import javax.management.ReflectionException;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.lib.LibMisc;
@@ -45,17 +46,47 @@ public final class AlquimiaConfig {
 		loadConfig();
 
 		MinecraftForge.EVENT_BUS.register(ChangeListener.class);
-	}
+		
+		List<ModContainer> mods = Loader.instance().getActiveModList();
+		for(ModContainer container : mods)
+			setFlag("mod:" + container.getModId(), true);
+	}	
 	
 	public static boolean getConfigFlag(String name) {
+		if(name.startsWith("&"))
+			return getConfigFlagAND(name.replaceAll("\\&|\\|", "").split(","));
+		if(name.startsWith("|"))
+			return getConfigFlagOR(name.replaceAll("\\&|\\|", "").split(","));
+		
 		boolean target = true;
 		if(name.startsWith("!")) {
 			name = name.substring(1);
 			target = false;
 		}
+		name = name.trim();
 		
-		boolean status = (configFlags.containsKey(name) ? configFlags.get(name) : false) == target;
+		boolean status = (configFlags.containsKey(name) && configFlags.get(name)) == target;
 		return status;
+	}
+	
+	public static boolean getConfigFlagAND(String[] tokens) {
+		for(String s : tokens)
+			if(!getConfigFlag(s))
+				return false;
+		
+		return true;
+	}
+	
+	public static boolean getConfigFlagOR(String[] tokens) {
+		for(String s : tokens)
+			if(getConfigFlag(s))
+				return true;
+		
+		return false;
+	}
+	
+	public static void setFlag(String flag, boolean value) {
+		configFlags.put(flag.trim().toLowerCase(), value);
 	}
 
 	public static void loadConfig() {
@@ -97,7 +128,7 @@ public final class AlquimiaConfig {
 				boolean b = loadPropBoolean(name, desc, (Boolean) def);
 				f.setBoolean(null, b);
 				if(!flag.isEmpty())
-					configFlags.put(flag, b);
+					setFlag(flag, b);
 				break;
 			case "java.lang.String":
 				f.set(null, loadPropString(name, desc, (String) def));
