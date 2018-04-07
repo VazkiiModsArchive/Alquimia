@@ -17,6 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.WorldTickEvent;
 import vazkii.alquimia.common.block.ModBlocks;
+import vazkii.alquimia.common.entity.EntityRitualLogic;
 import vazkii.alquimia.common.ritual.ModRituals;
 import vazkii.alquimia.common.ritual.Ritual;
 import vazkii.alquimia.common.ritual.RitualType;
@@ -67,10 +68,16 @@ public class RitualHandler {
 							}
 						}
 					});
-					r.run(candidate.world, center);
+					
+					startRitual(candidate.world, center, r);
 				}
 			}
 		}
+	}
+	
+	public static void startRitual(World world, BlockPos pos, Ritual ritual) {
+		if(!ritual.run(world, pos))
+			world.spawnEntity(new EntityRitualLogic(world, pos, ritual));
 	}
 
 	public static void addCandidate(World world, BlockPos pos, RitualType type) {

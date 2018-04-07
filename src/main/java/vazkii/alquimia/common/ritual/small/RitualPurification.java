@@ -30,7 +30,7 @@ public class RitualPurification extends Ritual {
 	}
 
 	@Override
-	public void run(World world, BlockPos pos) {
+	public boolean run(World world, BlockPos pos) {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos).grow(2), 
 				(item) -> item.getItem().getItem() == Item.getItemFromBlock(ModBlocks.ash));
 
@@ -52,6 +52,8 @@ public class RitualPurification extends Ritual {
 
 		if(did)
 			world.playSound(null, pos, AlquimiaSounds.ash_infuse, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		
+		return true;
 	}
 
 }

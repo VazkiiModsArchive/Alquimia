@@ -2,13 +2,16 @@ package vazkii.alquimia.client.base;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.alquimia.client.handler.LexiconRightClickHandler;
 import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
+import vazkii.alquimia.client.render.entity.RenderRitual;
 import vazkii.alquimia.client.render.tile.RenderTilePedestal;
 import vazkii.alquimia.common.base.CommonProxy;
 import vazkii.alquimia.common.block.tile.TilePedestal;
+import vazkii.alquimia.common.entity.EntityRitualLogic;
 
 public class ClientProxy extends CommonProxy {
 
@@ -26,8 +29,10 @@ public class ClientProxy extends CommonProxy {
 		initRenderers();
 	}
 	
-	private void initRenderers() {
+	private void initRenderers() {	
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePedestal.class, new RenderTilePedestal());
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityRitualLogic.class, RenderRitual::new);
 	}
 	
 	@Override

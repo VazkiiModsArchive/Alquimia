@@ -10,6 +10,8 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.arl.recipe.RecipeHandler;
 
@@ -55,6 +57,15 @@ public abstract class Ritual {
 		return true;
 	}
 	
-	public abstract void run(World world, BlockPos pos);
+	public abstract boolean run(World world, BlockPos pos);
+	
+	public boolean tick(World world, BlockPos pos, int time) {
+		return false; 
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void render(World world, BlockPos pos, int time, float pticks) {
+		// NO-OP
+	}
 	
 }
