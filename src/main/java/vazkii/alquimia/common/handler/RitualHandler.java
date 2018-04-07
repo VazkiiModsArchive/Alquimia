@@ -57,7 +57,8 @@ public class RitualHandler {
 			for(Ritual r : possibleRituals) {
 				if(r.matches(stacks) && r.canRun(candidate.world, center)) {
 					inventories.forEach((inv) -> {
-						inv.setInventorySlotContents(0, ItemStack.EMPTY);
+						ItemStack stack = inv.getStackInSlot(0);
+						inv.setInventorySlotContents(0, stack.getItem().getContainerItem(stack));
 						if(inv instanceof TileEntity) {
 							VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity) inv);
 							
