@@ -1,8 +1,10 @@
 package vazkii.alquimia.client.handler;
 
 import java.awt.Color;
+import java.util.function.Function;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
 
 import net.minecraft.block.Block;
@@ -49,18 +51,24 @@ public class MultiblockVisualizationHandler {
 	private static BlockPos pos;
 	private static boolean isAnchored;
 	private static Rotation facingRotation;
+	private static Function<BlockPos, BlockPos> offsetApplier;
 	private static int blocks, blocksDone;
 	private static int timeComplete;
 	private static IBlockState lookingState;
 	private static BlockPos lookingPos;
 
 	public static void setMultiblock(Multiblock multiblock, String name, Bookmark bookmark, boolean flip) {
+		setMultiblock(multiblock, name, bookmark, flip, pos->pos);
+	}
+	
+	public static void setMultiblock(Multiblock multiblock, String name, Bookmark bookmark, boolean flip, Function<BlockPos, BlockPos> offsetApplier) {
 		if(flip && hasMultiblock)
 			hasMultiblock = false;
 		else {
 			MultiblockVisualizationHandler.multiblock = multiblock;
 			MultiblockVisualizationHandler.name = name;
 			MultiblockVisualizationHandler.bookmark = bookmark;
+			MultiblockVisualizationHandler.offsetApplier = offsetApplier;
 			pos = null;
 			hasMultiblock = true;
 			isAnchored = false;
@@ -187,7 +195,11 @@ public class MultiblockVisualizationHandler {
 		GlStateManager.translate(-posX, -posY, -posZ);
 
 		BlockPos checkPos = mc.objectMouseOver.typeOfHit == Type.BLOCK ? mc.objectMouseOver.getBlockPos().offset(mc.objectMouseOver.sideHit) : null;
-		BlockPos startPos = pos.add(RotationUtil.x(facingRotation, -multiblock.offX, -multiblock.offZ), 0, RotationUtil.z(facingRotation, -multiblock.offX, -multiblock.offZ));
+		BlockPos startPos = offsetApplier.apply(pos);
+		if(!multiblock.isSymmetrical())
+			startPos = startPos.add(RotationUtil.x(facingRotation, -multiblock.offX, -multiblock.offZ), -multiblock.offY, RotationUtil.z(facingRotation, -multiblock.offX, -multiblock.offZ));
+		else startPos = startPos.add(multiblock.offX, multiblock.offY, multiblock.offZ);
+		
 		blocks = blocksDone = 0;
 		lookingState = null;
 		lookingPos = checkPos;
@@ -216,6 +228,8 @@ public class MultiblockVisualizationHandler {
 			blocks = blocksDone = 0;
 
 		GL11.glPopAttrib();
+		GL14.glBlendColor(1F, 1F, 1F, 1F);
+		GlStateManager.enableDepth();
 		GlStateManager.popMatrix();
 	}
 

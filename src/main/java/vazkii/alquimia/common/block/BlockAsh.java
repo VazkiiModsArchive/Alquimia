@@ -38,6 +38,7 @@ public class BlockAsh extends BlockModDust implements IAlquimiaBlock {
 	public BlockAsh() {
 		super("ash");
 		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
+		setDefaultState(getDefaultState().withProperty(LIT, false).withProperty(DYING, false));
 	}
 
 	@Override

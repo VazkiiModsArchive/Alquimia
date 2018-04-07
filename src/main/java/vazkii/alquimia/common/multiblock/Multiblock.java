@@ -99,6 +99,7 @@ public class Multiblock {
 		BlockPos checkPos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
 		Predicate<IBlockState> pred = stateTargets[x][y][z].statePredicate;
 		IBlockState state = world.getBlockState(checkPos).withRotation(RotationUtil.fixHorizontal(rotation));
+		
 		return pred.test(state);
 	}
 	
@@ -176,6 +177,10 @@ public class Multiblock {
 		}
 		
 		return new int[] { pattern.length, expectedLenX, expectedLenZ }; 
+	}
+	
+	public boolean isSymmetrical() {
+		return symmetrical;
 	}
 	
 	public static class StateMatcher {

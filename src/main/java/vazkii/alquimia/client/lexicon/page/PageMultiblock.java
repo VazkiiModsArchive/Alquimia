@@ -47,7 +47,6 @@ public class PageMultiblock extends PageWithText {
 		adddButton(visualizeButton = new GuiButtonLexiconEye(parent, 12, 97));
 	}
 
-
 	@Override
 	public int getTextHeight() {
 		return 115;

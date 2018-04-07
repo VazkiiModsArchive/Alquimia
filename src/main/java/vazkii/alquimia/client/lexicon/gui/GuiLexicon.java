@@ -38,6 +38,7 @@ public abstract class GuiLexicon extends GuiScreen {
 	public static final ResourceLocation LEXICON_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/lexicon.png"); 
 	public static final ResourceLocation FILLER_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/elements.png"); 
 	public static final ResourceLocation CRAFTING_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/crafting.png"); 
+	public static final ResourceLocation RITUAL_CIRCLE_TEXTURE = new ResourceLocation(LibMisc.MOD_ID, "textures/gui/lexicon/ritual_circle.png"); 
 
 	public static final int FULL_WIDTH = 272;
 	public static final int FULL_HEIGHT = 180;

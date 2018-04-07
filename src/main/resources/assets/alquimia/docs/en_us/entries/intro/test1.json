@@ -20,6 +20,12 @@
 			"type": "crafting",
 			"recipe": "minecraft:book",
 			"text": "How to make a book!"
+		},
+		{
+			"type": "ritual",
+			"title": "Ritual of Storms",
+			"ritual": "alquimia:storms",
+			"text": "This ritual will make it rain."
 		}
 	],
 	"relations": [

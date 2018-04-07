@@ -30,6 +30,7 @@ import vazkii.alquimia.client.lexicon.page.PageImage;
 import vazkii.alquimia.client.lexicon.page.PageLink;
 import vazkii.alquimia.client.lexicon.page.PageMultiblock;
 import vazkii.alquimia.client.lexicon.page.PageRelations;
+import vazkii.alquimia.client.lexicon.page.PageRitual;
 import vazkii.alquimia.client.lexicon.page.PageSpotlight;
 import vazkii.alquimia.client.lexicon.page.PageText;
 import vazkii.alquimia.common.handler.AdvancementSyncHandler;
@@ -85,6 +86,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		pageTypes.put("link", PageLink.class);
 		pageTypes.put("relations", PageRelations.class);
 		pageTypes.put("crucible", PageCrucible.class);
+		pageTypes.put("ritual", PageRitual.class);
 	}
 	
 	public Pair<LexiconEntry, Integer> getEntryForStack(ItemStack stack) {

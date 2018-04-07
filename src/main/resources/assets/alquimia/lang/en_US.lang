@@ -22,6 +22,13 @@ item.alquimia:divining_rod.name=Divining Rod
 alquimia.advancement.root=Alquimia
 alquimia.advancement.root.desc=Craft a Lexica Alquimia
 
+# Ritual Sizes
+alquimia.ritual.size.small=Small|Circle
+alquimia.ritual.size.medium=Medium|Circle
+alquimia.ritual.size.large=Large|Circle
+alquimia.ritual.size.huge=Huge|Circle
+alquimia.ritual.size.nationwide=Amestris Sized|Circle
+
 # Gui Strings
 alquimia.gui.lexicon.landing_info=A Vazkii self-published encyclopedia. The quintessential guide to alchemical engineering for students and veterans of all skill levels.
 alquimia.gui.lexicon.progress_meter=Unlock Progress:
