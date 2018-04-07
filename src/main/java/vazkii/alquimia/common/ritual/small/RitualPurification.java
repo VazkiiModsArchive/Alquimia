@@ -9,6 +9,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -30,7 +31,7 @@ public class RitualPurification extends Ritual {
 	}
 
 	@Override
-	public boolean run(World world, BlockPos pos) {
+	public boolean run(World world, BlockPos pos, NBTTagCompound cmp) {
 		List<EntityItem> items = world.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos).grow(2), 
 				(item) -> item.getItem().getItem() == Item.getItemFromBlock(ModBlocks.ash));
 

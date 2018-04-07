@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import net.minecraft.init.Items;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -28,13 +29,13 @@ public class RitualStorms extends Ritual {
 	}
 
 	@Override
-	public boolean run(World world, BlockPos pos) {
+	public boolean run(World world, BlockPos pos, NBTTagCompound cmp) {
 		world.playSound(null, pos, AlquimiaSounds.storms, SoundCategory.BLOCKS, 1F, 1F);
 		return false;
 	}
 	
 	@Override
-	public boolean tick(World world, BlockPos pos, int time) {
+	public boolean tick(World world, BlockPos pos, int time, NBTTagCompound cmp) {
 		if(time >= 90) {
 			world.getWorldInfo().setRaining(true);
 			return true;

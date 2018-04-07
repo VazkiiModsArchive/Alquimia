@@ -26,6 +26,7 @@ public class EntityRitualLogic extends Entity {
     
 	public EntityRitualLogic(World worldIn) {
 		super(worldIn);
+		setSize(0.1F, 0.1F);
 	}
 	
 	public EntityRitualLogic(World worldIn, BlockPos pos, Ritual ritual) {
@@ -51,7 +52,7 @@ public class EntityRitualLogic extends Entity {
 		}
 		
 		int time = dataManager.get(RITUAL_TIME);
-		if(ritual.tick(world, getPosition(), time))
+		if(ritual.tick(world, getPosition(), time, getEntityData()))
 			setDead();
 		else dataManager.set(RITUAL_TIME, time + 1);
 	}

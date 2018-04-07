@@ -27,7 +27,7 @@ public class ItemTestRod extends ItemMod implements IAlquimiaItem {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(worldIn instanceof WorldServer)
-			RitualHandler.startRitual(worldIn, pos.up(), ModRituals.storms);
+			RitualHandler.startRitual(worldIn, pos.up(), ModRituals.clear_skies);
 		
 		return EnumActionResult.SUCCESS;
 	}

@@ -95,7 +95,7 @@ public class PageRitual extends PageWithText {
 	
 	@Override
 	public int getTextHeight() {
-		return 120;
+		return 122;
 	}
 
 }

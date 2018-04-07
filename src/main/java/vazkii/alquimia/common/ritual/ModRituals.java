@@ -7,6 +7,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 import net.minecraft.util.ResourceLocation;
+import vazkii.alquimia.common.ritual.medium.RitualClearSkies;
 import vazkii.alquimia.common.ritual.medium.RitualStorms;
 import vazkii.alquimia.common.ritual.small.RitualPurification;
 
@@ -17,10 +18,12 @@ public class ModRituals {
 	
 	public static Ritual purification;
 	public static Ritual storms;
-	
+	public static Ritual clear_skies;
+
 	public static void preInit() {
 		purification = registerRitual(new RitualPurification());
 		storms = registerRitual(new RitualStorms());
+		clear_skies = registerRitual(new RitualClearSkies());
 	}
 	
 	public static Ritual registerRitual(Ritual ritual) {

@@ -5,13 +5,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.arl.recipe.RecipeHandler;
 
@@ -57,9 +64,20 @@ public abstract class Ritual {
 		return true;
 	}
 	
-	public abstract boolean run(World world, BlockPos pos);
+	// tile is always IInventory
+	public void consumeItem(TileEntity tile, ItemStack stack) {
+		((IInventory) tile).setInventorySlotContents(0, stack.getItem().getContainerItem(stack));
+		
+		if(stack.getItem() == ModItems.cinnabar) { // TODO move to IConsumed or something
+			WorldServer world = (WorldServer) tile.getWorld(); 
+			BlockPos pos = tile.getPos();
+			world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5, 20, 0.3, 0.7, 0.3, 0F);
+		}
+	}
 	
-	public boolean tick(World world, BlockPos pos, int time) {
+	public abstract boolean run(World world, BlockPos pos, NBTTagCompound cmp);
+	
+	public boolean tick(World world, BlockPos pos, int time, NBTTagCompound cmp) {
 		return false; 
 	}
 	

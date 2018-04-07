@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Rotation;
@@ -39,7 +40,7 @@ public class RitualHandler {
 		Collection<Ritual> possibleRituals = ModRituals.ritualsPerType.get(candidate.type);
 		if(possibleRituals != null && !possibleRituals.isEmpty()) {
 			List<ItemStack> stacks = new ArrayList();
-			List<IInventory> inventories = new ArrayList();
+			List<TileEntity> tiles = new ArrayList();
 			candidate.type.mutliblock[0].forEach(candidate.world, candidate.pos, Rotation.NONE, 'P', 
 					(pos) -> {
 						TileEntity tile = candidate.world.getTileEntity(pos);
@@ -48,7 +49,7 @@ public class RitualHandler {
 							ItemStack stack = inv.getStackInSlot(0);
 							if(!stack.isEmpty()) {
 								stacks.add(stack);
-								inventories.add(inv);
+								tiles.add(tile);
 							}
 						}
 					});
@@ -56,29 +57,31 @@ public class RitualHandler {
 			BlockPos center = candidate.type.getCenter(candidate.pos);
 			for(Ritual r : possibleRituals) {
 				if(r.matches(stacks) && r.canRun(candidate.world, center)) {
-					inventories.forEach((inv) -> {
+					tiles.forEach((tile) -> {
+						IInventory inv = (IInventory) tile;
 						ItemStack stack = inv.getStackInSlot(0);
-						inv.setInventorySlotContents(0, stack.getItem().getContainerItem(stack));
-						if(inv instanceof TileEntity) {
-							VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity) inv);
-							
-							if(candidate.world instanceof WorldServer) {
-								BlockPos pos = ((TileEntity) inv).getPos();
-								((WorldServer) candidate.world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 100, 0.4, 0, 0.4, 0.01F);
-								((WorldServer) candidate.world).spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0.4, 0, 0.4, 0.05F);
-							}
+						r.consumeItem(tile, stack);
+
+						VanillaPacketDispatcher.dispatchTEToNearbyPlayers((TileEntity) inv);
+
+						if(candidate.world instanceof WorldServer) {
+							BlockPos pos = ((TileEntity) inv).getPos();
+							((WorldServer) candidate.world).spawnParticle(EnumParticleTypes.SMOKE_LARGE, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 100, 0.4, 0, 0.4, 0.01F);
+							((WorldServer) candidate.world).spawnParticle(EnumParticleTypes.END_ROD, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 20, 0.4, 0, 0.4, 0.05F);
 						}
 					});
-					
+
 					startRitual(candidate.world, center, r);
 				}
 			}
 		}
 	}
-	
+
 	public static void startRitual(World world, BlockPos pos, Ritual ritual) {
-		if(!ritual.run(world, pos))
-			world.spawnEntity(new EntityRitualLogic(world, pos, ritual));
+		EntityRitualLogic logic = new EntityRitualLogic(world, pos, ritual);
+		NBTTagCompound cmp = logic.getEntityData();
+		if(!ritual.run(world, pos, cmp))
+			world.spawnEntity(logic);
 	}
 
 	public static void addCandidate(World world, BlockPos pos, RitualType type) {
