@@ -8,6 +8,9 @@ alqmisc.dev_edition=Writer's
 # Block Names
 tile.alquimia:ash.name=Ash
 tile.alquimia:pedestal.name=Pedestal
+tile.alquimia:ash_block.name=Ash Block
+tile.alquimia:alchemical_ash_block.name=Alchemical Ash Block
+tile.alquimia:cinnabar_block.name=Cinnabar Block
 
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia
@@ -17,6 +20,7 @@ item.alquimia:alchemical_ash.name=Alchemical Ash
 item.alquimia:orichalcum_ingot.name=Orichalcum Ingot
 item.alquimia:cinnabar.name=Cinnabar Shard
 item.alquimia:divining_rod.name=Divining Rod
+item.alquimia:orichalcum_gear.name=Orichalcum Gear
 
 # Advancements
 alquimia.advancement.root=Alquimia

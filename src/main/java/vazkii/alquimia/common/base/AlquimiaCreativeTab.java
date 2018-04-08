@@ -5,6 +5,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.lib.LibMisc;
@@ -39,13 +40,24 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 	public void displayAllRelevantItems(NonNullList<ItemStack> p_78018_1_) {
 		list = p_78018_1_;
 
+		// Basic Items/Resources
 		addItem(ModItems.lexicon);
 		addBlock(ModBlocks.ash);
 		addItem(ModItems.alchemical_ash);
-		addItem(ModItems.orichalcum_ingot);
 		addItem(ModItems.cinnabar);
-		addItem(ModItems.divining_rod);
+		addItem(ModItems.orichalcum_ingot);
+		addItem(ModItems.orichalcum_gear);
 		
+		// Progression Tools
+		addItem(ModItems.divining_rod);
+		addBlock(ModBlocks.pedestal);
+		
+		// Decor Blocks
+		addBlock(ModBlocks.ash_block);
+		addBlock(ModBlocks.alchemical_ash_block);
+		addBlock(ModBlocks.cinnabar_block);
+
+		// Other Stuff
 		addItem(ModItems.test_rod);
 	}
 
