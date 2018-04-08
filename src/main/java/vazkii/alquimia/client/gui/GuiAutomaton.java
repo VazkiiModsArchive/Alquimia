@@ -36,6 +36,12 @@ public class GuiAutomaton extends GuiContainer {
         String s = automaton.getDisplayName().getUnformattedText();
         fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 4210752);
         fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
+        
+        int x = 40 + automaton.getSelection() * 18;
+        int y = 54;         
+        fontRenderer.drawString("^", x, y, 4210752);
+        
+        fontRenderer.drawString(automaton.getCurrentFacing().getName() + " (" + automaton.isUp() + ")", 80, 64, 4210752);
     }
     
 	@Override

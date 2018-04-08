@@ -1,5 +1,6 @@
 package vazkii.alquimia.common.item.instruction;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Rotation;
 import vazkii.alquimia.common.block.interf.IAutomaton;
 
@@ -10,7 +11,7 @@ public class ItemInstructionCounterclockwise extends ItemInstruction {
 	}
 
 	@Override
-	public void run(IAutomaton automaton) {
+	public void run(ItemStack stack, IAutomaton automaton) {
 		automaton.rotate(Rotation.COUNTERCLOCKWISE_90);
 	}
 

@@ -11,10 +11,8 @@ public interface IAutomatonHead {
 	public default void onRemoved(IAutomaton automaton) {}
 	public default void onRotateStart(IAutomaton automaton) {}
 	public default void onRotateEnd(IAutomaton automaton) {}
-	public default void onUpStart(IAutomaton automaton) {}
-	public default void onUpEnd(IAutomaton automaton) {}
-	public default void onDownStart(IAutomaton automaton) {}
-	public default void onDownEnd(IAutomaton automaton) {}
+	public default void onEngageStatusStart(IAutomaton automaton) {}
+	public default void onEngageStatusEnd(IAutomaton automaton) {}
 	public default void writeToNBT(IAutomaton automaton, NBTTagCompound cmp)  {}
 	public default void readFromNBT(IAutomaton automaton, NBTTagCompound cmp)  {}
 	

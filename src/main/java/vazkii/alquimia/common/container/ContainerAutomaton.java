@@ -23,5 +23,7 @@ public class ContainerAutomaton extends ContainerBasic<TileAutomaton> {
 		
 		return tile.getSizeInventory();
 	}
+	
+	// TODO do a thing so modules only send one at a time
 
 }
