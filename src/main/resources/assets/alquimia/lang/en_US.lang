@@ -11,6 +11,7 @@ tile.alquimia:pedestal.name=Pedestal
 tile.alquimia:ash_block.name=Ash Block
 tile.alquimia:alchemical_ash_block.name=Alchemical Ash Block
 tile.alquimia:cinnabar_block.name=Cinnabar Block
+tile.alquimia:automaton.name=Automaton
 
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia
@@ -21,6 +22,12 @@ item.alquimia:orichalcum_ingot.name=Orichalcum Ingot
 item.alquimia:cinnabar.name=Cinnabar Shard
 item.alquimia:divining_rod.name=Divining Rod
 item.alquimia:orichalcum_gear.name=Orichalcum Gear
+item.alquimia:sticky_head.name=Sticky Head
+item.alquimia:instruction_clockwise.name=CW Turn Module
+item.alquimia:instruction_counterclockwise.name=CCW Turn Module
+item.alquimia:instruction_up.name=Engage Module
+item.alquimia:instruction_down.name=Disengage Module
+item.alquimia:instruction_nop.name=Await Module
 
 # Advancements
 alquimia.advancement.root=Alquimia

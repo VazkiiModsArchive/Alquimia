@@ -1,6 +1,7 @@
 package vazkii.alquimia.common.block.tile;
 
 import net.minecraft.nbt.NBTTagCompound;
+import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.arl.block.tile.TileSimpleInventory;
 
 public class TilePedestal extends TileSimpleInventory {
@@ -29,11 +30,6 @@ public class TilePedestal extends TileSimpleInventory {
 	@Override
 	public int getInventoryStackLimit() {
 		return 1;
-	}
-	
-	@Override
-	public String getName() {
-		return "pedestal";
 	}
 	
 }

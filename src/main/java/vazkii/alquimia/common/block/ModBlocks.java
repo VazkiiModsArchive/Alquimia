@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import vazkii.alquimia.common.block.decor.BlockAlchemicalAshBlock;
 import vazkii.alquimia.common.block.decor.BlockAshBlock;
 import vazkii.alquimia.common.block.decor.BlockCinnabarBlock;
+import vazkii.alquimia.common.block.tile.TileAutomaton;
 import vazkii.alquimia.common.block.tile.TilePedestal;
 import vazkii.alquimia.common.lib.LibMisc;
 
@@ -16,6 +17,7 @@ public class ModBlocks {
 	public static Block ash_block;
 	public static Block alchemical_ash_block;
 	public static Block cinnabar_block;
+	public static Block automaton;
 
 	public static void preInit() {
 		ash = new BlockAsh();
@@ -23,12 +25,14 @@ public class ModBlocks {
 		ash_block = new BlockAshBlock();
 		alchemical_ash_block = new BlockAlchemicalAshBlock();
 		cinnabar_block = new BlockCinnabarBlock();
-		
+		automaton = new BlockAutomaton();
+
 		initTileEntities();
 	}
 	
 	private static void initTileEntities() {
 		registerTile(TilePedestal.class, "pedestal");
+		registerTile(TileAutomaton.class, "automaton");
 	}
 	
 	private static void registerTile(Class<? extends TileEntity> clazz, String key) {

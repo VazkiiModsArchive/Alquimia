@@ -52,6 +52,17 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		addItem(ModItems.divining_rod);
 		addBlock(ModBlocks.pedestal);
 		
+		// Automaton, Heads, and Instructions
+		addBlock(ModBlocks.automaton);
+		
+		addItem(ModItems.sticky_head);
+		
+		addItem(ModItems.instruction_clockwise);
+		addItem(ModItems.instruction_counterclockwise);
+		addItem(ModItems.instruction_up);
+		addItem(ModItems.instruction_down);
+		addItem(ModItems.instruction_nop);
+		
 		// Decor Blocks
 		addBlock(ModBlocks.ash_block);
 		addBlock(ModBlocks.alchemical_ash_block);

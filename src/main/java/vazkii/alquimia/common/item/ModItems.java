@@ -1,6 +1,12 @@
 package vazkii.alquimia.common.item;
 
 import net.minecraft.item.Item;
+import vazkii.alquimia.common.block.head.HeadSticky;
+import vazkii.alquimia.common.item.instruction.ItemInstructionClockwise;
+import vazkii.alquimia.common.item.instruction.ItemInstructionCounterclockwise;
+import vazkii.alquimia.common.item.instruction.ItemInstructionDown;
+import vazkii.alquimia.common.item.instruction.ItemInstructionNop;
+import vazkii.alquimia.common.item.instruction.ItemInstructionUp;
 
 public final class ModItems {
 
@@ -10,6 +16,13 @@ public final class ModItems {
 	public static Item cinnabar;
 	public static Item divining_rod;
 	public static Item orichalcum_gear;
+	public static Item sticky_head;
+	public static Item instruction_clockwise;
+	public static Item instruction_counterclockwise;
+	public static Item instruction_up;
+	public static Item instruction_down;
+	public static Item instruction_nop;
+
 	public static Item test_rod;
 
 	public static void preInit() {
@@ -19,6 +32,12 @@ public final class ModItems {
 		cinnabar = new ItemBasic("cinnabar");
 		divining_rod = new ItemDiviningRod();
 		orichalcum_gear = new ItemBasic("orichalcum_gear");
+		sticky_head = new ItemAutomatonHead("sticky_head", HeadSticky::new);
+		instruction_clockwise = new ItemInstructionClockwise();
+		instruction_counterclockwise = new ItemInstructionCounterclockwise();
+		instruction_up = new ItemInstructionUp();
+		instruction_down = new ItemInstructionDown();
+		instruction_nop = new ItemInstructionNop();
 		
 		test_rod = new ItemTestRod();
 	}
