@@ -1,7 +1,11 @@
 package vazkii.alquimia.common.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -23,13 +27,16 @@ import vazkii.arl.block.BlockModContainer;
 public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock {
 
 	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 0.5, 1);
-
+	public static final IProperty<Boolean> REDSTONE = PropertyBool.create("redstone");
+	
 	public BlockAutomaton() {
 		super("automaton", Material.IRON);
 		setHardness(5.0F);
 		setResistance(10.0F);
 		setSoundType(SoundType.METAL);
 		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
+		
+		setDefaultState(getDefaultState().withProperty(REDSTONE, false));
 	}
 
 	@Override
@@ -38,6 +45,15 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 		return true;
 	}
 
+	@Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        boolean isPowered = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.down());
+        boolean wasPowered = state.getValue(REDSTONE);
+
+        if(isPowered != wasPowered)
+            worldIn.setBlockState(pos, state.withProperty(REDSTONE, isPowered), 2 | 4);
+    }
+	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileAutomaton();
@@ -69,5 +85,25 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 
 		super.breakBlock(worldIn, pos, state);
 	}
+	
+	@Override
+	public IBlockState getStateFromMeta(int meta) {
+		return getDefaultState().withProperty(REDSTONE, (meta & 1) == 0 ? false : true);
+	}
+	
+	@Override
+	public int getMetaFromState(IBlockState state) {
+		return state.getValue(REDSTONE) ? 1 : 0;
+	}
 
+	@Override
+	protected BlockStateContainer createBlockState() {
+		return new BlockStateContainer(this, new IProperty[] { REDSTONE });
+	}
+	
+	@Override
+	public IProperty[] getIgnoredProperties() {
+		return new IProperty[] { REDSTONE };
+	}
+	
 }

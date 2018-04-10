@@ -1,6 +1,7 @@
 package vazkii.alquimia.common.block.tile;
 
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -8,12 +9,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.Rotation;
-import vazkii.alquimia.common.block.ModBlocks;
+import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.item.interf.IAutomatonHeadItem;
 import vazkii.alquimia.common.item.interf.IAutomatonInstruction;
-import vazkii.arl.block.tile.TileMod;
 import vazkii.arl.block.tile.TileSimpleInventory;
 
 public class TileAutomaton extends TileSimpleInventory implements IAutomaton, ITickable {
@@ -31,6 +31,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	private static final String TAG_EXECUTING = "executing";
 	private static final String TAG_CLOCK = "clock";
 	private static final String TAG_SELECTION = "selection";
+	private static final String TAG_BLOCKED = "blocked";
 
 	protected IAutomatonHead head = null;
 	protected EnumFacing facing = EnumFacing.NORTH;
@@ -41,6 +42,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	protected boolean executing = false;
 	protected int clock = 0;
 	protected int selection = 1;
+	protected boolean blocked = false;
 
 	@Override
 	public void update() {
@@ -98,13 +100,15 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		
 		ItemStack stack = getStackInSlot(selection);
 		if(stack.getItem() instanceof IAutomatonInstruction) {
+			blocked = false;
 			((IAutomatonInstruction) stack.getItem()).run(stack, this);
 			executed = true;
 		}
 		
-		if(executed)
-			startExecuting();
-		else selection = 1;
+		if(executed) {
+			if(!blocked)
+				startExecuting();
+		} else selection = 1;
 	}
 	
 	@Override
@@ -122,6 +126,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		par1nbtTagCompound.setBoolean(TAG_EXECUTING, executing);
 		par1nbtTagCompound.setInteger(TAG_CLOCK, clock);
 		par1nbtTagCompound.setInteger(TAG_SELECTION, selection);
+		par1nbtTagCompound.setBoolean(TAG_BLOCKED, blocked);
 	}
 	
 	@Override
@@ -140,6 +145,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		executing = par1nbtTagCompound.getBoolean(TAG_EXECUTING);
 		clock = par1nbtTagCompound.getInteger(TAG_CLOCK);
 		selection = par1nbtTagCompound.getInteger(TAG_SELECTION);
+		blocked = par1nbtTagCompound.getBoolean(TAG_BLOCKED);
 	}
 
 	@Override
@@ -165,13 +171,20 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	@Override
 	public void rotate(Rotation rotation) {
 		if(!isExecuting()) {
+			EnumFacing prevPrevFacing = prevFacing;
 			this.rotation = rotation;
 			prevFacing = facing;
 			EnumFacing newFacing = rotation.rotate(facing);
-			if(prevFacing != newFacing) 
-				runInHead(IAutomatonHead::onRotateStart);
 			
-			facing = newFacing;
+			if(prevFacing != newFacing) {
+				if(runInHead(IAutomatonHead::onRotateStart, true)) 
+					facing = newFacing;
+				else {
+					blocked = true;
+					this.rotation = Rotation.NONE;
+					prevFacing = prevPrevFacing;
+				}
+			}
 		}
 	}
 
@@ -199,10 +212,16 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		if(head != null)
 			func.accept(head, this);
 	}
+	
+	public boolean runInHead(BiPredicate<IAutomatonHead, IAutomaton> func, boolean _default) {
+		if(head != null)
+			return func.test(head, this);
+		return _default;
+	}
 
 	@Override
 	public boolean isEnabled() {
-		return getWorld().getBlockState(getPos().down()).getBlock() == Blocks.GOLD_BLOCK; // TODO redstone
+		return !getWorld().getBlockState(getPos()).getValue(BlockAutomaton.REDSTONE);
 	}
 
 	@Override

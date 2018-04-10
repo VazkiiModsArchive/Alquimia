@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Rotation;
+import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.block.tile.TileAutomaton;
 
 public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton> {
@@ -46,13 +47,11 @@ public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton
 			RenderItem render = Minecraft.getMinecraft().getRenderItem();
 			IBakedModel model = render.getItemModelWithOverrides(stack, getWorld(), null);
 			GlStateManager.rotate(90F, 1F, 0F, 0F);
-			float scale = 0.75F;
-			GlStateManager.scale(scale, scale, scale);
 			GlStateManager.rotate(rot, 0F, 0F, 1F);
 			
 			boolean isUp = te.isUp();
 			boolean wasUp = te.wasUp();
-			float extend = -0.4F;
+			float extend = -0.25F;
 			float translate = (isUp ? extend : 0F);
 			 
 			if(te.isExecuting() && isUp != wasUp) {
@@ -62,9 +61,16 @@ public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton
 				translate = prevTranslate + diff * fract;
 			}
 			
-			GlStateManager.translate(translate, 0F, 0F);
+			IAutomatonHead head = te.getHead();
+			boolean renderItem = true;
+			if(head != null)
+				renderItem = head.render(te, translate, partialTicks);
 			
-			render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+			if(renderItem) {
+				GlStateManager.translate(translate, 0F, 0F);
+				render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+			}
+			
 			GlStateManager.popMatrix();
 		}
 	}
