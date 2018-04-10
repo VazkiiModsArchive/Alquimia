@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public interface IAutomaton {
-
+	
 	public World getWorld();
 	public BlockPos getPos();
 	public IAutomatonHead getHead();

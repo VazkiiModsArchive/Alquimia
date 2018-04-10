@@ -8,8 +8,10 @@ import vazkii.alquimia.client.handler.LexiconRightClickHandler;
 import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.render.entity.RenderRitual;
+import vazkii.alquimia.client.render.tile.RenderTileAutomaton;
 import vazkii.alquimia.client.render.tile.RenderTilePedestal;
 import vazkii.alquimia.common.base.CommonProxy;
+import vazkii.alquimia.common.block.tile.TileAutomaton;
 import vazkii.alquimia.common.block.tile.TilePedestal;
 import vazkii.alquimia.common.entity.EntityRitualLogic;
 
@@ -31,7 +33,8 @@ public class ClientProxy extends CommonProxy {
 	
 	private void initRenderers() {	
 		ClientRegistry.bindTileEntitySpecialRenderer(TilePedestal.class, new RenderTilePedestal());
-		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileAutomaton.class, new RenderTileAutomaton());
+
 		RenderingRegistry.registerEntityRenderingHandler(EntityRitualLogic.class, RenderRitual::new);
 	}
 	
