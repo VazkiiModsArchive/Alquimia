@@ -18,6 +18,7 @@ public class ModBlocks {
 	public static Block alchemical_ash_block;
 	public static Block cinnabar_block;
 	public static Block automaton;
+	public static Block placeholder;
 
 	public static void preInit() {
 		ash = new BlockAsh();
@@ -26,6 +27,7 @@ public class ModBlocks {
 		alchemical_ash_block = new BlockAlchemicalAshBlock();
 		cinnabar_block = new BlockCinnabarBlock();
 		automaton = new BlockAutomaton();
+		placeholder = new BlockPlaceholder();
 
 		initTileEntities();
 	}

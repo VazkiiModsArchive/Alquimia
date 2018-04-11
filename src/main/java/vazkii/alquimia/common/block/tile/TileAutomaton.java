@@ -59,7 +59,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		runInHead(IAutomatonHead::onTicked);
 		
 		if(getHead() != null) {
-			if(clock >= INSTRUCTION_TIME - 1)
+			if(clock >= getSpeed() - 1)
 				executeCurrentInstruction();
 			else clock++;
 		}
@@ -233,6 +233,11 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	@Override
 	public int getInstructionTime() {
 		return clock;
+	}
+	
+	@Override
+	public int getSpeed() {
+		return INSTRUCTION_TIME;
 	}
 	
 	public int getSelection() {

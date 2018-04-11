@@ -69,7 +69,6 @@ public class BlockPedestal extends BlockModContainer implements IAlquimiaBlock {
 			}
 			
 			if(worldIn instanceof WorldServer && did) {
-				pedestal.sync();
 				worldIn.updateComparatorOutputLevel(pos, this);
 				((WorldServer) worldIn).playSound(null, pos, sfx, SoundCategory.BLOCKS, 1.0F, 1.0F);
 			}

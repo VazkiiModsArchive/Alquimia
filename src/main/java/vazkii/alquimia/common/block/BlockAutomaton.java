@@ -20,6 +20,7 @@ import net.minecraft.world.World;
 import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaBlock;
+import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.block.tile.TileAutomaton;
 import vazkii.alquimia.common.lib.LibGuiIDs;
 import vazkii.arl.block.BlockModContainer;
@@ -78,8 +79,10 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
 		TileEntity tileentity = worldIn.getTileEntity(pos);
 
-		if(tileentity instanceof IInventory) {
-			InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
+		if(tileentity instanceof TileAutomaton) {
+			TileAutomaton automaton = (TileAutomaton) tileentity;
+			automaton.runInHead(IAutomatonHead::onRemoved);
+			InventoryHelper.dropInventoryItems(worldIn, pos, automaton);
 			worldIn.updateComparatorOutputLevel(pos, this);
 		}
 

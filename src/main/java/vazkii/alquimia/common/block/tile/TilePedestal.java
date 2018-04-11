@@ -1,5 +1,6 @@
 package vazkii.alquimia.common.block.tile;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.arl.block.tile.TileSimpleInventory;
@@ -9,6 +10,11 @@ public class TilePedestal extends TileSimpleInventory {
 	private static final String TAG_ROTATION = "rotation";
 	
 	public int rotation = 0;
+
+	@Override
+	public void inventoryChanged(int i) {
+		sync();
+	}
 	
 	@Override
 	public void writeSharedNBT(NBTTagCompound par1nbtTagCompound) {

@@ -20,5 +20,6 @@ public interface IAutomaton {
 	public boolean isEnabled();
 	public boolean isExecuting();
 	public int getInstructionTime();
+	public int getSpeed();
 	
 }

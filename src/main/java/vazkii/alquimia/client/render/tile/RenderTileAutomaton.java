@@ -27,7 +27,7 @@ public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton
 			EnumFacing prevFacing = te.getPreviousFacing();
 			float rot = FACING_ROTATIONS[(currFacing.ordinal() - 2)] + compensate;
 			
-			float fract = ((float) te.getInstructionTime() + partialTicks) / TileAutomaton.INSTRUCTION_TIME;
+			float fract = ((float) te.getInstructionTime() + partialTicks) / te.getSpeed();
 			fract = -fract * (fract - 2);
 			
 			if(te.isExecuting() && currFacing != prevFacing) {

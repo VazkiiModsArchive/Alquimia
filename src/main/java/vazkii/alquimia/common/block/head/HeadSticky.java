@@ -17,6 +17,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.scoreboard.IScoreCriteria.EnumRenderType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumBlockRenderType;
@@ -28,6 +29,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.alquimia.common.block.BlockPlaceholder;
+import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.block.interf.IAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.lib.LibObfuscation;
@@ -37,15 +40,31 @@ public class HeadSticky implements IAutomatonHead {
 
 	private static final List<ResourceLocation> BLACKLIST = new LinkedList();
 
-	// TODO: do TEs render?
-	// TODO: what if a block is placed halfway through?
-	// TODO: what if the head is detached halfway through?
-
 	private static final String TAG_STATE = "state";
 	private static final String TAG_TILE = "tile";
 
 	IBlockState pickedUpState = null;
 	TileEntity pickedUpTE = null;
+
+	@Override
+	public void onRemoved(IAutomaton automaton) {
+		World world = automaton.getWorld();
+		EnumFacing facing = automaton.getCurrentFacing();
+		EnumFacing endFacing = automaton.getCurrentRotation().rotate(facing);
+		BlockPos end = automaton.getPos().offset(endFacing);
+		IBlockState state = pickedUpState;
+
+		if(state != null) {
+			Block block = state.getBlock();
+
+			placePickedUpBlock(automaton, world, end);
+			block.dropBlockAsItem(world, end, state, 0);
+			world.setBlockToAir(end);
+		}
+		
+		if(world.getBlockState(end).getBlock() == ModBlocks.placeholder)
+			world.setBlockToAir(end);
+	}
 
 	@Override
 	public boolean onRotateStart(IAutomaton automaton) {
@@ -68,6 +87,7 @@ public class HeadSticky implements IAutomatonHead {
 				pickedUpTE = world.getTileEntity(target);
 				world.removeTileEntity(target);
 				world.setBlockToAir(target);
+				world.setBlockState(end, ModBlocks.placeholder.getDefaultState());
 			}
 		}
 
@@ -80,19 +100,22 @@ public class HeadSticky implements IAutomatonHead {
 			World world = automaton.getWorld();
 			BlockPos target = automaton.getPos().offset(automaton.getCurrentFacing());
 
-			if(world.isAirBlock(target)) {
-				world.setBlockState(target, pickedUpState.withRotation(automaton.getCurrentRotation()));
-
-				if(pickedUpTE != null) {
-					pickedUpTE.validate();
-					world.setTileEntity(target, pickedUpTE);
-					pickedUpTE.updateContainingBlockInfo();
-				}
-
-				pickedUpState = null;
-				pickedUpTE = null;
-			}
+			if(world.isAirBlock(target) || world.getBlockState(target).getBlock() == ModBlocks.placeholder)
+				placePickedUpBlock(automaton, world, target);
 		}
+	}
+
+	private void placePickedUpBlock(IAutomaton automaton, World world, BlockPos target) {
+		world.setBlockState(target, pickedUpState.withRotation(automaton.getCurrentRotation()));
+
+		if(pickedUpTE != null) {
+			pickedUpTE.validate();
+			world.setTileEntity(target, pickedUpTE);
+			pickedUpTE.updateContainingBlockInfo();
+		}
+
+		pickedUpState = null;
+		pickedUpTE = null;
 	}
 
 	@Override
@@ -146,8 +169,7 @@ public class HeadSticky implements IAutomatonHead {
 		BlockRendererDispatcher blockRenderer = mc.getBlockRendererDispatcher();
 		Block block = state.getBlock();
 		ResourceLocation id = Block.REGISTRY.getNameForObject(block);
-		state = state.withRotation(rotation);
-		
+
 		boolean executedTERender = false;
 		EnumBlockRenderType type = block.getRenderType(state);
 		renderTE: {
@@ -166,40 +188,14 @@ public class HeadSticky implements IAutomatonHead {
 					chest.adjacentChestZNeg = null;
 				}
 
-
-				EnumFacing facing = null;
-				
-				if(state.getPropertyKeys().contains(BlockHorizontal.FACING))
-					facing = state.getValue(BlockHorizontal.FACING);
-				else if(state.getPropertyKeys().contains(BlockDirectional.FACING))
-					facing = state.getValue(BlockDirectional.FACING);
-
 				GlStateManager.translate(0F, 0F, -1F);
-
-				// TODO fix fucked up chest rotation
-				if(facing != null) {
-					float rot = 90F;
-					switch(facing) {
-					case NORTH: 
-						rot = -90F;
-						break;
-					case EAST:
-						rot = 0F;
-						break;
-					case WEST:
-						rot = 180F;
-						break;
-					default: break;
-					}
-
-					GlStateManager.translate(0.5, 0.5, 0.5);
-					GlStateManager.rotate(rot, 0, 1F, 0);
-					GlStateManager.translate(-0.5, -0.5, -0.5);
-				}
+				GlStateManager.translate(0.5, 0.5, 0.5);
+				GlStateManager.rotate(-90F, 0, 1F, 0);
+				GlStateManager.translate(-0.5, -0.5, -0.5);
 
 				RenderHelper.enableStandardItemLighting();
 				TileEntityRendererDispatcher.instance.render(tile, 0, 0, 0, 0);
-				RenderHelper.disableStandardItemLighting();
+				GlStateManager.disableRescaleNormal();
 				GlStateManager.popMatrix();
 
 				executedTERender = true;
@@ -209,13 +205,13 @@ public class HeadSticky implements IAutomatonHead {
 			}
 		}
 
+		state = state.withRotation(rotation);
 		mc.renderEngine.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 
-		if(!executedTERender) {
-			if((type == EnumBlockRenderType.ENTITYBLOCK_ANIMATED || type == EnumBlockRenderType.INVISIBLE))
-				blockRenderer.renderBlockBrightness(Blocks.PLANKS.getDefaultState(), 1F);
-			else blockRenderer.renderBlockBrightness(state, 1F);
-		}
+		if(!executedTERender && (type == EnumBlockRenderType.ENTITYBLOCK_ANIMATED || type == EnumBlockRenderType.INVISIBLE))
+			blockRenderer.renderBlockBrightness(Blocks.PLANKS.getDefaultState(), 1F);
+		else if(type == EnumBlockRenderType.MODEL)
+			blockRenderer.renderBlockBrightness(state, 1F);
 	}
 
 }
