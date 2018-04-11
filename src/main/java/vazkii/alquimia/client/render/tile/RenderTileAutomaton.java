@@ -64,7 +64,7 @@ public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton
 			IAutomatonHead head = te.getHead();
 			boolean renderItem = true;
 			if(head != null)
-				renderItem = head.render(te, translate, partialTicks);
+				renderItem = head.render(te, rot, translate, partialTicks);
 			
 			if(renderItem) {
 				GlStateManager.translate(translate, 0F, 0F);

@@ -17,7 +17,7 @@ public interface IAutomatonHead {
 	public default void readFromNBT(IAutomaton automaton, NBTTagCompound cmp)  {}
 	
 	@SideOnly(Side.CLIENT) 
-	public default boolean render(IAutomaton automaton, float translation, float partTicks) {
+	public default boolean render(IAutomaton automaton, float rotation, float translation, float partTicks) {
 		return true;
 	}
 	

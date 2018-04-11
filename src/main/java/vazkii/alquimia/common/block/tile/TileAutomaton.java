@@ -15,6 +15,7 @@ import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.item.interf.IAutomatonHeadItem;
 import vazkii.alquimia.common.item.interf.IAutomatonInstruction;
 import vazkii.arl.block.tile.TileSimpleInventory;
+import vazkii.arl.util.VanillaPacketDispatcher;
 
 public class TileAutomaton extends TileSimpleInventory implements IAutomaton, ITickable {
 
@@ -57,10 +58,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 		runInHead(IAutomatonHead::onTicked);
 		
-		if(!isEnabled() || getHead() == null) {
-			clock = INSTRUCTION_TIME;
-			selection = 1;
-		} else {
+		if(getHead() != null) {
 			if(clock >= INSTRUCTION_TIME - 1)
 				executeCurrentInstruction();
 			else clock++;
@@ -83,7 +81,6 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		} while(!(stack.getItem() instanceof IAutomatonInstruction));
 	}
 
-	// TODO handle case where power goes out halfway through
 	protected void executeCurrentInstruction() {
 		if(prevUp != up) {
 			prevUp = up;
@@ -98,17 +95,21 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		executing = false;
 		boolean executed = false;
 		
-		ItemStack stack = getStackInSlot(selection);
-		if(stack.getItem() instanceof IAutomatonInstruction) {
-			blocked = false;
-			((IAutomatonInstruction) stack.getItem()).run(stack, this);
-			executed = true;
+		if(isEnabled()) {
+			ItemStack stack = getStackInSlot(selection);
+			if(stack.getItem() instanceof IAutomatonInstruction) {
+				blocked = false;
+				((IAutomatonInstruction) stack.getItem()).run(stack, this);
+				executed = true;
+			}
+			
+			if(executed) {
+				if(!blocked) {
+					startExecuting();
+					sync();
+				}
+			} else selection = 1;
 		}
-		
-		if(executed) {
-			if(!blocked)
-				startExecuting();
-		} else selection = 1;
 	}
 	
 	@Override
