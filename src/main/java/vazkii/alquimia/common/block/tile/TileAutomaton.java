@@ -9,6 +9,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.SoundCategory;
+import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
@@ -114,6 +116,11 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		}
 	}
 	
+	protected void playSound() {
+		if(!world.isRemote)
+			world.playSound(null, getPos(), AlquimiaSounds.automaton, SoundCategory.BLOCKS, 0.2F, 0.5F + (float) Math.random() * 0.5F);
+	}
+	
 	@Override
 	public void writeSharedNBT(NBTTagCompound par1nbtTagCompound) {
 		super.writeSharedNBT(par1nbtTagCompound);
@@ -180,9 +187,10 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			EnumFacing newFacing = rotation.rotate(facing);
 			
 			if(prevFacing != newFacing) {
-				if(runInHead(IAutomatonHead::onRotateStart, true)) 
+				if(runInHead(IAutomatonHead::onRotateStart, true)) {
+					playSound();
 					facing = newFacing;
-				else {
+				} else {
 					blocked = true;
 					this.rotation = Rotation.NONE;
 					prevFacing = prevPrevFacing;
@@ -205,8 +213,10 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	public void setUp(boolean up) {
 		if(!isExecuting()) {
 			prevUp = this.up;
-			if(prevUp != up)
+			if(prevUp != up) {
+				playSound();
 				runInHead(IAutomatonHead::onEngageStatusStart);
+			}
 			this.up = up;
 		}
 	}
