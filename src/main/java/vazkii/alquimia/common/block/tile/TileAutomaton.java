@@ -19,8 +19,7 @@ import vazkii.arl.util.VanillaPacketDispatcher;
 
 public class TileAutomaton extends TileSimpleInventory implements IAutomaton, ITickable {
 
-	// TODO increase to 12
-	public static final int INSTRUCTION_SLOTS = 6;
+	public static final int INSTRUCTION_SLOTS = 12;
 	public static final int INSTRUCTION_TIME = 10;
 	
 	private static final String TAG_HEAD_DATA = "headData";
@@ -58,11 +57,14 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 		runInHead(IAutomatonHead::onTicked);
 		
+		if(!isEnabled() && !isExecuting())
+			selection = 1;
+		
 		if(getHead() != null) {
 			if(clock >= getSpeed() - 1)
 				executeCurrentInstruction();
 			else clock++;
-		}
+		} else up = false;
 	}
 
 	protected void startExecuting() {
@@ -222,7 +224,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 	@Override
 	public boolean isEnabled() {
-		return !getWorld().getBlockState(getPos()).getValue(BlockAutomaton.REDSTONE);
+		return getWorld().getBlockState(getPos()).getValue(BlockAutomaton.REDSTONE);
 	}
 
 	@Override

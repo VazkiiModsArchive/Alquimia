@@ -36,7 +36,7 @@ public class PageRitual extends PageWithText {
 	public void onDisplayed(GuiLexiconEntry parent, int left, int top) {
 		super.onDisplayed(parent, left, top);
 
-		adddButton(visualizeButton = new GuiButtonLexiconEye(parent, GuiLexicon.PAGE_WIDTH / 2 - 5, 75));
+		adddButton(visualizeButton = new GuiButtonLexiconEye(parent, GuiLexicon.PAGE_WIDTH / 2 - 5, 80));
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class PageRitual extends PageWithText {
 		int w = 66;
 		int h = w;
 		int x = GuiLexicon.PAGE_WIDTH / 2 - w / 2;
-		int y = 35;
+		int y = 40;
 		parent.drawModalRectWithCustomSizedTexture(x, y, 0, 0, w, h, 128, 128);
 		
 		if(ritualObj != null) {
@@ -95,7 +95,7 @@ public class PageRitual extends PageWithText {
 	
 	@Override
 	public int getTextHeight() {
-		return 122;
+		return 132;
 	}
 
 }

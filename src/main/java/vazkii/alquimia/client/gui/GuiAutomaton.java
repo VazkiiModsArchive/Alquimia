@@ -3,10 +3,8 @@ package vazkii.alquimia.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
-import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.block.tile.TileAutomaton;
 import vazkii.alquimia.common.container.ContainerAutomaton;
 import vazkii.alquimia.common.lib.LibMisc;
@@ -36,12 +34,6 @@ public class GuiAutomaton extends GuiContainer {
         String s = automaton.getDisplayName().getUnformattedText();
         fontRenderer.drawString(s, xSize / 2 - fontRenderer.getStringWidth(s) / 2, 6, 4210752);
         fontRenderer.drawString(playerInv.getDisplayName().getUnformattedText(), 8, ySize - 96 + 2, 4210752);
-        
-        int x = 40 + automaton.getSelection() * 18;
-        int y = 54;         
-        fontRenderer.drawString("^", x, y, 4210752);
-        
-        fontRenderer.drawString(automaton.getCurrentFacing().getName() + " (" + automaton.isUp() + ")", 80, 64, 4210752);
     }
     
 	@Override
@@ -51,6 +43,10 @@ public class GuiAutomaton extends GuiContainer {
         int i = (width - xSize) / 2;
         int j = (height - ySize) / 2;
         drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
+        
+        int selection = automaton.getSelection();
+        Slot slot = inventorySlots.getSlot(selection);
+        drawTexturedModalRect(i + slot.xPos - 1, j + slot.yPos - 1, 0, ySize, 18, 18);
 	}
 
 }
