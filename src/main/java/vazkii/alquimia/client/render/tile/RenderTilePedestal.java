@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.model.ModelLoader;
+import vazkii.alquimia.common.block.BlockPedestal;
 import vazkii.alquimia.common.block.tile.TilePedestal;
 
 public class RenderTilePedestal extends TileEntitySpecialRenderer<TilePedestal> {
@@ -21,7 +22,7 @@ public class RenderTilePedestal extends TileEntitySpecialRenderer<TilePedestal> 
 			float rot = te.rotation * 45F;
 
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(x + 0.5, y + 0.75F + 1F / 64F, z + 0.5);
+			GlStateManager.translate(x + 0.5, y + BlockPedestal.AABB.maxY + 1F / 64F, z + 0.5);
 			
 			RenderItem render = Minecraft.getMinecraft().getRenderItem();
 			IBakedModel model = render.getItemModelWithOverrides(stack, getWorld(), null);

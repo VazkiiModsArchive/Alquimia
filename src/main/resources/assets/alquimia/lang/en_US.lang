@@ -12,6 +12,8 @@ tile.alquimia:ash_block.name=Ash Block
 tile.alquimia:alchemical_ash_block.name=Alchemical Ash Block
 tile.alquimia:cinnabar_block.name=Cinnabar Block
 tile.alquimia:automaton.name=Automaton
+tile.alquimia:placeholder.name=Placeholder
+tile.alquimia:orichalcum_block.name=Orichalcum Block
 
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia

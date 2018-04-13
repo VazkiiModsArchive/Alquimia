@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Rotation;
+import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.block.tile.TileAutomaton;
 
@@ -42,7 +43,7 @@ public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton
 			}
 			
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(x + 0.5, y + 0.5F + 1F / 64F, z + 0.5);
+			GlStateManager.translate(x + 0.5, y + BlockAutomaton.AABB.maxY + 1F / 32F, z + 0.5);
 			
 			RenderItem render = Minecraft.getMinecraft().getRenderItem();
 			IBakedModel model = render.getItemModelWithOverrides(stack, getWorld(), null);

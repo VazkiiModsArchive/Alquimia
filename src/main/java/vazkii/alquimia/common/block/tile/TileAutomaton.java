@@ -10,6 +10,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
 import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomaton;
@@ -52,10 +53,8 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		if(stack.isEmpty()) {
 			runInHead(IAutomatonHead::onRemoved);
 			head = null;
-		} else if(head == null && stack.getItem() instanceof IAutomatonHeadItem) {
-			head = ((IAutomatonHeadItem) stack.getItem()).provideHead(stack);
+		} else if(provideHead())
 			runInHead(IAutomatonHead::onAttached);
-		}
 
 		runInHead(IAutomatonHead::onTicked);
 		
@@ -143,7 +142,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	public void readSharedNBT(NBTTagCompound par1nbtTagCompound) {
 		super.readSharedNBT(par1nbtTagCompound);
 		
-		getHead(); // cause the head object to instantiate 
+		provideHead(); 
 		
 		NBTTagCompound cmp = par1nbtTagCompound.getCompoundTag(TAG_HEAD_DATA);
 		runInHead((h, a) -> h.readFromNBT(a, cmp));
@@ -156,6 +155,18 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		clock = par1nbtTagCompound.getInteger(TAG_CLOCK);
 		selection = par1nbtTagCompound.getInteger(TAG_SELECTION);
 		blocked = par1nbtTagCompound.getBoolean(TAG_BLOCKED);
+	}
+	
+	protected boolean provideHead() {
+		if(head == null) {
+			ItemStack stack = getStackInSlot(0);
+			if(stack.getItem() instanceof IAutomatonHeadItem) {
+				head = ((IAutomatonHeadItem) stack.getItem()).provideHead(stack);
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -269,6 +280,15 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	@Override
 	public boolean isAutomationEnabled() {
 		return false;
+	}
+	
+	public boolean isBlocked() {
+		return blocked;
+	}
+	
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		return super.getRenderBoundingBox().grow(1F);
 	}
 
 }

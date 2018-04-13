@@ -29,6 +29,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.BlockPlaceholder;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.block.interf.IAutomaton;
@@ -152,7 +153,7 @@ public class HeadSticky implements IAutomatonHead {
 			BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
 			GlStateManager.pushMatrix();
-			GlStateManager.translate(-1.5F, 0.5F, 0.5F + 1F / 64F);
+			GlStateManager.translate(-1.5F, 0.5F, BlockAutomaton.AABB.maxY + 1F / 32F);
 			GlStateManager.rotate(-90F, 1F, 0F, 0F);
 
 			Rotation rotationObj = RotationUtil.fixHorizontal(RotationUtil.rotationFromFacing(automaton.getPreviousFacing()));

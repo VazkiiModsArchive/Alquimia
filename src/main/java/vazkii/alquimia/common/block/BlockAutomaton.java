@@ -27,7 +27,7 @@ import vazkii.arl.block.BlockModContainer;
 
 public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock {
 
-	protected static final AxisAlignedBB AABB = new AxisAlignedBB(0, 0, 0, 1, 0.5, 1);
+	public static final AxisAlignedBB AABB = new AxisAlignedBB(0F, 0F, 0F, 1F, 12F / 16F, 1F);
 	public static final IProperty<Boolean> REDSTONE = PropertyBool.create("redstone");
 	
 	public BlockAutomaton() {
@@ -48,7 +48,7 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 
 	@Override
     public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        boolean isPowered = worldIn.isBlockPowered(pos) || worldIn.isBlockPowered(pos.down());
+        boolean isPowered = worldIn.isBlockPowered(pos);
         boolean wasPowered = state.getValue(REDSTONE);
 
         if(isPowered != wasPowered)
@@ -64,7 +64,7 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
-
+	
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;

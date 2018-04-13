@@ -67,6 +67,7 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		addBlock(ModBlocks.ash_block);
 		addBlock(ModBlocks.alchemical_ash_block);
 		addBlock(ModBlocks.cinnabar_block);
+		addBlock(ModBlocks.orichalcum_block);
 
 		// Other Stuff
 		addItem(ModItems.test_rod);
