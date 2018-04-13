@@ -1,5 +1,6 @@
 package vazkii.alquimia.common.block.interf;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -17,8 +18,6 @@ public interface IAutomatonHead {
 	public default void readFromNBT(IAutomaton automaton, NBTTagCompound cmp)  {}
 	
 	@SideOnly(Side.CLIENT) 
-	public default boolean render(IAutomaton automaton, float rotation, float translation, float partTicks) {
-		return true;
-	}
+	public default void render(IAutomaton automaton, ItemStack stack, float translation, float partTicks) { }
 	
 }

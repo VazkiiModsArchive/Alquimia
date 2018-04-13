@@ -4,20 +4,19 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirectional;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockRendererDispatcher;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.scoreboard.IScoreCriteria.EnumRenderType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumBlockRenderType;
@@ -26,15 +25,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.alquimia.common.block.BlockAutomaton;
-import vazkii.alquimia.common.block.BlockPlaceholder;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.block.interf.IAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
-import vazkii.alquimia.common.lib.LibObfuscation;
 import vazkii.alquimia.common.util.RotationUtil;
 
 public class HeadSticky implements IAutomatonHead {
@@ -147,9 +143,17 @@ public class HeadSticky implements IAutomatonHead {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public boolean render(IAutomaton automaton, float rotation, float translation, float partTicks) {
+	public void render(IAutomaton automaton, ItemStack stack, float translation, float partTicks) {
+		Minecraft mc = Minecraft.getMinecraft();
+		RenderItem render = mc.getRenderItem(); 
+
+		translation *= -0.3F;
+		GlStateManager.translate(translation , 0F, 0F);
+		render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+		GlStateManager.translate(-translation , 0F, 0F);
+		
 		if(automaton.isUp() && pickedUpState != null) {
-			Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
+			mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
 			GlStateManager.pushMatrix();
@@ -160,8 +164,6 @@ public class HeadSticky implements IAutomatonHead {
 			renderBlockOrTE(rotationObj, pickedUpState, pickedUpTE, automaton.getWorld());
 			GlStateManager.popMatrix();
 		}
-
-		return true;
 	}
 
 	@SideOnly(Side.CLIENT)

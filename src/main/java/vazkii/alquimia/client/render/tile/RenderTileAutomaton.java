@@ -52,7 +52,7 @@ public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton
 			
 			boolean isUp = te.isUp();
 			boolean wasUp = te.wasUp();
-			float extend = -0.25F;
+			float extend = 1F;
 			float translate = (isUp ? extend : 0F);
 			 
 			if(te.isExecuting() && isUp != wasUp) {
@@ -63,14 +63,8 @@ public class RenderTileAutomaton extends TileEntitySpecialRenderer<TileAutomaton
 			}
 			
 			IAutomatonHead head = te.getHead();
-			boolean renderItem = true;
 			if(head != null)
-				renderItem = head.render(te, rot, translate, partialTicks);
-			
-			if(renderItem) {
-				GlStateManager.translate(translate, 0F, 0F);
-				render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
-			}
+				head.render(te, stack, translate, partialTicks);
 			
 			GlStateManager.popMatrix();
 		}

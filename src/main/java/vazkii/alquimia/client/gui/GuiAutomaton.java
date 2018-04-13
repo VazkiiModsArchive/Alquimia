@@ -44,9 +44,11 @@ public class GuiAutomaton extends GuiContainer {
         int j = (height - ySize) / 2;
         drawTexturedModalRect(i, j, 0, 0, xSize, ySize);
         
-        int selection = automaton.getSelection();
-        Slot slot = inventorySlots.getSlot(selection);
-        drawTexturedModalRect(i + slot.xPos - 1, j + slot.yPos - 1, automaton.isBlocked() ? 18 : 0, ySize, 18, 18);
+        if(automaton.isEnabled()) {
+        	int selection = automaton.getSelection();
+            Slot slot = inventorySlots.getSlot(selection);
+            drawTexturedModalRect(i + slot.xPos - 1, j + slot.yPos - 1, automaton.isBlocked() ? 18 : 0, ySize, 18, 18);
+        }
 	}
 
 }
