@@ -13,6 +13,8 @@ import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -23,6 +25,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -58,7 +61,7 @@ public class HeadSticky implements IAutomatonHead {
 			block.dropBlockAsItem(world, end, state, 0);
 			world.setBlockToAir(end);
 		}
-		
+
 		if(world.getBlockState(end).getBlock() == ModBlocks.placeholder)
 			world.setBlockToAir(end);
 	}
@@ -100,6 +103,33 @@ public class HeadSticky implements IAutomatonHead {
 			if(world.isAirBlock(target) || world.getBlockState(target).getBlock() == ModBlocks.placeholder)
 				placePickedUpBlock(automaton, world, target);
 		}
+	}
+
+	@Override
+	public void onTicked(IAutomaton automaton) {
+		if(automaton.isUp() && pickedUpState != null) {
+			int time = automaton.getInstructionTime();
+			World world = automaton.getWorld();
+			EnumFacing endFacing = automaton.getCurrentFacing();
+			EnumFacing facing = automaton.getCurrentRotation().rotate(endFacing.getOpposite());
+
+			BlockPos current = automaton.getPos();
+			BlockPos target = current.offset(facing);
+
+			BlockPos end = current.offset(endFacing);
+			BlockPos diag = end.offset(facing);
+			
+			boolean halfway = (time >= automaton.getSpeed() / 2);
+			moveEntitiesAt(world, halfway ? end : diag, halfway ? facing.getOpposite() : endFacing);
+		}
+	}
+	
+	private void moveEntitiesAt(World world, BlockPos pos, EnumFacing direction) {
+		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos));
+		float speed = 0.25F;
+		float x = direction.getFrontOffsetX() * speed;
+		float z = direction.getFrontOffsetZ() * speed;
+		entities.forEach((e) -> e.move(MoverType.PISTON, x, 0, z));
 	}
 
 	private void placePickedUpBlock(IAutomaton automaton, World world, BlockPos target) {
@@ -151,7 +181,7 @@ public class HeadSticky implements IAutomatonHead {
 		GlStateManager.translate(translation , 0F, 0F);
 		render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
 		GlStateManager.translate(-translation , 0F, 0F);
-		
+
 		if(automaton.isUp() && pickedUpState != null) {
 			mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
