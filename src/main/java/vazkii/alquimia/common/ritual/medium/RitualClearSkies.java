@@ -36,9 +36,10 @@ public class RitualClearSkies extends Ritual {
 	public boolean canRun(World world, BlockPos center) {
 		return world.isRaining();
 	}
-
+	
 	@Override
 	public boolean run(World world, BlockPos pos, NBTTagCompound cmp) {
+		world.playSound(null, pos, AlquimiaSounds.ritual_clear_skies, SoundCategory.BLOCKS, 1F, 1F);
 		return false;
 	}
 	
@@ -54,7 +55,7 @@ public class RitualClearSkies extends Ritual {
 		
 		if(time > 0 && time <= 150 && time % 30 == 0 && world instanceof WorldServer) {
 			((WorldServer) world).spawnParticle(EnumParticleTypes.FLAME, x, y, z, 20, 0.2, 0.2, 0.2, 0.1F * height);
-			world.playSound(null, x, y, z, AlquimiaSounds.clear_skies_ritual, SoundCategory.BLOCKS, 1F, world.rand.nextFloat() * 0.3F + 0.8F);
+			world.playSound(null, x, y, z, AlquimiaSounds.heartbeat, SoundCategory.BLOCKS, 1F, world.rand.nextFloat() * 0.3F + 0.8F);
 		}
 		
 		if(time == 190 && !world.isRemote)

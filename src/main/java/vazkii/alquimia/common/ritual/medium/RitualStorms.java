@@ -30,7 +30,7 @@ public class RitualStorms extends Ritual {
 
 	@Override
 	public boolean run(World world, BlockPos pos, NBTTagCompound cmp) {
-		world.playSound(null, pos, AlquimiaSounds.storms, SoundCategory.BLOCKS, 1F, 1F);
+		world.playSound(null, pos, AlquimiaSounds.ritual_storms, SoundCategory.BLOCKS, 1F, 1F);
 		return false;
 	}
 	

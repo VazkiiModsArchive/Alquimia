@@ -12,8 +12,9 @@ public class AlquimiaSounds {
 	public static SoundEvent ash_infuse;
 	public static SoundEvent divining_rod_enable;
 	public static SoundEvent divining_rod_disable;
-	public static SoundEvent storms;
-	public static SoundEvent clear_skies_ritual;
+	public static SoundEvent ritual_storms;
+	public static SoundEvent ritual_clear_skies;
+	public static SoundEvent heartbeat;
 	public static SoundEvent automaton;
 
 	public static void preInit() {
@@ -22,8 +23,9 @@ public class AlquimiaSounds {
 		ash_infuse = register("ash_infuse");
 		divining_rod_enable = register("divining_rod_enable");
 		divining_rod_disable = register("divining_rod_disable");
-		storms = register("storms");
-		clear_skies_ritual = register("clear_skies_ritual");
+		ritual_storms = register("ritual_storms");
+		ritual_clear_skies = register("ritual_clear_skies");
+		heartbeat = register("heartbeat");
 		automaton = register("automaton");
 	}
 	
