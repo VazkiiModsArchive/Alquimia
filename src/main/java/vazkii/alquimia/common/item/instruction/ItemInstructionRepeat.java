@@ -47,6 +47,11 @@ public class ItemInstructionRepeat extends ItemInstruction {
 		return false;
 	}
 	
+	@Override
+	public void run(ItemStack stack, IAutomaton automaton) {
+		// no need for anything here
+	}
+	
 	private boolean getRepeatStatus(ItemStack stack) {
 		return stack.hasTagCompound() && ItemNBTHelper.getBoolean(stack, TAG_REPEAT, false);
 	}
@@ -57,5 +62,5 @@ public class ItemInstructionRepeat extends ItemInstruction {
 		if(cmp.getSize() == 1 && !repeat)
 			stack.setTagCompound(null);
 	}
-
+	
 }
