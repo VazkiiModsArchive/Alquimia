@@ -5,7 +5,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
-import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.lib.LibMisc;
@@ -62,6 +61,8 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		addItem(ModItems.instruction_up);
 		addItem(ModItems.instruction_down);
 		addItem(ModItems.instruction_nop);
+		addItem(ModItems.instruction_random_turn);
+		addItem(ModItems.instruction_repeat);
 		
 		// Decor Blocks
 		addBlock(ModBlocks.ash_block);

@@ -1,0 +1,14 @@
+{
+	"parent": "item/generated",
+	"textures": { 
+		"layer0": "alquimia:items/instruction_repeat"
+	},
+	"overrides": [
+        {
+            "predicate": {
+                "repeat": 1
+            },
+            "model": "alquimia:item/instruction_repeat_on"
+        }
+    ]
+}

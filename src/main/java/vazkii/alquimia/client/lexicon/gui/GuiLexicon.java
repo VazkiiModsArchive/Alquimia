@@ -1,6 +1,7 @@
 package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -24,12 +25,11 @@ import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
 import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
 import vazkii.alquimia.client.lexicon.LexiconEntry;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
+import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconArrow;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBack;
 import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconBookmark;
-import vazkii.alquimia.client.lexicon.gui.button.GuiButtonLexiconArrow;
 import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.lib.LibMisc;
-import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.arl.util.ClientTicker;
 import vazkii.arl.util.RenderHelper;
 
@@ -355,11 +355,18 @@ public abstract class GuiLexicon extends GuiScreen {
 		int totalEntries = 0;
 		int unlockedEntries = 0;
 		
+		int unlockedSecretEntries = 0;
+		
 		for(LexiconEntry entry : LexiconRegistry.INSTANCE.entries.values())
-			if(filter.test(entry) && !entry.isSecret()) {
-				totalEntries++;
-				if(!entry.isLocked())
-					unlockedEntries++;
+			if(filter.test(entry)) {
+				if(entry.isSecret()) {
+					if(!entry.isLocked())
+						unlockedSecretEntries++;
+				} else {
+					totalEntries++;
+					if(!entry.isLocked())
+						unlockedEntries++;
+				}
 			}
 		
 		float unlockFract = (float) unlockedEntries / Math.max(1, (float) totalEntries);
@@ -372,13 +379,20 @@ public abstract class GuiLexicon extends GuiScreen {
 		fontRenderer.drawString(I18n.translateToLocal("alquimia.gui.lexicon.progress_meter"), barLeft, barTop - 9, 0x444444);
 
 		if(isMouseInRelativeRange(mouseX, mouseY, barLeft, barTop, barWidth, barHeight)) {
+			List<String> tooltip = new ArrayList();
 			String progressStr = I18n.translateToLocalFormatted("alquimia.gui.lexicon.progress_tooltip", unlockedEntries, totalEntries);
-			if(unlockedEntries == totalEntries)
-				setTooltip(progressStr);
-			else {
-				String progressStr2 = TextFormatting.GRAY + I18n.translateToLocalFormatted("alquimia.gui.lexicon.progress_tooltip.info");
-				setTooltip(progressStr, progressStr2);
+			tooltip.add(progressStr);
+			
+			if(unlockedSecretEntries > 0) {
+				if(unlockedSecretEntries == 1)
+					tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.progress_tooltip.secret1"));
+				else tooltip.add(TextFormatting.GRAY + I18n.translateToLocalFormatted("alquimia.gui.lexicon.progress_tooltip.secret", unlockedSecretEntries)); 
 			}
+			
+			if(unlockedEntries != totalEntries)
+				tooltip.add(TextFormatting.GRAY + I18n.translateToLocal("alquimia.gui.lexicon.progress_tooltip.info"));
+			
+			setTooltip(tooltip);
 		}
 	}
 

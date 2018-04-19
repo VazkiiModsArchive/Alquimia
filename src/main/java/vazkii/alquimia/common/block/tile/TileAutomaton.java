@@ -1,9 +1,9 @@
 package vazkii.alquimia.common.block.tile;
 
+import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -18,13 +18,12 @@ import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.item.interf.IAutomatonHeadItem;
 import vazkii.alquimia.common.item.interf.IAutomatonInstruction;
 import vazkii.arl.block.tile.TileSimpleInventory;
-import vazkii.arl.util.VanillaPacketDispatcher;
 
 public class TileAutomaton extends TileSimpleInventory implements IAutomaton, ITickable {
 
 	public static final int INSTRUCTION_SLOTS = 12;
-	public static final int INSTRUCTION_TIME = 10;
-	
+	public static final int INSTRUCTION_TIME = 40;
+
 	private static final String TAG_HEAD_DATA = "headData";
 	private static final String TAG_FACING = "facing";
 	private static final String TAG_PREV_FACING = "prevFacing";
@@ -35,6 +34,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	private static final String TAG_CLOCK = "clock";
 	private static final String TAG_SELECTION = "selection";
 	private static final String TAG_BLOCKED = "blocked";
+	private static final String TAG_RNG_SEED = "rngSeed";
 
 	protected IAutomatonHead head = null;
 	protected EnumFacing facing = EnumFacing.NORTH;
@@ -45,7 +45,14 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	protected boolean executing = false;
 	protected int clock = 0;
 	protected int selection = 1;
+	protected int currentExecuting = 0;
 	protected boolean blocked = false;
+	protected long rngSeed = 0L;
+
+	@Override
+	public void validate() {
+		rngSeed = getWorld().getSeed() ^ getPos().hashCode();
+	}
 
 	@Override
 	public void update() {
@@ -57,10 +64,10 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			runInHead(IAutomatonHead::onAttached);
 
 		runInHead(IAutomatonHead::onTicked);
-		
+
 		if(!isEnabled() && !isExecuting())
 			selection = 1;
-		
+
 		if(getHead() != null) {
 			if(clock >= getSpeed() - 1)
 				executeCurrentInstruction();
@@ -71,7 +78,10 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	protected void startExecuting() {
 		executing = true;
 		clock = 0;
-		
+		jumpToNext();
+	}
+
+	protected void jumpToNext() {
 		ItemStack stack;
 		do {
 			selection++;
@@ -79,9 +89,9 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 				selection = 1;
 				break;
 			}
-			
+
 			stack = getStackInSlot(selection);
-		} while(!(stack.getItem() instanceof IAutomatonInstruction));
+		} while(!(stack.getItem() instanceof IAutomatonInstruction) || !((IAutomatonInstruction) stack.getItem()).scan(stack, this));
 	}
 
 	protected void executeCurrentInstruction() {
@@ -89,23 +99,23 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			prevUp = up;
 			runInHead(IAutomatonHead::onEngageStatusEnd);
 		}
-		
+
 		if(prevFacing != facing) {
 			prevFacing = facing;
 			runInHead(IAutomatonHead::onRotateEnd);
 		}
-			
+
 		executing = false;
 		boolean executed = false;
-		
 		if(isEnabled()) {
 			ItemStack stack = getStackInSlot(selection);
 			if(stack.getItem() instanceof IAutomatonInstruction) {
 				blocked = false;
 				((IAutomatonInstruction) stack.getItem()).run(stack, this);
+				currentExecuting = selection;
 				executed = true;
 			}
-			
+
 			if(executed) {
 				if(!blocked) {
 					startExecuting();
@@ -114,16 +124,16 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			} else selection = 1;
 		}
 	}
-	
+
 	protected void playSound() {
 		if(!world.isRemote)
 			world.playSound(null, getPos(), AlquimiaSounds.automaton, SoundCategory.BLOCKS, 0.2F, 0.5F + (float) Math.random() * 0.5F);
 	}
-	
+
 	@Override
 	public void writeSharedNBT(NBTTagCompound par1nbtTagCompound) {
 		super.writeSharedNBT(par1nbtTagCompound);
-		
+
 		NBTTagCompound cmp = new NBTTagCompound();
 		runInHead((h, a) -> h.writeToNBT(a, cmp));
 		par1nbtTagCompound.setTag(TAG_HEAD_DATA, cmp);
@@ -136,14 +146,15 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		par1nbtTagCompound.setInteger(TAG_CLOCK, clock);
 		par1nbtTagCompound.setInteger(TAG_SELECTION, selection);
 		par1nbtTagCompound.setBoolean(TAG_BLOCKED, blocked);
+		par1nbtTagCompound.setLong(TAG_RNG_SEED, rngSeed);
 	}
-	
+
 	@Override
 	public void readSharedNBT(NBTTagCompound par1nbtTagCompound) {
 		super.readSharedNBT(par1nbtTagCompound);
-		
+
 		provideHead(); 
-		
+
 		NBTTagCompound cmp = par1nbtTagCompound.getCompoundTag(TAG_HEAD_DATA);
 		runInHead((h, a) -> h.readFromNBT(a, cmp));
 		facing = EnumFacing.values()[par1nbtTagCompound.getInteger(TAG_FACING)];
@@ -155,8 +166,9 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		clock = par1nbtTagCompound.getInteger(TAG_CLOCK);
 		selection = par1nbtTagCompound.getInteger(TAG_SELECTION);
 		blocked = par1nbtTagCompound.getBoolean(TAG_BLOCKED);
+		rngSeed = par1nbtTagCompound.getLong(TAG_RNG_SEED);
 	}
-	
+
 	protected boolean provideHead() {
 		if(head == null) {
 			ItemStack stack = getStackInSlot(0);
@@ -165,7 +177,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -196,7 +208,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			this.rotation = rotation;
 			prevFacing = facing;
 			EnumFacing newFacing = rotation.rotate(facing);
-			
+
 			if(prevFacing != newFacing) {
 				if(runInHead(IAutomatonHead::onRotateStart, true)) {
 					playSound();
@@ -231,12 +243,12 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			this.up = up;
 		}
 	}
-	
+
 	public void runInHead(BiConsumer<IAutomatonHead, IAutomaton> func) {
 		if(head != null)
 			func.accept(head, this);
 	}
-	
+
 	public boolean runInHead(BiPredicate<IAutomatonHead, IAutomaton> func, boolean _default) {
 		if(head != null)
 			return func.test(head, this);
@@ -257,15 +269,12 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	public int getInstructionTime() {
 		return clock;
 	}
-	
+
 	@Override
 	public int getSpeed() {
 		return INSTRUCTION_TIME;
 	}
-	
-	public int getSelection() {
-		return selection;
-	}
+
 
 	@Override
 	public int getSizeInventory() {
@@ -281,14 +290,28 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	public boolean isAutomationEnabled() {
 		return false;
 	}
-	
+
 	public boolean isBlocked() {
 		return blocked;
 	}
-	
+
 	@Override
 	public AxisAlignedBB getRenderBoundingBox() {
 		return super.getRenderBoundingBox().grow(1F);
 	}
 
+	@Override
+	public Random getRNG() {
+		Random rand = new Random(rngSeed);
+		rngSeed = rand.nextLong();
+		return rand;
+	}
+
+	public int getCurrentExecuting() {
+		return currentExecuting;
+	}
+	@Override
+	public void rewind() {
+		selection = 0;
+	}
 }

@@ -29,7 +29,9 @@ item.alquimia:instruction_clockwise.name=CW Turn Module
 item.alquimia:instruction_counterclockwise.name=CCW Turn Module
 item.alquimia:instruction_up.name=Engage Module
 item.alquimia:instruction_down.name=Disengage Module
-item.alquimia:instruction_nop.name=Await Module
+item.alquimia:instruction_nop.name=Wait Module
+item.alquimia:instruction_random_turn.name=Random Turn Module
+item.alquimia:instruction_repeat.name=Repeat
 
 # Advancements
 alquimia.advancement.root=Alquimia
@@ -46,6 +48,8 @@ alquimia.ritual.size.nationwide=Amestris Sized|Circle
 alquimia.gui.lexicon.landing_info=A Vazkii self-published encyclopedia. The quintessential guide to alchemical engineering for students and veterans of all skill levels.
 alquimia.gui.lexicon.progress_meter=Unlock Progress:
 alquimia.gui.lexicon.progress_tooltip=%d/%d Unlocked
+alquimia.gui.lexicon.progress_tooltip.secret1=Plus 1 Secret
+alquimia.gui.lexicon.progress_tooltip.secret=Plus %d Secrets
 alquimia.gui.lexicon.progress_tooltip.info=Complete Advancements to unlock more!
 alquimia.gui.lexicon.categories=Categories
 alquimia.gui.lexicon.chapters=Chapters

@@ -1,5 +1,7 @@
 package vazkii.alquimia.common.block.interf;
 
+import java.util.Random;
+
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -21,5 +23,7 @@ public interface IAutomaton {
 	public boolean isExecuting();
 	public int getInstructionTime();
 	public int getSpeed();
+	public Random getRNG();
+	public void rewind();
 	
 }

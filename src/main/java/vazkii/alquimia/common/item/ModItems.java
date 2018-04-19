@@ -6,6 +6,8 @@ import vazkii.alquimia.common.item.instruction.ItemInstructionClockwise;
 import vazkii.alquimia.common.item.instruction.ItemInstructionCounterclockwise;
 import vazkii.alquimia.common.item.instruction.ItemInstructionDown;
 import vazkii.alquimia.common.item.instruction.ItemInstructionNop;
+import vazkii.alquimia.common.item.instruction.ItemInstructionRandomTurn;
+import vazkii.alquimia.common.item.instruction.ItemInstructionRepeat;
 import vazkii.alquimia.common.item.instruction.ItemInstructionUp;
 
 public final class ModItems {
@@ -22,6 +24,8 @@ public final class ModItems {
 	public static Item instruction_up;
 	public static Item instruction_down;
 	public static Item instruction_nop;
+	public static Item instruction_random_turn;
+	public static Item instruction_repeat;
 
 	public static Item test_rod;
 
@@ -38,7 +42,9 @@ public final class ModItems {
 		instruction_up = new ItemInstructionUp();
 		instruction_down = new ItemInstructionDown();
 		instruction_nop = new ItemInstructionNop();
-		
+		instruction_random_turn = new ItemInstructionRandomTurn();
+		instruction_repeat = new ItemInstructionRepeat();
+
 		test_rod = new ItemTestRod();
 	}
 	

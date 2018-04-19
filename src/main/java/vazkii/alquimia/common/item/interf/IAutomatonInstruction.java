@@ -7,4 +7,8 @@ public interface IAutomatonInstruction {
 
 	public void run(ItemStack stack, IAutomaton automaton);
 	
+	public default boolean scan(ItemStack stack, IAutomaton automaton) { 
+		return true; 
+	}
+	
 }
