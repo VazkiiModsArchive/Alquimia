@@ -4,11 +4,15 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiFunction;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.google.gson.Gson;
@@ -21,6 +25,9 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.IResourceManagerReloadListener;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.ModContainer;
 import vazkii.alquimia.client.base.ClientAdvancements;
 import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
 import vazkii.alquimia.client.lexicon.page.PageCrafting;
@@ -41,8 +48,6 @@ import vazkii.alquimia.common.util.ItemStackUtil.StackWrapper;
 public class LexiconRegistry implements IResourceManagerReloadListener {
 
 	private static final String DEFAULT_LANG = "en_us";
-	private static final ResourceLocation FALLBACK_CATEGORY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/categories/fallback.json", DEFAULT_LANG));
-	private static final ResourceLocation FALLBACK_ENTRY = new ResourceLocation(LibMisc.MOD_ID, String.format("docs/%s/entries/fallback.json", DEFAULT_LANG));
 
 	public final List<String> modsWithDocs = new ArrayList();
 
@@ -100,48 +105,66 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 
 	public void reloadLexiconRegistry() {
 		GuiLexicon.onReload();
+		AdvancementSyncHandler.trackedNamespaces.clear();
 		categories.clear();
 		entries.clear();
 		recipeMappings.clear();
 
 		currentLang = Minecraft.getMinecraft().getLanguageManager().getCurrentLanguage().getLanguageCode();
 
-		List<LexiconRootObject> roots = new ArrayList();
-		modsWithDocs.forEach((id) -> roots.add(loadRootObject(new ResourceLocation(id, "docs/root.json"))));
-
-		roots.forEach((root) -> {
-			AdvancementSyncHandler.trackedNamespaces.add(root.namespace);
-			
-			root.categories.forEach(c -> {
-				ResourceLocation res = new ResourceLocation(root.namespace, c);
-				loadCategory(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/categories/%s.json", DEFAULT_LANG, res.getResourcePath())));
-			});
-			root.entries.forEach(e -> {
-				ResourceLocation res = new ResourceLocation(root.namespace, e);
-				loadEntry(res, new ResourceLocation(res.getResourceDomain(), String.format("docs/%s/entries/%s.json", DEFAULT_LANG, res.getResourcePath())));
-			});
+		List<ModContainer> foundMods = new ArrayList();
+		List<ResourceLocation> foundCategories = new ArrayList();
+		List<ResourceLocation> foundEntries = new ArrayList();
+		List<ModContainer> mods = Loader.instance().getActiveModList();
+		
+		mods.forEach((mod) -> {
+			String id = mod.getModId();
+			CraftingHelper.findFiles(mod, String.format("assets/%s/alq_docs", id), (path) -> {
+				if(Files.exists(path)) {
+					AdvancementSyncHandler.trackedNamespaces.add(id);
+					foundMods.add(mod);
+					return true;
+				}
+				
+				return false;
+			}, null);
 		});
+		
+		foundMods.forEach((mod) -> {
+			String id = mod.getModId();
+			CraftingHelper.findFiles(mod, String.format("assets/%s/alq_docs/%s/categories", id, DEFAULT_LANG), null, pred(id, foundCategories));
+			CraftingHelper.findFiles(mod, String.format("assets/%s/alq_docs/%s/entries", id, DEFAULT_LANG), null, pred(id, foundEntries));
+		});
+		
+		foundCategories.forEach(c -> loadCategory(c, new ResourceLocation(c.getResourceDomain(), String.format("alq_docs/%s/categories/%s.json", DEFAULT_LANG, c.getResourcePath()))));
+		foundEntries.forEach(e -> loadEntry(e, new ResourceLocation(e.getResourceDomain(), String.format("alq_docs/%s/entries/%s.json", DEFAULT_LANG, e.getResourcePath()))));
 
 		entries.forEach((res, entry) -> entry.build(res));
 		categories.forEach((res, category) -> category.build(res));
 		ClientAdvancements.updateLockStatus();
 	}
+	
+	private BiFunction<Path, Path, Boolean> pred(String modId, List<ResourceLocation> list) {
+		return (root, file) -> {
+			Path rel = root.relativize(file);
+			String relName = rel.toString();
+			if(relName.toString().endsWith(".json")) {
+				relName = FilenameUtils.removeExtension(FilenameUtils.separatorsToUnix(relName));
+				ResourceLocation res = new ResourceLocation(modId, relName); 
+				list.add(res);
+			}
 
-	private LexiconRootObject loadRootObject(ResourceLocation res) {
-		InputStream stream = loadJson(res, null);
-		if(stream == null)
-			throw new IllegalArgumentException(res + " does not exist.");
-
-		return gson.fromJson(new InputStreamReader(stream), LexiconRootObject.class);
+			return true;
+		};
 	}
 
 	private void loadCategory(ResourceLocation key, ResourceLocation res) {
-		InputStream stream = loadLocalizedJson(res, FALLBACK_CATEGORY);
+		InputStream stream = loadLocalizedJson(res);
 		if(stream == null)
 			throw new IllegalArgumentException(res + " does not exist.");
 
 		LexiconCategory category = gson.fromJson(new InputStreamReader(stream), LexiconCategory.class);
-		if(category == null)
+		if(category == null)	
 			throw new IllegalArgumentException(res + " does not exist.");
 
 		if(category.canAdd())
@@ -149,7 +172,7 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	}
 
 	private void loadEntry(ResourceLocation key, ResourceLocation res) {
-		InputStream stream = loadLocalizedJson(res, FALLBACK_ENTRY);
+		InputStream stream = loadLocalizedJson(res);
 		if(stream == null)
 			throw new IllegalArgumentException(res + " does not exist.");
 
@@ -167,11 +190,10 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		}
 	}
 
-	private InputStream loadLocalizedJson(ResourceLocation res, ResourceLocation fallback) {
+	private InputStream loadLocalizedJson(ResourceLocation res) {
 		ResourceLocation localized = new ResourceLocation(res.getResourceDomain(), res.getResourcePath().replaceAll(DEFAULT_LANG, currentLang));
 
-		InputStream stream = loadJson(localized, null);
-		return stream == null ? loadJson(res, fallback) : stream;
+		return loadJson(localized, null);
 	}
 
 	private InputStream loadJson(ResourceLocation resloc, ResourceLocation fallback) {
@@ -190,14 +212,6 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		}
 
 		return res.getInputStream();
-	}
-
-	static class LexiconRootObject {
-
-		String namespace;
-		List<String> categories;
-		List<String> entries;
-
 	}
 
 }

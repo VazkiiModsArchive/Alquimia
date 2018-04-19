@@ -30,10 +30,10 @@ public final class AlquimiaConfig {
 			desc="Set this to true to allow all entries and categories to be visible from the get-go rather than locked by advancements.")
 	public static boolean disableAdvancementLocking = false;
 	
-	@Setting(name="Test Flag 1", flag="Test1")
+	@Setting(name="Test Flag 1", flag="test1")
 	public static boolean testFlag1 = true;
 	
-	@Setting(name="Test Flag 2", flag="Test2")
+	@Setting(name="Test Flag 2", flag="test2")
 	public static boolean testFlag2 = true;
 	
 	private static boolean firstChange;
@@ -63,7 +63,7 @@ public final class AlquimiaConfig {
 			name = name.substring(1);
 			target = false;
 		}
-		name = name.trim();
+		name = name.trim().toLowerCase();
 		
 		boolean status = (configFlags.containsKey(name) && configFlags.get(name)) == target;
 		return status;
