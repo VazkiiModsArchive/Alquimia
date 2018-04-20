@@ -1,7 +1,0 @@
-{
-	"name": "Test5",
-	"description": "Test Category #5. This is a subcategory of Intro, yes we have those!",
-	"icon": "minecraft:tnt",
-	"parent": "alquimia:intro",
-	"sortnum": 500
-}

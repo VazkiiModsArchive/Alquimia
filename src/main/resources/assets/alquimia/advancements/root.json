@@ -11,16 +11,5 @@
         },
         "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
     },
-    "criteria": {
-        "book": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "alquimia:lexicon"
-                    }
-                ]
-            }
-        }
-    }
+    "criteria": {}
 }
