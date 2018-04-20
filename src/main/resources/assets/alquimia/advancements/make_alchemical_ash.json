@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:alchemical_ash"
+        },
+        "title": {
+            "translate": "alquimia.advancement.make_alchemical_ash"
+        },
+        "description": {
+            "translate": "alquimia.advancement.make_alchemical_ash.desc"
+        }
+    },
+    "parent": "alquimia:make_ash",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:alchemical_ash"
+                    }
+                ]
+            }
+        }
+    }
+}

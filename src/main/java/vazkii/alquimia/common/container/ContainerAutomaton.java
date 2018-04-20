@@ -48,7 +48,5 @@ public class ContainerAutomaton extends ContainerBasic<TileAutomaton> {
 		}
 		
 	}
-	
-	// TODO do a thing so modules only send one at a time
 
 }

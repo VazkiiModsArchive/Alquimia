@@ -16,7 +16,7 @@ import vazkii.alquimia.common.handler.RitualHandler;
 import vazkii.alquimia.common.ritual.ModRituals;
 import vazkii.arl.item.ItemMod;
 
-public class ItemTestRod extends ItemMod implements IAlquimiaItem {
+public class ItemTestRod extends ItemAlquimia {
 
 	public ItemTestRod() {
 		super("test_rod");

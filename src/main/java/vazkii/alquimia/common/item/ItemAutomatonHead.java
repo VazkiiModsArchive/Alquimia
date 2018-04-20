@@ -9,7 +9,7 @@ import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.item.interf.IAutomatonHeadItem;
 import vazkii.arl.item.ItemMod;
 
-public class ItemAutomatonHead extends ItemMod implements IAlquimiaItem, IAutomatonHeadItem {
+public class ItemAutomatonHead extends ItemAlquimia implements IAutomatonHeadItem {
 
 	private final Supplier<IAutomatonHead> headSupplier;
 	
@@ -17,7 +17,6 @@ public class ItemAutomatonHead extends ItemMod implements IAlquimiaItem, IAutoma
 		super(name);
 		this.headSupplier = headSupplier;
 		setMaxStackSize(1);
-		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
 	}
 
 	@Override

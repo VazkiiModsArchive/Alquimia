@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:automaton"
+        },
+        "title": {
+            "translate": "alquimia.advancement.automaton"
+        },
+        "description": {
+            "translate": "alquimia.advancement.automaton.desc"
+        }
+    },
+    "parent": "alquimia:orichalcum_gear",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:automaton"
+                    }
+                ]
+            }
+        }
+    }
+}

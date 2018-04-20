@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:pedestal"
+        },
+        "title": {
+            "translate": "alquimia.advancement.pedestal"
+        },
+        "description": {
+            "translate": "alquimia.advancement.pedestal.desc"
+        }
+    },
+    "parent": "alquimia:find_cinnabar",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:pedestal"
+                    }
+                ]
+            }
+        }
+    }
+}

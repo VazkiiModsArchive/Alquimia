@@ -27,14 +27,13 @@ import vazkii.alquimia.common.lib.LibGuiIDs;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.arl.item.ItemMod;
 
-public class ItemLexicon extends ItemMod implements IAlquimiaItem {
+public class ItemLexicon extends ItemAlquimia {
 
 	private static final String[] ORDINAL_SUFFIXES = new String[]{ "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
 	
 	public ItemLexicon() {
 		super("lexicon");
 		setMaxStackSize(1);
-		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
 	}
 	
 	@Override

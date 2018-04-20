@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:cinnabar"
+        },
+        "title": {
+            "translate": "alquimia.advancement.find_cinnabar"
+        },
+        "description": {
+            "translate": "alquimia.advancement.find_cinnabar.desc"
+        }
+    },
+    "parent": "alquimia:divining_rod",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:cinnabar"
+                    }
+                ]
+            }
+        }
+    }
+}

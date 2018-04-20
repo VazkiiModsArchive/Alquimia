@@ -4,7 +4,6 @@ import java.util.Random;
 
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -15,7 +14,6 @@ import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
@@ -30,15 +28,10 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.alquimia.client.gui.GuiAdvancementsExt;
-import vazkii.alquimia.client.lexicon.gui.GuiLexicon;
-import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.AlquimiaSounds;
-import vazkii.alquimia.common.base.IAlquimiaItem;
-import vazkii.arl.item.ItemMod;
 import vazkii.arl.util.ItemNBTHelper;
 
-public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
+public class ItemDiviningRod extends ItemAlquimia {
 
 	private static final String TAG_HAS_TARGET = "hasTarget";
 	private static final String TAG_TARGET_X = "targetX";
@@ -49,7 +42,6 @@ public class ItemDiviningRod extends ItemMod implements IAlquimiaItem {
 
 	public ItemDiviningRod() {
 		super("divining_rod");
-		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
 		setMaxStackSize(1);
 		MinecraftForge.EVENT_BUS.register(this);
 		

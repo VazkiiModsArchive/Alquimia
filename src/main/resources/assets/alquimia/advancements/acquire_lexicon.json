@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:lexicon"
+        },
+        "title": {
+            "translate": "alquimia.advancement.acquire_lexicon"
+        },
+        "description": {
+            "translate": "alquimia.advancement.acquire_lexicon.desc"
+        }
+    },
+    "parent": "alquimia:root",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:lexicon"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:divining_rod"
+        },
+        "title": {
+            "translate": "alquimia.advancement.divining_rod"
+        },
+        "description": {
+            "translate": "alquimia.advancement.divining_rod.desc"
+        }
+    },
+    "parent": "alquimia:make_alchemical_ash",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:divining_rod"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -19,6 +19,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.alquimia.common.item.ModItems;
+import vazkii.alquimia.common.item.interf.IRitualConsumedCallback;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.arl.recipe.RecipeHandler;
 
@@ -66,13 +67,11 @@ public abstract class Ritual {
 	
 	// tile is always IInventory
 	public void consumeItem(TileEntity tile, ItemStack stack) {
-		((IInventory) tile).setInventorySlotContents(0, stack.getItem().getContainerItem(stack));
+		ItemStack retStack = stack.getItem().getContainerItem(stack);
+		if(stack.getItem() instanceof IRitualConsumedCallback)
+			retStack = ((IRitualConsumedCallback) stack.getItem()).consumeForRitual(stack, this, tile);
 		
-		if(stack.getItem() == ModItems.cinnabar) { // TODO move to IConsumed or something
-			WorldServer world = (WorldServer) tile.getWorld(); 
-			BlockPos pos = tile.getPos();
-			world.spawnParticle(EnumParticleTypes.REDSTONE, pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5, 20, 0.3, 0.7, 0.3, 0F);
-		}
+		((IInventory) tile).setInventorySlotContents(0, retStack);
 	}
 	
 	public abstract boolean run(World world, BlockPos pos, NBTTagCompound cmp);

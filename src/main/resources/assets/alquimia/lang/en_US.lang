@@ -36,7 +36,31 @@ item.alquimia:blade_head.name=Iron Blade Head
 
 # Advancements
 alquimia.advancement.root=Alquimia
-alquimia.advancement.root.desc=Craft a Lexica Alquimia
+alquimia.advancement.root.desc=The World of Alchemical Engineering
+
+alquimia.advancement.acquire_lexicon=The Centennial Festival for Magical Girls
+alquimia.advancement.acquire_lexicon.desc=Aquire a Lexica Alquimia
+
+alquimia.advancement.make_ash=Reach for the Moon, Immortal Smoke
+alquimia.advancement.make_ash.desc=Create Ash using a Calcinator
+
+alquimia.advancement.make_alchemical_ash=Love-colored Master Spark
+alquimia.advancement.make_alchemical_ash.desc=Enrich Ash into Alchemical Ash
+
+alquimia.advancement.divining_rod=Desire Drive
+alquimia.advancement.divining_rod.desc=Craft a Divining Rod
+
+alquimia.advancement.find_cinnabar=Crystallized Silver
+alquimia.advancement.find_cinnabar.desc=Locate Cinnabar using a Divining Rod
+
+alquimia.advancement.pedestal=Desire Dream
+alquimia.advancement.pedestal.desc=Craft a Pedestal so you can perform more Rituals
+
+alquimia.advancement.orichalcum_gear=The Doll Maker of Bucuresti
+alquimia.advancement.orichalcum_gear.desc=Make a Orichalcum Gear to use in further devices
+
+alquimia.advancement.automaton=The Eternal Steam Engine
+alquimia.advancement.automaton.desc=Construct an Automaton
 
 # Ritual Sizes
 alquimia.ritual.size.small=Small|Circle

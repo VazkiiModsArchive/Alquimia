@@ -9,7 +9,13 @@
         "description": {
             "translate": "alquimia.advancement.root.desc"
         },
-        "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+        "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+        "show_toast": false,
+        "announce_to_chat": false
     },
-    "criteria": {}
+    "criteria": {
+        "consumed_item": {
+            "trigger": "minecraft:consume_item"
+        }
+    }
 }

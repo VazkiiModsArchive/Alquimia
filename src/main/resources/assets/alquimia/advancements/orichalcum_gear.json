@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:orichalcum_gear"
+        },
+        "title": {
+            "translate": "alquimia.advancement.orichalcum_gear"
+        },
+        "description": {
+            "translate": "alquimia.advancement.orichalcum_gear.desc"
+        }
+    },
+    "parent": "alquimia:find_cinnabar",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:orichalcum_gear"
+                    }
+                ]
+            }
+        }
+    }
+}

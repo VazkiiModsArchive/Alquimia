@@ -33,11 +33,11 @@ public final class ModItems {
 
 	public static void preInit() {
 		lexicon = new ItemLexicon();
-		alchemical_ash = new ItemBasic("alchemical_ash");
-		orichalcum_ingot = new ItemBasic("orichalcum_ingot");
-		cinnabar = new ItemBasic("cinnabar");
+		alchemical_ash = new ItemAlquimia("alchemical_ash");
+		orichalcum_ingot = new ItemAlquimia("orichalcum_ingot");
+		cinnabar = new ItemCinnabar();
 		divining_rod = new ItemDiviningRod();
-		orichalcum_gear = new ItemBasic("orichalcum_gear");
+		orichalcum_gear = new ItemAlquimia("orichalcum_gear");
 		sticky_head = new ItemAutomatonHead("sticky_head", HeadSticky::new);
 		instruction_clockwise = new ItemInstructionClockwise();
 		instruction_counterclockwise = new ItemInstructionCounterclockwise();
