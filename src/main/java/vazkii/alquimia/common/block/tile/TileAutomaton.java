@@ -200,6 +200,8 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 	@Override
 	public Rotation getCurrentRotation() {
+		if(!isExecuting())
+			return Rotation.NONE;
 		return rotation;
 	}
 
@@ -239,6 +241,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		if(!isExecuting()) {
 			prevUp = this.up;
 			if(prevUp != up) {
+				rotation = Rotation.NONE;
 				playSound();
 				runInHead(IAutomatonHead::onEngageStatusStart);
 			}

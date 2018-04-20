@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
@@ -34,12 +35,14 @@ public class HeadBlade implements IAutomatonHead {
 	
 	@Override
 	public void onTicked(IAutomaton automaton) {
-		if(automaton.isUp() && automaton.getCurrentRotation() != Rotation.NONE) {
+		if(automaton.isUp()) {
 			int time = automaton.getInstructionTime();
 			World world = automaton.getWorld();
-			EnumFacing endFacing = automaton.getCurrentFacing();
-			EnumFacing facing = automaton.getCurrentRotation().rotate(endFacing.getOpposite());
+			boolean rotating = automaton.getCurrentRotation() != Rotation.NONE;
 
+			EnumFacing endFacing = automaton.getCurrentFacing();
+			EnumFacing facing = !rotating ? endFacing : automaton.getCurrentRotation().rotate(endFacing.getOpposite());
+			
 			BlockPos current = automaton.getPos();
 			BlockPos target = current.offset(facing);
 
@@ -47,13 +50,11 @@ public class HeadBlade implements IAutomatonHead {
 			BlockPos diag = end.offset(facing);
 			
 			int halfwayPoint = automaton.getSpeed() / 2;
-			if(time == 0 || time == halfwayPoint) {
-				BlockPos attackSurface = diag;
-				EnumFacing bladeFacing = facing;
-				if(time == halfwayPoint) {
+			if(time == 0 || (rotating && time == halfwayPoint)) {
+				BlockPos attackSurface = rotating ? diag : target;
+
+				if(time == halfwayPoint)
 					attackSurface = end;
-					bladeFacing = endFacing;
-				}
 				
 				List<EntityLivingBase> entities = automaton.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(attackSurface)); 
 				entities.forEach((e) -> e.attackEntityFrom(DamageSource.GENERIC, DAMAGE));
