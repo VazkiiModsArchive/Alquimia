@@ -32,6 +32,7 @@ item.alquimia:instruction_down.name=Disengage Module
 item.alquimia:instruction_nop.name=Wait Module
 item.alquimia:instruction_random_turn.name=Random Turn Module
 item.alquimia:instruction_repeat.name=Repeat
+item.alquimia:blade_head.name=Iron Blade Head
 
 # Advancements
 alquimia.advancement.root=Alquimia

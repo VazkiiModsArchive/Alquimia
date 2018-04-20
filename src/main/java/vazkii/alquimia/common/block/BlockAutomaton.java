@@ -30,6 +30,8 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 	public static final AxisAlignedBB AABB = new AxisAlignedBB(0F, 0F, 0F, 1F, 12F / 16F, 1F);
 	public static final IProperty<Boolean> REDSTONE = PropertyBool.create("redstone");
 	
+	// TODO fix hand model
+	
 	public BlockAutomaton() {
 		super("automaton", Material.IRON);
 		setHardness(5.0F);

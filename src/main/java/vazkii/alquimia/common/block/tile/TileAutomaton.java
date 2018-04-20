@@ -11,6 +11,8 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomaton;
@@ -22,7 +24,7 @@ import vazkii.arl.block.tile.TileSimpleInventory;
 public class TileAutomaton extends TileSimpleInventory implements IAutomaton, ITickable {
 
 	public static final int INSTRUCTION_SLOTS = 12;
-	public static final int INSTRUCTION_TIME = 40;
+	public static final int INSTRUCTION_TIME = 10;
 
 	private static final String TAG_HEAD_DATA = "headData";
 	private static final String TAG_FACING = "facing";
@@ -314,4 +316,5 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	public void rewind() {
 		selection = 0;
 	}
+	
 }

@@ -34,6 +34,7 @@ import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.block.interf.IAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
+import vazkii.alquimia.common.util.AutomatonUtil;
 import vazkii.alquimia.common.util.RotationUtil;
 
 public class HeadSticky implements IAutomatonHead {
@@ -72,14 +73,11 @@ public class HeadSticky implements IAutomatonHead {
 			World world = automaton.getWorld();
 			EnumFacing facing = automaton.getCurrentFacing();
 			EnumFacing endFacing = automaton.getCurrentRotation().rotate(facing);
-
 			BlockPos current = automaton.getPos();
 			BlockPos target = current.offset(facing);
-
 			BlockPos end = current.offset(endFacing);
-			BlockPos diag = end.offset(facing);
 
-			if(!world.isAirBlock(end) || !world.isAirBlock(diag))
+			if(AutomatonUtil.hasObstruction(automaton, false))
 				return false;
 
 			if(!world.isAirBlock(target)) {
@@ -120,18 +118,10 @@ public class HeadSticky implements IAutomatonHead {
 			BlockPos diag = end.offset(facing);
 			
 			boolean halfway = (time >= automaton.getSpeed() / 2);
-			moveEntitiesAt(world, halfway ? end : diag, halfway ? facing.getOpposite() : endFacing);
+			AutomatonUtil.moveEntitiesAt(world, halfway ? end : diag, halfway ? facing.getOpposite() : endFacing, 0.25F);
 		}
 	}
 	
-	private void moveEntitiesAt(World world, BlockPos pos, EnumFacing direction) {
-		List<Entity> entities = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos));
-		float speed = 0.25F;
-		float x = direction.getFrontOffsetX() * speed;
-		float z = direction.getFrontOffsetZ() * speed;
-		entities.forEach((e) -> e.move(MoverType.PISTON, x, 0, z));
-	}
-
 	private void placePickedUpBlock(IAutomaton automaton, World world, BlockPos target) {
 		world.setBlockState(target, pickedUpState.withRotation(automaton.getCurrentRotation()));
 
