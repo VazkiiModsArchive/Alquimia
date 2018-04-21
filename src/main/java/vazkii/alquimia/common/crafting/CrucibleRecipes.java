@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import vazkii.alquimia.common.block.ModBlocks;
+import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.lib.LibMisc;
 import vazkii.arl.recipe.RecipeHandler;
 import vazkii.arl.util.ProxyRegistry;
@@ -19,6 +20,7 @@ public class CrucibleRecipes {
 
 	public static void init() {
 		registerRecipe(RecipeHandler.compound("cobblestone", "gravel", "sand"), ProxyRegistry.newStack(ModBlocks.ash), 20);
+		registerRecipe(ModItems.cinnabar, ProxyRegistry.newStack(ModItems.alchemical_ash), 60);
 	}
 
 	private static boolean registerRecipe(Object input, ItemStack output, int time) {

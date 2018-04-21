@@ -83,7 +83,7 @@ public class ModCraftingRecipes {
 		
 		addBlock(ModBlocks.ash_block, ModBlocks.ash);
 		addBlock(ModBlocks.alchemical_ash_block, ModItems.alchemical_ash);
-		addBlock(ModBlocks.cinnabar_block, ModBlocks.cinnabar_block);
+		addBlock(ModBlocks.cinnabar_block, ModItems.cinnabar);
 		addBlock(ModBlocks.orichalcum_block, ModItems.orichalcum_ingot);
 	}
 	
