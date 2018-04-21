@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockRotatedPillar;
+import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -28,7 +29,7 @@ public class ModMultiblocks {
 					{ "SSS", "SFS", "SSS" }},
 						'0', Blocks.CAULDRON,
 						'F', Blocks.FIRE,
-						'S', Blocks.STONEBRICK,
+						'S', StateMatcher.fromPredicate(Blocks.STONEBRICK, (state) -> state.getBlock().isOpaqueCube(state) && state.getMaterial() == Material.ROCK),
 						' ', StateMatcher.ANY))
 				.setSymmetrical(true);
 
