@@ -36,6 +36,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import vazkii.alquimia.client.base.PersistentData.DataHolder.Bookmark;
 import vazkii.alquimia.common.lib.LibObfuscation;
+import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.alquimia.common.multiblock.Multiblock.StateMatcher;
 import vazkii.alquimia.common.util.RotationUtil;
@@ -179,6 +180,8 @@ public class MultiblockVisualizationHandler {
 
 		if(pos == null)
 			return;
+		if(multiblock.isSymmetrical())
+			facingRotation = Rotation.NONE;
 
 		RenderManager manager = Minecraft.getMinecraft().getRenderManager();
 		BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
@@ -196,9 +199,7 @@ public class MultiblockVisualizationHandler {
 
 		BlockPos checkPos = mc.objectMouseOver.typeOfHit == Type.BLOCK ? mc.objectMouseOver.getBlockPos().offset(mc.objectMouseOver.sideHit) : null;
 		BlockPos startPos = offsetApplier.apply(pos);
-		if(!multiblock.isSymmetrical())
-			startPos = startPos.add(RotationUtil.x(facingRotation, -multiblock.offX, -multiblock.offZ), -multiblock.offY, RotationUtil.z(facingRotation, -multiblock.offX, -multiblock.offZ));
-		else startPos = startPos.add(multiblock.offX, multiblock.offY, multiblock.offZ);
+		startPos = startPos.add(-RotationUtil.x(facingRotation, multiblock.viewOffX, multiblock.viewOffZ), -multiblock.viewOffY + 1, -RotationUtil.z(facingRotation, multiblock.viewOffX, multiblock.viewOffZ));
 		
 		blocks = blocksDone = 0;
 		lookingState = null;
@@ -208,7 +209,7 @@ public class MultiblockVisualizationHandler {
 			for(int y = 0; y < multiblock.sizeY; y++)
 				for(int z = 0; z < multiblock.sizeZ; z++) {
 					float alpha = 0.3F;
-					BlockPos renderPos = startPos.add(RotationUtil.x(facingRotation, x, z) , y, RotationUtil.z(facingRotation, x , z));
+					BlockPos renderPos = startPos.add(RotationUtil.x(facingRotation, x, z) , y, RotationUtil.z(facingRotation, x, z));
 					StateMatcher matcher = multiblock.stateTargets[x][y][z];
 					if(renderPos.equals(checkPos)) {
 						lookingState = matcher.displayState;

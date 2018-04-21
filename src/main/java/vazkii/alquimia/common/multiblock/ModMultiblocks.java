@@ -100,23 +100,23 @@ public class ModMultiblocks {
 
 		small_ritual_circle = new Multiblock[] {
 				registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "small_ritual_circle"),
-						new Multiblock(small, unlitPattern)).setSymmetrical(true),
+						new Multiblock(small, unlitPattern)).setSymmetrical(true).setViewOffset(6, 1, 3),
 				registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "small_ritual_circle_lit"),
-						new Multiblock(small, litPattern)).setSymmetrical(true)
+						new Multiblock(small, litPattern)).setSymmetrical(true).setViewOffset(6, 1, 3),
 		};
 		
 		medium_ritual_circle = new Multiblock[] {
 				registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "medium_ritual_circle"),
-						new Multiblock(medium, unlitPattern)).setSymmetrical(true),
+						new Multiblock(medium, unlitPattern)).setSymmetrical(true).setViewOffset(7, 1, 4),
 				registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "medium_ritual_circle_lit"),
-						new Multiblock(medium, litPattern)).setSymmetrical(true)
+						new Multiblock(medium, litPattern)).setSymmetrical(true).setViewOffset(7, 1, 4)
 		};
 		
 		large_ritual_circle = new Multiblock[] {
 				registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "large_ritual_circle"),
-						new Multiblock(large, unlitPattern)).setSymmetrical(true),
+						new Multiblock(large, unlitPattern)).setSymmetrical(true).setViewOffset(8, 1, 5),
 				registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "large_ritual_circle_lit"),
-						new Multiblock(large, litPattern)).setSymmetrical(true)
+						new Multiblock(large, litPattern)).setSymmetrical(true).setViewOffset(8, 1, 5)
 		};
 	}
 

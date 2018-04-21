@@ -20,6 +20,7 @@ public class Multiblock {
 	public StateMatcher[][][] stateTargets;
 	public int sizeX, sizeY, sizeZ;
 	public int offX, offY, offZ;
+	public int viewOffX, viewOffY, viewOffZ;
 	int centerX, centerY, centerZ;
 	boolean symmetrical;
 	
@@ -29,16 +30,28 @@ public class Multiblock {
 	}
 	
 	public Multiblock offset(int x, int y, int z) {
-		offX += x;
-		offY += y;
-		offZ += z;
-		return this;
+		return setOffset(offX + x, offY + y, offZ + z);
 	}
 	
 	public Multiblock setOffset(int x, int y, int z) {
 		offX = x;
 		offY = y;
 		offZ = z;
+		return setViewOffset(x, y, z);
+	}
+	
+	void setViewOffset() {
+		setViewOffset(offX, offY, offZ);
+	}
+	
+	public Multiblock offsetView(int x, int y, int z) {
+		return setViewOffset(viewOffX + x, viewOffY + y, viewOffZ + z);
+	}
+	
+	public Multiblock setViewOffset(int x, int y, int z) {
+		viewOffX = x;
+		viewOffY = y;
+		viewOffZ = z;
 		return this;
 	}
 	
@@ -150,6 +163,7 @@ public class Multiblock {
 						offX = centerX = x;
 						offY = centerY = sizeY - y - 1;
 						offZ = centerZ = z;
+						setViewOffset();
 					}
 					
 					stateTargets[x][sizeY - y - 1][z] = matcher;
