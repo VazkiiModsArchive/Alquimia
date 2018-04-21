@@ -1,0 +1,36 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:instruction_clockwise"
+        },
+        "title": {
+            "translate": "alquimia.advancement.basic_instructions"
+        },
+        "description": {
+            "translate": "alquimia.advancement.basic_instructions.desc"
+        }
+    },
+    "parent": "alquimia:automaton",
+    "criteria": {
+        "instruction_clockwise": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": { "items": [ { "item": "alquimia:instruction_clockwise" } ] }
+        },
+         "instruction_counterclockwise": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": { "items": [ { "item": "alquimia:instruction_counterclockwise" } ] }
+        },
+         "instruction_up": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": { "items": [ { "item": "alquimia:instruction_up" } ] }
+        },
+         "instruction_down": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": { "items": [ { "item": "alquimia:instruction_down" } ] }
+        },
+         "instruction_nop": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": { "items": [ { "item": "alquimia:instruction_nop" } ] }
+        }
+    }
+}
