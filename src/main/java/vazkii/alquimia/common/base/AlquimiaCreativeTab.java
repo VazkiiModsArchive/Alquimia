@@ -76,7 +76,8 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 	}
 
 	private void addItem(Item item) {
-		item.getSubItems(this, list);
+		if(item != null)
+			item.getSubItems(this, list);
 	}
 
 	private void addBlock(Block block) {

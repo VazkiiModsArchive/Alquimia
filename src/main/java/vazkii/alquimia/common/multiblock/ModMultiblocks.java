@@ -20,7 +20,6 @@ public class ModMultiblocks {
 	public static Multiblock[] small_ritual_circle;
 	public static Multiblock[] medium_ritual_circle;
 	public static Multiblock[] large_ritual_circle;
-	public static Multiblock weird_bone_thing;
 	
 	public static void preInit() {
 		crucible = registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "crucible"), 
@@ -32,15 +31,6 @@ public class ModMultiblocks {
 						'S', Blocks.STONEBRICK,
 						' ', StateMatcher.ANY))
 				.setSymmetrical(true);
-
-		weird_bone_thing = registerMultiblock(new ResourceLocation(LibMisc.MOD_ID, "weird_bone_thing"), 
-				new Multiblock(new String[][] {
-					{ "   ", "   ", "   ", "   ", " D " },
-					{ "   ", "   ", "   ", "   ", " X " },
-					{ "XXX", "X0X", "XXX", " X ", " X " }},
-						'X', Blocks.BONE_BLOCK.getDefaultState().withProperty(BlockRotatedPillar.AXIS, EnumFacing.Axis.Y),
-						'D', Blocks.DIAMOND_BLOCK))
-				.offset(0, -1, 0);
 
 		buildRitualCircles();
 	}

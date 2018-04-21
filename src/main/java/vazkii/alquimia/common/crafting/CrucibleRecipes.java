@@ -18,9 +18,7 @@ public class CrucibleRecipes {
 	public static final List<CrucibleRecipe> CRUCIBLE_RECIPES = new ArrayList();
 
 	public static void init() {
-		registerRecipe("test_gunpowder", Ingredient.fromItem(Item.getItemFromBlock(Blocks.COBBLESTONE)), new ItemStack(Items.GUNPOWDER), 20);
-		registerRecipe("test_redstone", Ingredient.fromItem(Item.getItemFromBlock(Blocks.REDSTONE_BLOCK)), new ItemStack(Items.REDSTONE, 9), 40);
-		registerRecipe("test_glowstone", Ingredient.fromItem(Item.getItemFromBlock(Blocks.GLOWSTONE)), new ItemStack(Items.GLOWSTONE_DUST, 4), 30);
+		
 	}
 
 	private static void registerRecipe(String name, Ingredient input, ItemStack output, int time) {

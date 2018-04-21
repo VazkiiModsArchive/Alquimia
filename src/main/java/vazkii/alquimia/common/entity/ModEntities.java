@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import vazkii.alquimia.common.Alquimia;
+import vazkii.alquimia.common.lib.LibMisc;
 
 public class ModEntities {
 
@@ -14,7 +15,7 @@ public class ModEntities {
 	}
 	
 	private static void registerModEntity(Class<? extends Entity> entityClass, String entityName, int id, Object mod, int trackingRange, int updateFrequency, boolean sendsVelocityUpdates) {
-		EntityRegistry.registerModEntity(new ResourceLocation(entityName), entityClass, entityName, id, mod, trackingRange, updateFrequency, sendsVelocityUpdates);
+		EntityRegistry.registerModEntity(new ResourceLocation(entityName), entityClass, LibMisc.PREFIX_MOD + entityName, id, mod, trackingRange, updateFrequency, sendsVelocityUpdates);
 		
 	}
 	

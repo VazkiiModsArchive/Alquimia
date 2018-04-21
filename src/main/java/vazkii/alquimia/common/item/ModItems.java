@@ -10,6 +10,7 @@ import vazkii.alquimia.common.item.instruction.ItemInstructionNop;
 import vazkii.alquimia.common.item.instruction.ItemInstructionRandomTurn;
 import vazkii.alquimia.common.item.instruction.ItemInstructionRepeat;
 import vazkii.alquimia.common.item.instruction.ItemInstructionUp;
+import vazkii.alquimia.common.lib.LibMisc;
 
 public final class ModItems {
 
@@ -48,7 +49,8 @@ public final class ModItems {
 		instruction_repeat = new ItemInstructionRepeat();
 		blade_head = new ItemAutomatonHead("blade_head", HeadBlade::new);
 
-		test_rod = new ItemTestRod();
+		if(LibMisc.IS_DEBUG)
+			test_rod = new ItemTestRod();
 	}
 	
 }
