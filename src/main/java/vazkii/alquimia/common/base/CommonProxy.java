@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.crafting.CrucibleRecipes;
+import vazkii.alquimia.common.crafting.ModCraftingRecipes;
 import vazkii.alquimia.common.entity.ModEntities;
 import vazkii.alquimia.common.handler.AdvancementSyncHandler;
 import vazkii.alquimia.common.handler.CrucibleHandler;
@@ -30,6 +31,7 @@ public class CommonProxy {
 		ModMultiblocks.preInit();
 		ModRituals.preInit();
 
+		ModCraftingRecipes.init();
 		CrucibleRecipes.init();
 		
 		AlquimiaSounds.preInit();

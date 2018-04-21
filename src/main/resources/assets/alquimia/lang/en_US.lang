@@ -31,14 +31,14 @@ item.alquimia:instruction_up.name=Engage Module
 item.alquimia:instruction_down.name=Disengage Module
 item.alquimia:instruction_nop.name=Wait Module
 item.alquimia:instruction_random_turn.name=Random Turn Module
-item.alquimia:instruction_repeat.name=Repeat
+item.alquimia:instruction_repeat.name=Repeat Module
 item.alquimia:blade_head.name=Iron Blade Head
 
 # Advancements
 alquimia.advancement.root=Alquimia
 alquimia.advancement.root.desc=The World of Alchemical Engineering
 
-alquimia.advancement.acquire_lexicon=The Centennial Festival for Magical Girls
+alquimia.advancement.acquire_lexicon=Voile, the Magical Library
 alquimia.advancement.acquire_lexicon.desc=Aquire a Lexica Alquimia
 
 alquimia.advancement.make_ash=Reach for the Moon, Immortal Smoke
@@ -61,6 +61,9 @@ alquimia.advancement.orichalcum_gear.desc=Make a Orichalcum Gear to use in furth
 
 alquimia.advancement.automaton=The Eternal Steam Engine
 alquimia.advancement.automaton.desc=Construct an Automaton
+
+alquimia.advancement.basic_instructions=Inner Heart
+alquimia.advancement.basic_instructions.desc=Create all the basic Automaton Modules
 
 # Ritual Sizes
 alquimia.ritual.size.small=Small|Circle
