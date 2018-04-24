@@ -10,10 +10,23 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import vazkii.alquimia.common.base.AlquimiaConfig;
 import vazkii.alquimia.common.block.interf.IAutomaton;
 
 public class AutomatonUtil {
 
+	public static boolean canIntereactWithTarget(IAutomaton automaton) {
+		return canInteractWith(automaton.getWorld(), automaton.getPos().offset(automaton.getCurrentFacing()));
+	}
+	
+	public static boolean canInteractWith(World world, BlockPos pos) {
+		IBlockState state = world.getBlockState(pos);
+		Block block = state.getBlock();
+		int level = block.getHarvestLevel(state);
+		
+        return level >= 0 && AlquimiaConfig.automatonMiningLevel >= level; 
+	}
+	
 	public static boolean hasObstruction(IAutomaton automaton, boolean allowNonSolid) {
 		World world = automaton.getWorld();
 		EnumFacing facing = automaton.getCurrentFacing();

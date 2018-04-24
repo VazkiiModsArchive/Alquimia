@@ -77,7 +77,7 @@ public class HeadSticky implements IAutomatonHead {
 			BlockPos target = current.offset(facing);
 			BlockPos end = current.offset(endFacing);
 
-			if(AutomatonUtil.hasObstruction(automaton, false))
+			if(AutomatonUtil.hasObstruction(automaton, false) || !AutomatonUtil.canInteractWith(world, target))
 				return false;
 
 			if(!world.isAirBlock(target)) {

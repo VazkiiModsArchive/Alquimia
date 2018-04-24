@@ -22,19 +22,21 @@ import vazkii.alquimia.common.lib.LibMisc;
 
 public final class AlquimiaConfig {
 
-	public static Configuration config;
-
-	private static Map<String, Boolean> configFlags = new HashMap();
-	
 	@Setting(name="Disable Advancement Locking", 
 			desc="Set this to true to allow all entries and categories to be visible from the get-go rather than locked by advancements.")
 	public static boolean disableAdvancementLocking = false;
 	
-	@Setting(name="Test Flag 1", flag="test1")
-	public static boolean testFlag1 = true;
+	@Setting(name="Zombies Drop Lexica Alquimia", flag="zombie_drop")
+	public static boolean enableZombieDrop = true;
 	
-	@Setting(name="Test Flag 2", flag="test2")
-	public static boolean testFlag2 = true;
+	@Setting(name="Automaton Mining Level")
+	public static int automatonMiningLevel = 2;
+	
+	// END CONFIG ================================================================================================
+	
+	public static Configuration config;
+
+	private static Map<String, Boolean> configFlags = new HashMap();
 	
 	private static boolean firstChange;
 
