@@ -285,7 +285,6 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		return INSTRUCTION_TIME;
 	}
 
-
 	@Override
 	public int getSizeInventory() {
 		return INSTRUCTION_SLOTS + 1;
@@ -323,6 +322,11 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	@Override
 	public void rewind() {
 		selection = 0;
+	}
+	
+	public void setFacing(EnumFacing facing) {
+		this.facing = facing;
+		this.prevFacing = facing;
 	}
 	
 }

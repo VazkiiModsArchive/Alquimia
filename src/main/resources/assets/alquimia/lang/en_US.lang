@@ -66,6 +66,9 @@ alquimia.advancement.automaton.desc=Construct an Automaton
 alquimia.advancement.basic_instructions=Inner Heart
 alquimia.advancement.basic_instructions.desc=Create all the basic Automaton Modules
 
+alquimia.advancement.sticky_head=Free and Easy
+alquimia.advancement.sticky_head.desc=Craft a Sticky Head to use with your new Automaton
+
 # Ritual Sizes
 alquimia.ritual.size.small=Small|Circle
 alquimia.ritual.size.medium=Medium|Circle

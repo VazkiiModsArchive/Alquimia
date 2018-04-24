@@ -7,12 +7,15 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -22,6 +25,7 @@ import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaBlock;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.block.tile.TileAutomaton;
+import vazkii.alquimia.common.block.tile.TilePedestal;
 import vazkii.alquimia.common.lib.LibGuiIDs;
 import vazkii.arl.block.BlockModContainer;
 
@@ -44,7 +48,10 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-		playerIn.openGui(Alquimia.instance, LibGuiIDs.AUTOMATON, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		if(playerIn.isSneaking() && hand == EnumHand.MAIN_HAND && playerIn.getHeldItemMainhand().isEmpty())
+			((TileAutomaton) worldIn.getTileEntity(pos)).rotate(Rotation.CLOCKWISE_90);
+		else playerIn.openGui(Alquimia.instance, LibGuiIDs.AUTOMATON, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		
 		return true;
 	}
 
@@ -56,6 +63,13 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
         if(isPowered != wasPowered)
             worldIn.setBlockState(pos, state.withProperty(REDSTONE, isPowered), 2 | 4);
     }
+	
+	@Override
+	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+		TileEntity tile = worldIn.getTileEntity(pos);
+		if(tile instanceof TileAutomaton)
+			((TileAutomaton) tile).setFacing(EnumFacing.fromAngle(placer.rotationYaw - 22.5 % 360));
+	}
 	
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {

@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -31,7 +32,7 @@ public class AutomatonUtil {
 		Block block = state.getBlock();
 		int level = block.getHarvestLevel(state);
 		
-        return level >= 0 && AlquimiaConfig.automatonMiningLevel >= level; 
+        return AlquimiaConfig.automatonMiningLevel >= level && block != Blocks.OBSIDIAN && block.getBlockHardness(state, world, pos) >= 0; 
 	}
 	
 	public static boolean hasObstruction(IAutomaton automaton, boolean allowNonSolid) {

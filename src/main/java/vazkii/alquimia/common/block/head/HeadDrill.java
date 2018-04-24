@@ -8,7 +8,7 @@ public class HeadDrill extends BasicHead {
 
 	@Override
 	public boolean onEngageStatusStart(IAutomaton automaton) {
-		return AutomatonUtil.canIntereactWithTarget(automaton) || !automaton.isUp();
+		return AutomatonUtil.canIntereactWithTarget(automaton) || automaton.isUp();
 	}
 	
 	@Override

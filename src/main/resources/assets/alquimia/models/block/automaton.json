@@ -1,5 +1,5 @@
 {   
-	"parent": "block/thin_block",
+	"parent": "block/block",
     "textures": {
         "particle": "alquimia:blocks/automaton_top",
 		"top": "alquimia:blocks/automaton_top",

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alquimia:sticky_head"
+        },
+        "title": {
+            "translate": "alquimia.advancement.sticky_head"
+        },
+        "description": {
+            "translate": "alquimia.advancement.sticky_head.desc"
+        }
+    },
+    "parent": "alquimia:automaton",
+    "criteria": {
+        "book": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alquimia:sticky_head"
+                    }
+                ]
+            }
+        }
+    }
+}
