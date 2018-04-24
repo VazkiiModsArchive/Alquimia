@@ -46,9 +46,4 @@ public class HeadDrill extends BasicHead {
 		return translation * -0.6F;
 	}
 	
-	@Override
-	public float getRenderExtraRotation() {
-		return 45F;
-	}
-	
 }

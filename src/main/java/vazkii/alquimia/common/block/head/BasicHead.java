@@ -19,10 +19,11 @@ public abstract class BasicHead implements IAutomatonHead {
 		RenderItem render = mc.getRenderItem(); 
 
 		translation = getRenderTranslation(translation);
+		GlStateManager.pushMatrix();
 		GlStateManager.translate(translation , 0F, 0F);
 		GlStateManager.rotate(getRenderExtraRotation(), 0F, 0F, 1F);
 		render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
-		GlStateManager.translate(-translation , 0F, 0F);
+		GlStateManager.popMatrix();
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -30,7 +31,7 @@ public abstract class BasicHead implements IAutomatonHead {
 	
 	@SideOnly(Side.CLIENT)
 	public float getRenderExtraRotation() {
-		return 0F;
+		return 45F;
 	}
 	
 }

@@ -62,9 +62,4 @@ public class HeadBlade extends BasicHead {
 		return translation * -0.45F;
 	}
 	
-	@Override
-	public float getRenderExtraRotation() {
-		return 45F;
-	}
-	
 }
