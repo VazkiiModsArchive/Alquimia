@@ -129,7 +129,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 	protected void playSound() {
 		if(!world.isRemote)
-			world.playSound(null, getPos(), AlquimiaSounds.automaton, SoundCategory.BLOCKS, 0.2F, 0.5F + (float) Math.random() * 0.5F);
+			world.playSound(null, getPos(), AlquimiaSounds.automaton, SoundCategory.BLOCKS, 0.12F, 0.5F + (float) Math.random() * 0.5F);
 	}
 
 	@Override
