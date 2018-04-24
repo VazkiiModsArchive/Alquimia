@@ -81,6 +81,11 @@ public class ModCraftingRecipes {
 				'G', ModItems.orichalcum_gear,
 				'A', ModItems.instruction_nop);
 		
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.drill_head), 
+				" II", " II", "G  ",
+				'G', ModItems.orichalcum_gear,
+				'I', "ingotIron");
+		
 		addBlock(ModBlocks.ash_block, ModBlocks.ash);
 		addBlock(ModBlocks.alchemical_ash_block, ModItems.alchemical_ash);
 		addBlock(ModBlocks.cinnabar_block, ModItems.cinnabar);

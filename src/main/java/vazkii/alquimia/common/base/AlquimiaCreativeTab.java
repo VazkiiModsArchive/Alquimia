@@ -56,6 +56,7 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		
 		addItem(ModItems.sticky_head);
 		addItem(ModItems.blade_head);
+		addItem(ModItems.drill_head);
 
 		addItem(ModItems.instruction_clockwise);
 		addItem(ModItems.instruction_counterclockwise);

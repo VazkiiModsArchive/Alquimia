@@ -13,8 +13,6 @@ import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,7 +23,6 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -33,11 +30,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.block.interf.IAutomaton;
-import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.util.AutomatonUtil;
 import vazkii.alquimia.common.util.RotationUtil;
 
-public class HeadSticky implements IAutomatonHead {
+public class HeadSticky extends BasicHead {
 
 	private static final List<ResourceLocation> BLACKLIST = new LinkedList();
 
@@ -162,16 +158,16 @@ public class HeadSticky implements IAutomatonHead {
 	}
 
 	@Override
+	public float getRenderTranslation(float translation) {
+		return translation * -0.3F;
+	}
+	
+	@Override
 	@SideOnly(Side.CLIENT)
 	public void render(IAutomaton automaton, ItemStack stack, float translation, float partTicks) {
+		super.render(automaton, stack, translation, partTicks);
+		
 		Minecraft mc = Minecraft.getMinecraft();
-		RenderItem render = mc.getRenderItem(); 
-
-		translation *= -0.3F;
-		GlStateManager.translate(translation , 0F, 0F);
-		render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
-		GlStateManager.translate(-translation , 0F, 0F);
-
 		if(automaton.isUp() && pickedUpState != null) {
 			mc.getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
 			BlockRendererDispatcher dispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();

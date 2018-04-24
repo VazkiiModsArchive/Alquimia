@@ -239,13 +239,18 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	@Override
 	public void setUp(boolean up) {
 		if(!isExecuting()) {
+			boolean prevPrevUp = prevUp;
 			prevUp = this.up;
 			if(prevUp != up) {
 				rotation = Rotation.NONE;
-				playSound();
-				runInHead(IAutomatonHead::onEngageStatusStart);
+				if(runInHead(IAutomatonHead::onEngageStatusStart, true)) {
+					playSound();
+					this.up = up;
+				} else {
+					blocked = true;
+					prevUp = prevPrevUp;
+				}
 			}
-			this.up = up;
 		}
 	}
 

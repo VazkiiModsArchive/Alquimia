@@ -7,24 +7,19 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import vazkii.alquimia.common.block.BlockAutomaton;
 import vazkii.alquimia.common.block.interf.IAutomaton;
-import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.util.AutomatonUtil;
 
-public class HeadBlade implements IAutomatonHead {
+public class HeadBlade extends BasicHead {
 
 	private static final int DAMAGE = 5;
 	
@@ -61,18 +56,15 @@ public class HeadBlade implements IAutomatonHead {
 			}
 		}
 	}
+
+	@Override
+	public float getRenderTranslation(float translation) {
+		return translation * -0.45F;
+	}
 	
 	@Override
-	@SideOnly(Side.CLIENT)
-	public void render(IAutomaton automaton, ItemStack stack, float translation, float partTicks) {
-		Minecraft mc = Minecraft.getMinecraft();
-		RenderItem render = mc.getRenderItem(); 
-
-		translation *= -0.45F;
-		GlStateManager.translate(translation , 0F, 0F);
-		GlStateManager.rotate(45F, 0F, 0F, 1F);
-		render.renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
-		GlStateManager.translate(-translation , 0F, 0F);
+	public float getRenderExtraRotation() {
+		return 45F;
 	}
 	
 }

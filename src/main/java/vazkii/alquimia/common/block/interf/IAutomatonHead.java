@@ -12,7 +12,7 @@ public interface IAutomatonHead {
 	public default void onRemoved(IAutomaton automaton) {}
 	public default boolean onRotateStart(IAutomaton automaton) { return true; }
 	public default void onRotateEnd(IAutomaton automaton) {}
-	public default void onEngageStatusStart(IAutomaton automaton) {}
+	public default boolean onEngageStatusStart(IAutomaton automaton) { return true; }
 	public default void onEngageStatusEnd(IAutomaton automaton) {}
 	public default void writeToNBT(IAutomaton automaton, NBTTagCompound cmp)  {}
 	public default void readFromNBT(IAutomaton automaton, NBTTagCompound cmp)  {}

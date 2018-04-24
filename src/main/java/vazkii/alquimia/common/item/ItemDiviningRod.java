@@ -58,8 +58,9 @@ public class ItemDiviningRod extends ItemAlquimia {
 	@SubscribeEvent
 	public void onBlockDrops(BlockEvent.HarvestDropsEvent event) {
 		IBlockState state = event.getState();
-		if(isStone(state) && !event.getDrops().isEmpty()) {
-			EntityPlayer player = event.getHarvester();
+		EntityPlayer player = event.getHarvester();
+
+		if(isStone(state) && !event.getDrops().isEmpty() && player != null) {
 			World world = event.getWorld();
 			ItemStack pick = player.getHeldItemMainhand();
 			ItemStack rod = player.getHeldItemOffhand();

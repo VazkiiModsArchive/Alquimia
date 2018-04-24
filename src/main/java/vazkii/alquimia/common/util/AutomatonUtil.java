@@ -15,11 +15,18 @@ import vazkii.alquimia.common.block.interf.IAutomaton;
 
 public class AutomatonUtil {
 
+	public static BlockPos getTarget(IAutomaton automaton) {
+		return automaton.getPos().offset(automaton.getCurrentFacing());
+	}
+	
 	public static boolean canIntereactWithTarget(IAutomaton automaton) {
-		return canInteractWith(automaton.getWorld(), automaton.getPos().offset(automaton.getCurrentFacing()));
+		return canInteractWith(automaton.getWorld(), getTarget(automaton));
 	}
 	
 	public static boolean canInteractWith(World world, BlockPos pos) {
+		if(world.isAirBlock(pos))
+			return true;
+		
 		IBlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 		int level = block.getHarvestLevel(state);
