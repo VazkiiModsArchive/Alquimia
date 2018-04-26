@@ -28,6 +28,7 @@ import vazkii.alquimia.common.item.ModItems;
 public class GuiLexiconLanding extends GuiLexicon {
 
 	LexiconTextRenderer text;
+	int loadedCategories = 0;
 	
 	@Override
 	public void initGui() {
@@ -56,11 +57,12 @@ public class GuiLexiconLanding extends GuiLexicon {
 			i++;
 		}
 		addCategoryButton(i, null);
+		loadedCategories = i + 1;
 	}
 	
 	void addCategoryButton(int i, LexiconCategory category) {
 		int x = RIGHT_PAGE_X + 10 + (i % 4) * 24;
-		int y = TOP_PADDING + 20 + (i /4) * 24;
+		int y = TOP_PADDING + 25 + (i /4) * 24;
 		
 		if(category == null)
 			buttonList.add(new GuiButtonIndex(this, x, y));	
@@ -75,6 +77,8 @@ public class GuiLexiconLanding extends GuiLexicon {
 		
 		drawHeader();
 		drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12);
+		drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12 + 25 + 24 * (loadedCategories / 4 + 1));
+
 		drawProgressBar(mouseX, mouseY, (e) -> true);
 	}
 	
