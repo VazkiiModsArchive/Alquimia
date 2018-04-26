@@ -9,7 +9,6 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -25,7 +24,6 @@ import vazkii.alquimia.common.base.AlquimiaCreativeTab;
 import vazkii.alquimia.common.base.IAlquimiaBlock;
 import vazkii.alquimia.common.block.interf.IAutomatonHead;
 import vazkii.alquimia.common.block.tile.TileAutomaton;
-import vazkii.alquimia.common.block.tile.TilePedestal;
 import vazkii.alquimia.common.lib.LibGuiIDs;
 import vazkii.arl.block.BlockModContainer;
 
@@ -33,16 +31,14 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 
 	public static final AxisAlignedBB AABB = new AxisAlignedBB(0F, 0F, 0F, 1F, 12F / 16F, 1F);
 	public static final IProperty<Boolean> REDSTONE = PropertyBool.create("redstone");
-	
-	// TODO fix hand model
-	
+
 	public BlockAutomaton() {
 		super("automaton", Material.IRON);
 		setHardness(5.0F);
 		setResistance(10.0F);
 		setSoundType(SoundType.METAL);
 		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
-		
+
 		setDefaultState(getDefaultState().withProperty(REDSTONE, false));
 	}
 
@@ -51,26 +47,45 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 		if(playerIn.isSneaking() && hand == EnumHand.MAIN_HAND && playerIn.getHeldItemMainhand().isEmpty())
 			((TileAutomaton) worldIn.getTileEntity(pos)).rotate(Rotation.CLOCKWISE_90);
 		else playerIn.openGui(Alquimia.instance, LibGuiIDs.AUTOMATON, worldIn, pos.getX(), pos.getY(), pos.getZ());
-		
+
 		return true;
 	}
 
 	@Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        boolean isPowered = worldIn.isBlockPowered(pos);
-        boolean wasPowered = state.getValue(REDSTONE);
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+		boolean isPowered = shouldBePowered(worldIn, pos, state);
+		boolean wasPowered = state.getValue(REDSTONE);
 
-        if(isPowered != wasPowered)
-            worldIn.setBlockState(pos, state.withProperty(REDSTONE, isPowered), 2 | 4);
-    }
-	
+		if(isPowered != wasPowered)
+			worldIn.setBlockState(pos, state.withProperty(REDSTONE, isPowered), 2 | 4);
+	}
+
+	public static boolean shouldBePowered(World worldIn, BlockPos pos, IBlockState state) {
+		EnumFacing exclude = ((TileAutomaton) worldIn.getTileEntity(pos)).getCurrentFacing();
+
+		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+			if(facing != exclude) {
+				BlockPos blockpos = pos.offset(facing);
+				int i = worldIn.getRedstonePower(blockpos, facing);
+				if(i > 0)
+					return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static int calculateInputStrength(World worldIn, BlockPos pos, IBlockState state) {
+		return 0;
+	}
+
 	@Override
 	public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity tile = worldIn.getTileEntity(pos);
 		if(tile instanceof TileAutomaton)
 			((TileAutomaton) tile).setFacing(EnumFacing.fromAngle(placer.rotationYaw - 22.5 % 360));
 	}
-	
+
 	@Override
 	public TileEntity createTileEntity(World world, IBlockState state) {
 		return new TileAutomaton();
@@ -80,7 +95,7 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return AABB;
 	}
-	
+
 	@Override
 	public boolean isOpaqueCube(IBlockState state) {
 		return false;
@@ -104,12 +119,12 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 
 		super.breakBlock(worldIn, pos, state);
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(REDSTONE, (meta & 1) == 0 ? false : true);
 	}
-	
+
 	@Override
 	public int getMetaFromState(IBlockState state) {
 		return state.getValue(REDSTONE) ? 1 : 0;
@@ -119,10 +134,10 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, new IProperty[] { REDSTONE });
 	}
-	
+
 	@Override
 	public IProperty[] getIgnoredProperties() {
 		return new IProperty[] { REDSTONE };
 	}
-	
+
 }
