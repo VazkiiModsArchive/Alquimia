@@ -15,7 +15,8 @@ public class ModCraftingRecipes {
 		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(ModItems.lexicon), Items.BOOK, Items.CLAY_BALL);
 		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(ModItems.lexicon), Items.BOOK, ModItems.lexicon);
 		
-		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(ModItems.orichalcum_ingot, 2), Items.GOLD_INGOT, ModItems.alchemical_ash, ModItems.alchemical_ash);
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(ModItems.orichalcum_ingot, 1), "ingotIron", ModItems.cinnabar, ModItems.cinnabar, ModItems.cinnabar);
+		RecipeHandler.addShapelessOreDictRecipe(ProxyRegistry.newStack(ModItems.orichalcum_ingot, 2), "ingotGold", ModItems.cinnabar, ModItems.cinnabar);
 		
 		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.orichalcum_gear, 6), 
 				" O ", "O O", " O ",

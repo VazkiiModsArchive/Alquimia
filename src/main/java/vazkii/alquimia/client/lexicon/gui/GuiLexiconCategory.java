@@ -49,7 +49,7 @@ public class GuiLexiconCategory extends GuiLexiconEntryList {
 				continue;
 			
 			int x = LEFT_PAGE_X + 10 + (i % 4) * 24;
-			int y = TOP_PADDING + PAGE_HEIGHT - 70;
+			int y = TOP_PADDING + PAGE_HEIGHT - 68;
 			
 			GuiButton button = new GuiButtonCategory(this, x, y, ocategory);
 			buttonList.add(button);

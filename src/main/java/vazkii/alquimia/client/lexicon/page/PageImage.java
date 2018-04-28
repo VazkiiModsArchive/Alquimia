@@ -37,6 +37,7 @@ public class PageImage extends PageWithText {
 		
 		int x = GuiLexicon.PAGE_WIDTH / 2 - 53;
 		int y = 6;
+		GlStateManager.color(1F, 1F, 1F);
 		GlStateManager.enableBlend();
 		GlStateManager.scale(0.5F, 0.5F, 0.5F);
 		parent.drawTexturedModalRect(x * 2 + 6, y * 2 + 6, 0, 0, 200, 200);

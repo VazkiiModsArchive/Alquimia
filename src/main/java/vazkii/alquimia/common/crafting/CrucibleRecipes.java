@@ -20,7 +20,7 @@ public class CrucibleRecipes {
 
 	public static void init() {
 		registerRecipe(RecipeHandler.compound("cobblestone", "gravel", "sand"), ProxyRegistry.newStack(ModBlocks.ash), 20);
-		registerRecipe(ModItems.cinnabar, ProxyRegistry.newStack(ModItems.alchemical_ash), 60);
+		registerRecipe(ModItems.cinnabar, ProxyRegistry.newStack(ModItems.alchemical_ash, 2), 60);
 	}
 
 	private static boolean registerRecipe(Object input, ItemStack output, int time) {

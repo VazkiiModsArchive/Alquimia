@@ -1,0 +1,32 @@
+{
+	"name": "Pedestal",
+	"icon": "alquimia:pedestal",
+	"category": "ritualism",
+	"priority": true,
+	"read_by_default": false,
+	"advancement": "alquimia:find_cinnabar",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Pedestals$() serve as an essential means to bolster one's $(thing)ritualism$() potential. When performing a ritual of any complexity higher than the $(l:ritualism/purification)Ritual of Purification$(), these are required to hold the reagents in it.$(br2)Items can be placed in the $(item)Pedestal$() by right clicking it, and removed in the same manner."
+		},
+		{
+			"type": "crafting",
+			"text": "$(item)Pedestals$() are constructed using $(item)Stone$() and alchemically charged materials such as $(l:intro/alchemical_ash)Alchemical Ash$() and $(l:intro/cinnabar)Cinnabar Shards$().",
+			"recipe": "alquimia:pedestal"
+		},
+		{
+			"type": "text",
+			"text": "Similarly to $(item)Item Frames$(), the item in the $(item)Pedestal$() may be rotated through a shift-right click, though with an empty hand. Furthermore, the rotation of the item affects the output of any $(item)Comparators$() targeting it.$(br2)For usage in rituals, simply place the pedestal in a block adjacent to the ash that forms the $(l:ritualism/ritual_circle)Ritual Circle$(), the item will be consumed upon the ritual's initiation."
+		},
+		{
+			"type": "image",
+			"title": "Using Pedestals",
+			"images": [
+				"alquimia:textures/gui/lexicon/img/pedestals.png"
+			],
+			"border": true,
+			"text": "An example of a $(thing)Ritual Circle$() with 6 $(item)Pedestals$()."
+		}
+	]
+}

@@ -1,0 +1,19 @@
+{
+	"name": "Orichalcum Gear",
+	"icon": "alquimia:orichalcum_gear",
+	"category": "engineering",
+	"priority": true,
+	"read_by_default": false,
+	"advancement": "alquimia:find_cinnabar",
+	"pages": [
+		{
+			"type": "text",
+			"text": "As an alloy, $(l:intro/orichalcum)Orichalcum$() may be fashioned into gears, and due to its high alchemical charge, $(item)Orichalcum Gears$() are essential resources in the practice of the $(thing)Engineering$() branch.$(br2)Aside from their reactivity to $(thing)Redstone$() and high flexibility, there isn't much else special about these gears. You'll be making them a lot, though."
+		},
+		{
+			"type": "crafting",
+			"text": "A fairly simple recipe, it may be wise to memorize it, as it'll be a recurring theme in your studies.",
+			"recipe": "alquimia:orichalcum_gear"
+		}
+	]
+}

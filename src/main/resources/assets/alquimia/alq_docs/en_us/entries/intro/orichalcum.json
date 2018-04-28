@@ -8,7 +8,21 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "wip"
+			"text": "$(item)Orichalcum$() is a highly alchemically charged alloy of $(item)Gold$() and $(l:intro/cinnabar)Cinnabar$().$(br2)This metal, while too soft for standard tools or armor, excels when used for mechanisms. As a practician of $(thing)Engineering$(), you'll find yourself making more than your handful of $(l:engineering/orichalcum_gear)cogwheels$() out of it."
+		},
+		{
+			"type": "crafting",
+			"title": "Creating Orichalcum",
+			"text": "",
+			"recipe": "alquimia:orichalcum_ingot",
+			"recipe2": "alquimia:orichalcum_ingot_1"
+		},
+		{
+			"type": "crafting",
+			"title": "Orichalcum Block",
+			"text": "",
+			"recipe": "alquimia:orichalcum_block",
+			"recipe2": "alquimia:orichalcum_ingot_2"
 		}
 	]
 }

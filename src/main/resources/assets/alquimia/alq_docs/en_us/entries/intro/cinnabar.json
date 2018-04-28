@@ -8,7 +8,23 @@
 	"pages": [
 		{
 			"type": "text",
-			"text": "wip"
+			"text": "$(item)Cinnabar$(), often also called \"Quicksilver\", is an essential alchemical resource, stored away in the bowels of the earth, and requiring a $(l:artificing/divining_rod)Divining Rod$() to extract.$(br2)Due to its high latent energy, this material can be converted into $(l:intro/alchemical_ash)Alchemical Ash$() through $(l:intro/calcinator)calcination$() at a rate which supersedes the inefficient $(l:ritualism/purification)Ritual of Purification$()."
+		},
+		{
+			"type": "text",
+			"text": "Another important use for the $(item)Cinnabar Shards$() is the fashioning of blocks which can, similarly to $(item)Netherrack$(), sustain fire forever. This allows one to eternally stoke a $(item)Calcinator$() without needing to visit the nether.$(br2)Last by absolutely no means least, $(item)Cinnabar Shards$() are pivotal in the creation of the $(l:intro/orichalcum)Orichalcum Alloy$(), which will become your best friend should you wish to pursue $(thing)Engineering$()."
+		},
+		{
+			"type": "crucible",
+			"recipe": "alquimia:alchemical_ash",
+			"text": "Calcinating $(item)Cinnabar Shards$() into pure $(item)Alchemical Ash$()."
+		},
+		{
+			"type": "crafting",
+			"title": "Cinnabar Block",
+			"text": "",
+			"recipe": "alquimia:cinnabar_block",
+			"recipe2": "alquimia:cinnabar"
 		}
 	]
 }
