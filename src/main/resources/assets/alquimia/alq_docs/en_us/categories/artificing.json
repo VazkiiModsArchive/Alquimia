@@ -1,6 +1,6 @@
 {
 	"name": "Artificing",
 	"description": "Artificing is the skill of utilizing alchemical materials to create handheld or worn gadgets that help the artisan in day-to-day tasks.",
-	"icon": "alquimia:cinnabar",
+	"icon": "alquimia:divining_rod",
 	"sortnum": 3000
 }

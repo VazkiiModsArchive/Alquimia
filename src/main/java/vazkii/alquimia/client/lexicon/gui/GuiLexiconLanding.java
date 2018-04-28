@@ -75,10 +75,16 @@ public class GuiLexiconLanding extends GuiLexicon {
 		
 		drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.categories"), RIGHT_PAGE_X + PAGE_WIDTH / 2, TOP_PADDING, 0x333333);
 		
+		int topSeparator = TOP_PADDING + 12;
+		int bottomSeparator = topSeparator + 25 + 24 * (loadedCategories / 4 + 1);
+		
 		drawHeader();
-		drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12);
-		drawSeparator(RIGHT_PAGE_X, TOP_PADDING + 12 + 25 + 24 * (loadedCategories / 4 + 1));
-
+		drawSeparator(RIGHT_PAGE_X, topSeparator);
+		drawSeparator(RIGHT_PAGE_X, bottomSeparator);
+		
+		if(LexiconRegistry.INSTANCE.isErrored())
+			drawCenteredStringNoShadow(I18n.translateToLocal("alquimia.gui.lexicon.loading_error"), RIGHT_PAGE_X + PAGE_WIDTH / 2, bottomSeparator + 12, 0xFF0000);
+		
 		drawProgressBar(mouseX, mouseY, (e) -> true);
 	}
 	

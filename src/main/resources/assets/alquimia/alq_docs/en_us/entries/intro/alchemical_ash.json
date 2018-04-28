@@ -1,0 +1,22 @@
+{
+	"name": "Alchemical Ash",
+	"icon": "alquimia:alchemical_ash",
+	"category": "intro",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:make_alchemical_ash",
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Alchemical Ash$() is, simply put, purified $(l:intro/impure_ash)Impure Ash$(). Through the $(l:ritualism/purification)Ritual of Purification$(), the impurities are cleared, leaving pure, distilled, alchemically charged essence behind.$(br2)While its uses are somewhat limited in its raw form, it can be used to construct a $(l:artificing/divining_rod)Divining Rod$()."
+		},
+		{
+			"type": "crafting",
+			"title": "Alchemical Ash Block",
+			"text": "",
+			"recipe": "alquimia:alchemical_ash_block",
+			"recipe2": "alquimia:alchemical_ash"
+		}
+	]
+}
+

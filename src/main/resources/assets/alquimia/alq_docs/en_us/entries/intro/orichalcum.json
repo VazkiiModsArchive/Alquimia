@@ -1,0 +1,14 @@
+{
+	"name": "Orichalcum",
+	"icon": "alquimia:orichalcum_ingot",
+	"category": "intro",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:find_cinnabar",
+	"pages": [
+		{
+			"type": "text",
+			"text": "wip"
+		}
+	]
+}

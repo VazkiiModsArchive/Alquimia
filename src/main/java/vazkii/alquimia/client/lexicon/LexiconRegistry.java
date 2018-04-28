@@ -55,7 +55,9 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 	public final Map<ResourceLocation, LexiconEntry> entries = new HashMap();
 	public final Map<String, Class<? extends LexiconPage>> pageTypes = new HashMap();
 	public final Map<StackWrapper, Pair<LexiconEntry, Integer>> recipeMappings = new HashMap();
-
+	private boolean errored = false;
+	private boolean firstLoad = true;
+	
 	private Gson gson;
 	private String currentLang;
 
@@ -75,6 +77,10 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 		if(manager instanceof IReloadableResourceManager)
 			((IReloadableResourceManager) manager).registerReloadListener(this);
 		else throw new RuntimeException("Minecraft's resource manager is not reloadable. Something went way wrong.");
+	}
+	
+	public boolean isErrored() {
+		return errored;
 	}
 	
 	public void registerMod(String id) {
@@ -100,10 +106,13 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 
 	@Override
 	public void onResourceManagerReload(IResourceManager resourceManager) {
-		reloadLexiconRegistry();
+		if(!firstLoad)
+			reloadLexiconRegistry();
 	}
 
 	public void reloadLexiconRegistry() {
+		firstLoad = false;
+		errored = false;
 		GuiLexicon.onReload();
 		AdvancementSyncHandler.trackedNamespaces.clear();
 		categories.clear();
@@ -130,17 +139,23 @@ public class LexiconRegistry implements IResourceManagerReloadListener {
 			}, null);
 		});
 		
-		foundMods.forEach((mod) -> {
-			String id = mod.getModId();
-			CraftingHelper.findFiles(mod, String.format("assets/%s/alq_docs/%s/categories", id, DEFAULT_LANG), null, pred(id, foundCategories));
-			CraftingHelper.findFiles(mod, String.format("assets/%s/alq_docs/%s/entries", id, DEFAULT_LANG), null, pred(id, foundEntries));
-		});
-		
-		foundCategories.forEach(c -> loadCategory(c, new ResourceLocation(c.getResourceDomain(), String.format("alq_docs/%s/categories/%s.json", DEFAULT_LANG, c.getResourcePath()))));
-		foundEntries.forEach(e -> loadEntry(e, new ResourceLocation(e.getResourceDomain(), String.format("alq_docs/%s/entries/%s.json", DEFAULT_LANG, e.getResourcePath()))));
+		try {
+			foundMods.forEach((mod) -> {
+				String id = mod.getModId();
+				CraftingHelper.findFiles(mod, String.format("assets/%s/alq_docs/%s/categories", id, DEFAULT_LANG), null, pred(id, foundCategories));
+				CraftingHelper.findFiles(mod, String.format("assets/%s/alq_docs/%s/entries", id, DEFAULT_LANG), null, pred(id, foundEntries));
+			});
+			
+			foundCategories.forEach(c -> loadCategory(c, new ResourceLocation(c.getResourceDomain(), String.format("alq_docs/%s/categories/%s.json", DEFAULT_LANG, c.getResourcePath()))));
+			foundEntries.forEach(e -> loadEntry(e, new ResourceLocation(e.getResourceDomain(), String.format("alq_docs/%s/entries/%s.json", DEFAULT_LANG, e.getResourcePath()))));
 
-		entries.forEach((res, entry) -> entry.build(res));
-		categories.forEach((res, category) -> category.build(res));
+			entries.forEach((res, entry) -> entry.build(res));
+			categories.forEach((res, category) -> category.build(res));
+		} catch(Exception e) {
+			errored = true;
+			e.printStackTrace();
+		}
+
 		ClientAdvancements.updateLockStatus();
 	}
 	

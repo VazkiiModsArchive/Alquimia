@@ -1,0 +1,26 @@
+{
+	"name": "Impure Ash",
+	"icon": "alquimia:ash",
+	"category": "intro",
+	"priority": false,
+	"read_by_default": false,
+	"pages": [
+		{
+			"type": "text",
+			"text": "$(item)Impure Ash$() is the distilled essence of common earthen materials.$(br2)Its impurity comes from the raw nature of the calcination process, though said impurity lends it essential properties to $(thing)Alchemical Artificing$(), particularly the branch of $(thing)ritualism$()."
+		},
+		{
+			"type": "crucible",
+			"recipe": "alquimia:ash",
+			"text": "$(item)Impure Ash$() is created through a $(l:intro/calcinator)Calcinator$(), using materials such as $(item)Cobblestone$(), $(item)Sand$(), or $(item)Gravel$()"
+		},
+		{
+			"type": "crafting",
+			"title": "Impure Ash Block",
+			"text": "",
+			"recipe": "alquimia:ash_block",
+			"recipe2": "alquimia:ash"
+		}
+	]
+}
+

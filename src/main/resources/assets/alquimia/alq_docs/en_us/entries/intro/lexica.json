@@ -1,0 +1,36 @@
+{
+	"name": "Lexica Alquimia",
+	"icon": "alquimia:lexicon",
+	"category": "intro",
+	"priority": true,
+	"read_by_default": false,
+	"pages": [
+		{
+			"type": "text",
+			"text": "I understand your first thought may be something among the lines of \"what sort of self-referential joke is this?\"$(br)Rest assured I did not lose my mind while writing the first chapter of the book.$(br2)This introductory chapter will teach you a few of the ins and outs of the book's functionality, so pay attention."
+		},
+		{
+			"type": "text",
+			"text": "First and foremost, you should familiarize yourself with the means of getting around. You may use your $(thing)mouse wheel$() to change page, or your $(thing)right mouse button$() to go back to where you were.$(br2)$(thing)This text color$() represents \"things\", or \"concepts\", whereas $(item)this text color$() is reserved for item or block names. Lastly, $(l:intro/preface)this text color$() is clickable, and will take you to some other part of the book, or to a website."
+		},
+		{
+			"type": "text",
+			"text": "The chapters available to you in the book are derived from what $(thing)Advancements$() you've made. The more knowledge you've put to use, the more knowledge is available to you. Each category offers a breakdown of your efforts.$(br2)You may make use of the various buttons available on the left side of the book's landing page, one of which allows you to check your $(thing)Advancements$() easily."
+		},
+		{
+			"type": "text",
+			"text": "While browsing through a category, or just the Lexicon Index, you may start typing at any time to bring up a search bar, which will filter out what entries you want.$(br2)You may also bookmark any entries by pressing the $(bold)+$() button over on the right, or shift clicking the entry while browsing categories.$(br2)Furthermore, shift-right clicking a block featured in the book will allow one to open its page."
+		},
+		{
+			"type": "text",
+			"text": "Roaming $(thing)Zombies$() have been found in possession of copies of the $(item)Lexica Alquimia$(), and as such it is highly possible you may have acquired your copy through slaying one.$(br2)What they are doing with it is beyond my knowledge, as despite their craving for brains, they lack the intellectual capacity to understand the contents.$(br2)Additional copies may be created, as follows."
+		},
+		{
+			"type": "crafting",
+			"title": "Additional Lexicas",
+			"text": "",
+			"recipe": "alquimia:lexicon",
+			"recipe2": "alquimia:lexicon_1"
+		}
+	]
+}

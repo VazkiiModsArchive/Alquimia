@@ -10,7 +10,7 @@
             "translate": "alquimia.advancement.find_cinnabar.desc"
         }
     },
-    "parent": "alquimia:divining_rod",
+    "parent": "alquimia:make_alchemical_ash",
     "criteria": {
         "book": {
             "trigger": "minecraft:inventory_changed",

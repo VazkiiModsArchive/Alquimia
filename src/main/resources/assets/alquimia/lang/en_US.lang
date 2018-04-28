@@ -6,9 +6,9 @@ alqmisc.edition=%s Edition
 alqmisc.dev_edition=Writer's
 
 # Block Names
-tile.alquimia:ash.name=Ash
+tile.alquimia:ash.name=Impure Ash
 tile.alquimia:pedestal.name=Pedestal
-tile.alquimia:ash_block.name=Ash Block
+tile.alquimia:ash_block.name=Impure Ash Block
 tile.alquimia:alchemical_ash_block.name=Alchemical Ash Block
 tile.alquimia:cinnabar_block.name=Cinnabar Block
 tile.alquimia:automaton.name=Automaton
@@ -18,7 +18,7 @@ tile.alquimia:orichalcum_block.name=Orichalcum Block
 # Item Names
 item.alquimia:lexicon.name=Lexica Alquimia
 item.alquimia:test_rod.name=Test Rod
-item.alquimia:ash.name=Ash
+item.alquimia:ash.name=Impure Ash
 item.alquimia:alchemical_ash.name=Alchemical Ash
 item.alquimia:orichalcum_ingot.name=Orichalcum Ingot
 item.alquimia:cinnabar.name=Cinnabar Shard
@@ -40,21 +40,18 @@ alquimia.advancement.root=Alquimia
 alquimia.advancement.root.desc=The World of Alchemical Artisanship
 
 alquimia.advancement.acquire_lexicon=Voile, the Magical Library
-alquimia.advancement.acquire_lexicon.desc=Aquire a Lexica Alquimia
+alquimia.advancement.acquire_lexicon.desc=Acquire a Lexica Alquimia
 
 alquimia.advancement.make_ash=Reach for the Moon, Immortal Smoke
-alquimia.advancement.make_ash.desc=Create Ash using a Calcinator
+alquimia.advancement.make_ash.desc=Create Impure Ash using a Calcinator
 
 alquimia.advancement.make_alchemical_ash=Love-colored Master Spark
-alquimia.advancement.make_alchemical_ash.desc=Enrich Ash into Alchemical Ash
-
-alquimia.advancement.divining_rod=Desire Drive
-alquimia.advancement.divining_rod.desc=Craft a Divining Rod
+alquimia.advancement.make_alchemical_ash.desc=Enrich Impure Ash into Alchemical Ash
 
 alquimia.advancement.find_cinnabar=Crystallized Silver
 alquimia.advancement.find_cinnabar.desc=Locate Cinnabar using a Divining Rod
 
-alquimia.advancement.pedestal=Desire Dream
+alquimia.advancement.pedestal=Desire Drive
 alquimia.advancement.pedestal.desc=Craft a Pedestal so you can perform more Rituals
 
 alquimia.advancement.orichalcum_gear=The Doll Maker of Bucuresti
@@ -109,6 +106,7 @@ alquimia.gui.lexicon.history.info=This section stores the previous few chapters 
 alquimia.gui.lexicon.toast=Lexica Alquimia
 alquimia.gui.lexicon.toast.info=New Chapters Unlocked
 alquimia.gui.lexicon.external_link=(External Link)
+alquimia.gui.lexicon.loading_error=ERRORED
 
 alquimia.gui.lexicon.button.prev_page=Previous
 alquimia.gui.lexicon.button.next_page=Next

@@ -1,0 +1,24 @@
+{
+	"name": "Divining Rod",
+	"icon": "alquimia:divining_rod",
+	"category": "artificing",
+	"priority": true,
+	"read_by_default": false,
+	"advancement": "alquimia:make_alchemical_ash",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Divining Rod$() is one of the most basic $(thing)Artificing$() works that a novice artisan will have to undertake.$(br2)This piece of dust on a stick, when held underground in the off-hand, will start shining when it locates $(l:intro/cinnabar)Cinnabar$(), an essential resource to further one's $(thing)Alchemical Artisanship$() career."
+		},
+		{
+			"type": "text",
+			"text": "$(item)Cinnabar Ore$() is what we like to call a \"$(thing)Hidden Ore$()\". As the name implies, the ore isn't visible to the naked eye, and as such requires a tool like a $(item)Divining Rod$() to locate.$(br2)$(item)Cinnabar Ore$() is located in roughly the same height as $(item)Gold Ore$(). The rod will alert you to its presence, just look around after that to find it."
+		},
+		{
+			"type": "crafting",
+			"text": "The $(item)Divining Rod$() is relatively easy to construct, requiring only a few $(item)Sticks$() and a speck of $(item)Alchemical Ash$().",
+			"recipe": "alquimia:divining_rod"
+		}
+	]
+}
+

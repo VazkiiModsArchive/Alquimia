@@ -89,7 +89,7 @@ public class ItemDiviningRod extends ItemAlquimia {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		if(worldIn.isRemote || !(entityIn instanceof EntityPlayer) || entityIn.posY > 26)
+		if(worldIn.isRemote || !(entityIn instanceof EntityPlayer) || entityIn.posY > 29)
 			return;
 
 		if(ItemNBTHelper.getLong(stack, TAG_RNG_SEED, 0) == 0)

@@ -1,0 +1,14 @@
+{
+	"name": "Cinnabar",
+	"icon": "alquimia:cinnabar",
+	"category": "intro",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:find_cinnabar",
+	"pages": [
+		{
+			"type": "text",
+			"text": "wip"
+		}
+	]
+}

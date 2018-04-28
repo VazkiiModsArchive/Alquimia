@@ -13,7 +13,7 @@ public class PageText extends PageWithText {
 	
 	@Override
 	public int getTextHeight() {
-		return pageNum == 0 ? 22 : 0;
+		return pageNum == 0 ? 22 : -4;
 	}
 	
 	@Override

@@ -35,7 +35,7 @@ public class LexiconTextRenderer {
 		put("<br>", "$(br)");
 		
 		put("$(nocolor)", "$(0)");
-		put("$(item)", "$(#05c)");
+		put("$(item)", "$(#b0b)");
 		put("$(thing)", "$(#490)");
 	}};
 
@@ -99,7 +99,12 @@ public class LexiconTextRenderer {
 		for(String s : tokens) {
 			boolean space = s.contains("\0");
 			
-			s = buildCommand(s);
+			try {
+				s = buildCommand(s);
+			} catch(Exception e) { 
+				s = "[ERROR]";
+			}
+			
 			if(s.isEmpty())
 				continue;
 			
@@ -149,7 +154,8 @@ public class LexiconTextRenderer {
 				int dist = Character.isDigit(c) ? Character.digit(c, 10) : 1;
 				int pad = dist * 4;
 				char bullet = dist % 2 == 0 ? '\u25E6' : '\u2022';
-				currY += lineHeight;
+				if(currY > y || currX > x)
+					currY += lineHeight;
 				currLen = pad;
 				currX = x + pad;
 				
@@ -160,7 +166,11 @@ public class LexiconTextRenderer {
 				String parse = cmd.substring(1);
 				if(parse.length() == 3)
 					parse = "" + parse.charAt(0) + parse.charAt(0) + parse.charAt(1) + parse.charAt(1) + parse.charAt(2) + parse.charAt(2);
-				currColor = Integer.parseInt(parse, 16);
+				try {
+					currColor = Integer.parseInt(parse, 16);
+				} catch(NumberFormatException e) {
+					currColor = 0;
+				}
 			}
 			
 			else if(cmd.matches("^[0123456789abcdef]$")) // Vanilla colors
@@ -170,7 +180,7 @@ public class LexiconTextRenderer {
 				currCodes = "\u00A7" + cmd;
 			
 			else if(cmd.startsWith("l:")) { // Links
-				String nextHref = cmd.substring(5);
+				String nextHref = cmd.substring(2);
 				if(!nextHref.equals(currHref))
 					currCluster = new LinkedList();
 				

@@ -58,6 +58,9 @@ public final class AdvancementSyncHandler {
 	
 	public static void syncPlayer(EntityPlayerMP player, boolean showToast) {
 		PlayerAdvancements advancements = player.getAdvancements();
+		if(advancements == null)
+			return;
+		
 		AdvancementManager manager = player.getServer().getAdvancementManager();
 		
 		List<String> completed = new LinkedList();

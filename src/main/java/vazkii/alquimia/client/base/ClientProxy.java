@@ -3,6 +3,7 @@ package vazkii.alquimia.client.base;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.alquimia.client.handler.LexiconRightClickHandler;
 import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
@@ -29,6 +30,13 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(LexiconRightClickHandler.class);
 		
 		initRenderers();
+	}
+	
+	@Override
+	public void postInit(FMLPostInitializationEvent event) {
+		super.postInit(event);
+		
+		LexiconRegistry.INSTANCE.reloadLexiconRegistry();
 	}
 	
 	private void initRenderers() {	

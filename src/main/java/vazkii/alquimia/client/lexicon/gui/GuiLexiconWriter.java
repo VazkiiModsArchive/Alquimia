@@ -78,7 +78,7 @@ public class GuiLexiconWriter extends GuiLexicon {
 	}
 	
 	public void refreshText() {
-		int yPos = TOP_PADDING + (drawHeader ? 22 : 0);
+		int yPos = TOP_PADDING + (drawHeader ? 22 : -4);
 		
 		boolean unicode = fontRenderer.getUnicodeFlag();
 		savedText = textfield.getText();

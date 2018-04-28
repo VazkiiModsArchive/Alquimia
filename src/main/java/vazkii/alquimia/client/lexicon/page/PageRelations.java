@@ -57,7 +57,7 @@ public class PageRelations extends PageWithText {
 	
 	@Override
 	public void render(int mouseX, int mouseY, float pticks) {
-		parent.drawCenteredStringNoShadow(title.isEmpty() ? I18n.translateToLocal("alquimia.gui.lexicon.relations") : title, GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
+		parent.drawCenteredStringNoShadow(title == null || title.isEmpty() ? I18n.translateToLocal("alquimia.gui.lexicon.relations") : title, GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
 		parent.drawSeparator(0, 12);
 		
 		super.render(mouseX, mouseY, pticks);

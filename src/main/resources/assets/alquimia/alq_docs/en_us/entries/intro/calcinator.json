@@ -1,0 +1,31 @@
+{
+	"name": "Calcinator",
+	"icon": "minecraft:cauldron",
+	"category": "intro",
+	"priority": false,
+	"read_by_default": false,
+	"pages": [
+		{
+			"type": "text",
+			"text": "Despite the differences, $(thing)Alchemical Artisanship$() shares a basic fundamental with $(thing)Alchemy$(): the use of a $(item)Calcinator$().$(br2)A $(item)Calcinator$() is a structure with the simple purpose of breaking down materials into raw, impure $(item)Ash$(). At the core of one lies a standard $(item)Cauldron$(), stoked by fire surrounded by stone material."
+		},
+		{
+			"type": "multiblock",
+			"multiblock": "alquimia:crucible",
+			"name": "Calcinator",
+			"text": "(note, the $(item)Stone Bricks$() may be replaced with any other stone material block)"
+		},
+		{
+			"type": "text",
+			"text": "Using the $(item)Calcinator$() is a fairly simple process:$(br)$(li)As a requirement, the fire must stay lit. If it fizzles, it can be reignited without any loss.$(li)First off, toss the item you wish to burn inside of the cauldron, then proceed to wait a few seconds.$(li)After a while, the resulting item will pop off and land in an adjacent block."
+		},
+		{
+			"type": "relations",
+			"text": "",
+			"entries": [
+				"intro/impure_ash",
+				"intro/cinnabar"
+			]
+		}
+	]
+}
