@@ -1,6 +1,7 @@
 {
 	"name": "Author's Notes",
-	"description": "NYI",
+	"description": "This section contains notes left behind by the author for interested readers.$(br2)No information here is required to get the full extent of the practical knowledge imparted by the book, and can be ignored if you so desire.",
 	"icon": "minecraft:writable_book",
+	"flag": "enable_authors_notes",
 	"sortnum": 5000
 }

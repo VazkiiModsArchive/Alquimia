@@ -1,0 +1,7 @@
+{
+	"name": "Automatons",
+	"description": "Automatons are a staple mechanism for alchemical artisans focusing on the engineering branch.$(br2)This sub-category focuses on the many things one can do using them.",
+	"parent": "alquimia:engineering",
+	"icon": "alquimia:automaton",
+	"sortnum": 0
+}

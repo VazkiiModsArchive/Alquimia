@@ -32,6 +32,9 @@ public final class AlquimiaConfig {
 	@Setting(name="Automaton Mining Level")
 	public static int automatonMiningLevel = 2;
 	
+	@Setting(name="Enable Author's Notes", flag="enable_authors_notes")
+	public static boolean enableAuthorsNotes = true;
+	
 	// END CONFIG ================================================================================================
 	
 	public static Configuration config;

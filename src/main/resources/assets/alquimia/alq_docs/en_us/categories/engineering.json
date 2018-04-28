@@ -1,6 +1,6 @@
 {
 	"name": "Engineering",
-	"description": "This section contains all the required knowledge for full proficiency in the art of creating devices with the purpose of automation.",
+	"description": "Hotly contested as to whether it falls under \"tech\" or \"magic\", engineering is the art of manufacturing devices whose purpose is to bend the world to the will of the artisan.",
 	"icon": "alquimia:orichalcum_gear",
-	"sortnum": 2000
+	"sortnum": 1000
 }
