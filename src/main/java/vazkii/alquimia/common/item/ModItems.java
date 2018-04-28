@@ -1,6 +1,7 @@
 package vazkii.alquimia.common.item;
 
 import net.minecraft.item.Item;
+import vazkii.alquimia.common.Alquimia;
 import vazkii.alquimia.common.block.head.HeadBlade;
 import vazkii.alquimia.common.block.head.HeadDrill;
 import vazkii.alquimia.common.block.head.HeadSticky;
@@ -11,7 +12,6 @@ import vazkii.alquimia.common.item.instruction.ItemInstructionNop;
 import vazkii.alquimia.common.item.instruction.ItemInstructionRandomTurn;
 import vazkii.alquimia.common.item.instruction.ItemInstructionRepeat;
 import vazkii.alquimia.common.item.instruction.ItemInstructionUp;
-import vazkii.alquimia.common.lib.LibMisc;
 
 public final class ModItems {
 
@@ -52,7 +52,7 @@ public final class ModItems {
 		blade_head = new ItemAutomatonHead("blade_head", HeadBlade::new);
 		drill_head = new ItemAutomatonHead("drill_head", HeadDrill::new);
 
-		if(LibMisc.IS_DEBUG)
+		if(Alquimia.debug)
 			test_rod = new ItemTestRod();
 	}
 	

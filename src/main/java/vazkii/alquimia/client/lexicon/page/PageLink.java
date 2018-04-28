@@ -36,22 +36,7 @@ public class PageLink extends PageWithText {
 		super.onButtonClicked(button);
 
 		if(button == linkButton)
-			try {
-				openWebLink(new URI(url));
-			} catch (URISyntaxException e) {
-				e.printStackTrace();
-			}
-	}
-
-	private void openWebLink(URI url) {
-		try {
-			Class<?> oclass = Class.forName("java.awt.Desktop");
-			Object object = oclass.getMethod("getDesktop").invoke(null);
-			oclass.getMethod("browse", URI.class).invoke(object, url);
-		}
-		catch (Throwable e) {
-			e.printStackTrace();
-		}
+			GuiLexicon.openWebLink(url);
 	}
 
 }

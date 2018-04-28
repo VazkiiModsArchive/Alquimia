@@ -49,6 +49,7 @@ public class LexiconTextRenderer {
 	
 	int currX, currY, currLen, currColor, prevColor;
 	String currCodes, currHref;
+	boolean externalHref;
 	List<Word> currCluster;
 	
 	List<Word> words;
@@ -126,12 +127,15 @@ public class LexiconTextRenderer {
 	private String buildCommand(String s) {
 		if(s.matches("^\\$\\((.*?)\\)$")) { // Special codes
 			String cmd = s.substring(2, s.length() - 1);
+			boolean endingExternal = false;
 			
 			if(cmd.isEmpty()) { // Remove formatting
+				endingExternal = !currHref.isEmpty() && externalHref;
 				currColor = 0;
 				currCodes = "";
 				currHref = "";
 				currCluster = null;
+				externalHref = false;
 			}
 			
 			else if(cmd.matches("br|br2")) { // Line break
@@ -173,12 +177,18 @@ public class LexiconTextRenderer {
 				currHref = cmd.substring(2);
 				prevColor = currColor;
 				currColor = LINK_COLOR;
+				externalHref = currHref.matches("^https?\\:.*");
 			} 
 			else if(cmd.equals("/l")) { // Link breaks
+				endingExternal = !currHref.isEmpty() && externalHref;
 				currHref = "";
+				externalHref = false;
 				currColor = prevColor;
 				currCluster = null;
 			}
+			
+			if(endingExternal)
+				return TextFormatting.GRAY + "\u21AA";
 			
 			return "";
 		}
@@ -204,6 +214,7 @@ public class LexiconTextRenderer {
 		final int color;
 		final String codes;
 		final ResourceLocation href;
+		final boolean externalHref;
 		final List<Word> linkCluster;
 		
 		Word(FontRenderer font, int x, int y, int width, String text, int color, String codes, String href, List<Word> linkCluster) {
@@ -216,6 +227,7 @@ public class LexiconTextRenderer {
 			this.color = color;
 			this.codes = codes;
 			this.href = href == null ? null : new ResourceLocation(href.contains(":") ? href : (LibMisc.PREFIX_MOD + href));
+			this.externalHref = href != null && this.href.getResourceDomain().matches("https?");
 			this.linkCluster = linkCluster;
 		}
 		
@@ -224,10 +236,15 @@ public class LexiconTextRenderer {
 			int renderColor = color;
 			if(isClusterHovered(mouseX, mouseY) && href != null) {
 				renderColor = LINK_COLOR_HOVER;
-				LexiconEntry entry = getHrefEntry();
-				if(entry != null) 
-					gui.setTooltip(entry.isLocked() ? (TextFormatting.GRAY +  I18n.translateToLocal("alquimia.gui.lexicon.locked")) : entry.getName());
-				else gui.setTooltip("BAD LINK " + href);
+				
+				if(externalHref)
+					gui.setTooltip(I18n.translateToLocal("alquimia.gui.lexicon.external_link"));
+				else {
+					LexiconEntry entry = getHrefEntry();
+					if(entry != null) 
+						gui.setTooltip(entry.isLocked() ? (TextFormatting.GRAY +  I18n.translateToLocal("alquimia.gui.lexicon.locked")) : entry.getName());
+					else gui.setTooltip("BAD LINK " + href);
+				}
 			}
 			
 			font.drawString(renderTarget, x, y, renderColor);
@@ -240,9 +257,13 @@ public class LexiconTextRenderer {
 		
 		private void onClicked() {
 			if(href != null) {
-				LexiconEntry entry = getHrefEntry();
-				if(entry != null)
-					gui.displayLexiconGui(new GuiLexiconEntry(entry), true);
+				if(externalHref)
+					GuiLexicon.openWebLink(href.toString());
+				else {
+					LexiconEntry entry = getHrefEntry();
+					if(entry != null)
+						gui.displayLexiconGui(new GuiLexiconEntry(entry), true);
+				}
 			}
 		}
 		

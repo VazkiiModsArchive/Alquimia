@@ -12,8 +12,6 @@ public final class LibMisc {
 	public static final String DEPENDENCIES = "required-before:autoreglib;";
 	public static final String PREFIX_MOD = MOD_ID + ":";
 	
-	public static final boolean IS_DEBUG = ManagementFactory.getRuntimeMXBean(). getInputArguments().toString().indexOf("-agentlib:jdwp") > 0;
-	
 	// Proxy Constants
 	public static final String PROXY_COMMON = "vazkii.alquimia.common.base.CommonProxy";
 	public static final String PROXY_CLIENT = "vazkii.alquimia.client.base.ClientProxy";

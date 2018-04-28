@@ -52,6 +52,8 @@ public final class AlquimiaConfig {
 		List<ModContainer> mods = Loader.instance().getActiveModList();
 		for(ModContainer container : mods)
 			setFlag("mod:" + container.getModId(), true);
+		
+		setFlag("debug", Alquimia.debug);
 	}	
 	
 	public static boolean getConfigFlag(String name) {

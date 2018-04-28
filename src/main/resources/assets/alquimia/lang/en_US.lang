@@ -37,7 +37,7 @@ item.alquimia:drill_head.name=Breaker Head
 
 # Advancements
 alquimia.advancement.root=Alquimia
-alquimia.advancement.root.desc=The World of Alchemical Engineering
+alquimia.advancement.root.desc=The World of Alchemical Artisanship
 
 alquimia.advancement.acquire_lexicon=Voile, the Magical Library
 alquimia.advancement.acquire_lexicon.desc=Aquire a Lexica Alquimia
@@ -77,7 +77,7 @@ alquimia.ritual.size.huge=Huge|Circle
 alquimia.ritual.size.nationwide=Amestris Sized|Circle
 
 # Gui Strings
-alquimia.gui.lexicon.landing_info=A Vazkii self-published encyclopedia. The quintessential guide to alchemical engineering for students and veterans of all skill levels.
+alquimia.gui.lexicon.landing_info=A Vazkii self-published encyclopedia. The quintessential guide to alchemical artisanship for students and veterans of all skill levels.
 alquimia.gui.lexicon.progress_meter=Unlock Progress:
 alquimia.gui.lexicon.progress_tooltip=%d/%d Unlocked
 alquimia.gui.lexicon.progress_tooltip.secret1=Plus 1 Secret
@@ -108,6 +108,7 @@ alquimia.gui.lexicon.history=Reading History
 alquimia.gui.lexicon.history.info=This section stores the previous few chapters you've visited.$(br2)Chapters are automatically added and removed as you browse through the lexicon. Should you wish to keep them referenced for longer, you may bookmark them. $(br2)$(o)Tip: Try shift-clicking a chapter button!$()
 alquimia.gui.lexicon.toast=Lexica Alquimia
 alquimia.gui.lexicon.toast.info=New Chapters Unlocked
+alquimia.gui.lexicon.external_link=(External Link)
 
 alquimia.gui.lexicon.button.prev_page=Previous
 alquimia.gui.lexicon.button.next_page=Next

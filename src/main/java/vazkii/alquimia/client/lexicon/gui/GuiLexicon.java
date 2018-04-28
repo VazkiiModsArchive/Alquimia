@@ -1,6 +1,7 @@
 package vazkii.alquimia.client.lexicon.gui;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -395,8 +396,30 @@ public abstract class GuiLexicon extends GuiScreen {
 			setTooltip(tooltip);
 		}
 	}
+	
+	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {
+		fontRenderer.drawString(s, x - fontRenderer.getStringWidth(s) / 2, y, color);
+	}
 
-	public void drawSeparator(int x, int y) {
+	int getMaxAllowedScale() {
+		Minecraft mc = Minecraft.getMinecraft();
+		int scale = mc.gameSettings.guiScale;
+		mc.gameSettings.guiScale = 0;
+		ScaledResolution res = new ScaledResolution(mc);
+		mc.gameSettings.guiScale = scale;
+
+		return res.getScaleFactor();
+	}
+	
+	public List<GuiButton> getButtonList() {
+		return buttonList;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public static void drawSeparator(int x, int y) {
 		int w = 110;
 		int h = 3;
 		int rx = x + PAGE_WIDTH / 2 - w / 2;
@@ -439,26 +462,15 @@ public abstract class GuiLexicon extends GuiScreen {
 		}
 	}
 
-	public void drawCenteredStringNoShadow(String s, int x, int y, int color) {
-		fontRenderer.drawString(s, x - fontRenderer.getStringWidth(s) / 2, y, color);
-	}
-
-	int getMaxAllowedScale() {
-		Minecraft mc = Minecraft.getMinecraft();
-		int scale = mc.gameSettings.guiScale;
-		mc.gameSettings.guiScale = 0;
-		ScaledResolution res = new ScaledResolution(mc);
-		mc.gameSettings.guiScale = scale;
-
-		return res.getScaleFactor();
-	}
-	
-	public List<GuiButton> getButtonList() {
-		return buttonList;
-	}
-
-	public int getPage() {
-		return page;
+	public static void openWebLink(String address) {
+		try {
+			Class<?> oclass = Class.forName("java.awt.Desktop");
+			Object object = oclass.getMethod("getDesktop").invoke(null);
+			oclass.getMethod("browse", URI.class).invoke(object, new URI(address));
+		}
+		catch (Throwable e) {
+			e.printStackTrace();
+		}
 	}
 	
 }
