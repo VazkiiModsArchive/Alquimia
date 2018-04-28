@@ -20,6 +20,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	String name, icon, category, flag;
 	boolean priority = false;
 	boolean secret = false;
+	boolean read_by_default = false;
 	LexiconPage[] pages;
 	String advancement;
 	
@@ -70,7 +71,7 @@ public class LexiconEntry implements Comparable<LexiconEntry> {
 	}
 	
 	public boolean isUnread() {
-		return !isLocked() && !PersistentData.data.viewedEntries.contains(getResource().toString());
+		return !read_by_default && !isLocked() && !PersistentData.data.viewedEntries.contains(getResource().toString());
 	}
 	
 	public boolean isSecret() {
