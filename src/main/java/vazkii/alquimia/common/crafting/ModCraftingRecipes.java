@@ -51,23 +51,23 @@ public class ModCraftingRecipes {
 				'G', ModItems.orichalcum_gear,
 				'I', "ingotIron");
 		
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_clockwise), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_clockwise, 2), 
 				"I ", " G",
 				'G', ModItems.orichalcum_gear,
 				'I', ModItems.orichalcum_ingot);
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_counterclockwise), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_counterclockwise, 2), 
 				"G ", " I",
 				'G', ModItems.orichalcum_gear,
 				'I', ModItems.orichalcum_ingot);
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_up), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_up, 2), 
 				"G", "I",
 				'G', ModItems.orichalcum_gear,
 				'I', ModItems.orichalcum_ingot);
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_down), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_down, 2), 
 				"I", "G",
 				'G', ModItems.orichalcum_gear,
 				'I', ModItems.orichalcum_ingot);
-		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_nop, 2), 
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.instruction_nop, 3), 
 				"G", "I", "G",
 				'G', ModItems.orichalcum_gear,
 				'I', ModItems.orichalcum_ingot);

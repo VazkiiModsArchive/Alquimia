@@ -1,0 +1,23 @@
+{
+	"name": "Sticky Head",
+	"icon": "alquimia:sticky_head",
+	"category": "automatons",
+	"priority": true,
+	"read_by_default": false,
+	"advancement": "alquimia:automaton",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Sticky Head$() is the quintessential head you'll stick on an $(l:engineering/automaton)Automaton$(). As the name implies, it has a sticky front, and can rotate blocks around the axis of the $(item)Automaton$().$(br2)Simply put, when an $(item)Automaton$() with this head is up, and is rotated, whichever block is in front will rotate alongside it."
+		},
+		{
+			"type": "text",
+			"text": "It's worth noting that $(item)Obsidian$() or other very hard blocks are equally immune to the $(item)Sticky Head$() as they are to standard $(item)Pistons.$()$(br2)Attempting to move an unmovable block, or to rotate into an obstruction while the head is up (regardless of whether it's carrying a block or not), will cause the $(item)Automaton$() to block, until the problem is fixed."
+		},
+		{
+			"type": "crafting",
+			"text": "Any type of wood may be used to craft the $(item)Sticky Head$().",
+			"recipe": "alquimia:sticky_head"
+		}
+	]
+}

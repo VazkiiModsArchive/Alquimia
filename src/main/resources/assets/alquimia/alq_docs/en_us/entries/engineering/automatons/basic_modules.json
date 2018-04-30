@@ -1,0 +1,54 @@
+{
+	"name": "Basic Modules",
+	"icon": "alquimia:instruction_clockwise",
+	"category": "automatons",
+	"priority": true,
+	"read_by_default": false,
+	"advancement": "alquimia:automaton",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Running an $(l:engineering/automaton)Automaton$() requires a set of $(item)Modules$() for it to execute.$(br2)This entry showcases the five essential ones you should be aware of. You should also know that every module will take half a second to execute, provided it doesn't get blocked."
+		},
+		{
+			"type": "spotlight",
+			"item": "alquimia:instruction_clockwise",
+			"text": "This instruction rotates the $(thing)Head$() clockwise 90 degrees."
+		},
+		{
+			"type": "spotlight",
+			"item": "alquimia:instruction_counterclockwise",
+			"text": "This instruction rotates the $(thing)Head$() counter-clockwise 90 degrees."
+		},
+		{
+			"type": "spotlight",
+			"item": "alquimia:instruction_up",
+			"text": "This instruction sets the $(item)Automaton$() to its up state. If the $(item)Automaton$() is already up, it does nothing."
+		},
+		{
+			"type": "spotlight",
+			"item": "alquimia:instruction_down",
+			"text": "This instruction sets the $(item)Automaton$() to its down state. If the $(item)Automaton$() is already down, it does nothing."
+		},
+		{
+			"type": "spotlight",
+			"item": "alquimia:instruction_nop",
+			"text": "This instruction does nothing. You may use it should you wish to induce a pause."
+		},
+		{
+			"type": "crafting",
+			"recipe": "alquimia:instruction_clockwise",
+			"recipe2": "alquimia:instruction_counterclockwise"
+		},
+		{
+			"type": "crafting",
+			"recipe": "alquimia:instruction_up",
+			"recipe2": "alquimia:instruction_down"
+		},
+		{
+			"type": "crafting",
+			"text": "",
+			"recipe": "alquimia:instruction_nop"
+		}
+	]
+}

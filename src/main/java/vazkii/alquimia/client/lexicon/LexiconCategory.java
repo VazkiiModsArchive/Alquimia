@@ -88,6 +88,10 @@ public class LexiconCategory implements Comparable<LexiconCategory> {
 			if(e.isUnread())
 				return true;
 		
+		for(LexiconCategory c : children)
+			if(c.isUnread())
+				return true;
+		
 		return false;
 	}
 	

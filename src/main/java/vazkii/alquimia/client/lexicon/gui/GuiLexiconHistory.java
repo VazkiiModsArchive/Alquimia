@@ -37,7 +37,7 @@ public class GuiLexiconHistory extends GuiLexiconEntryList {
 		return PersistentData.data.history.stream()
 				.map((s) -> new ResourceLocation(s))
 				.map((res) -> LexiconRegistry.INSTANCE.entries.get(res))
-				.filter((e) -> e != null)
+				.filter((e) -> e != null && !e.isLocked())
 				.collect(Collectors.toList());
 	}
 

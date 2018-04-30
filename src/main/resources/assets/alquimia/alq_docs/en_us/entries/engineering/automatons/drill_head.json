@@ -1,0 +1,23 @@
+{
+	"name": "Breaker Head",
+	"icon": "alquimia:drill_head",
+	"category": "automatons",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:sticky_head",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Breaker Head$() is an $(l:engineering/automaton)Automaton$()'s key to mass destruction!$(br2)Well, not particularly. When an $(item)Automaton$() with a $(item)Breaker Head$() goes from the down state to up, this will cause any block in front to be broken and its drops spilled around."
+		},
+		{
+			"type": "text",
+			"text": "It is to keep in mind that, due to the $(item)Breaker Head$() being made of $(item)Iron$(), that it has the same strength as an $(item)Iron Pickaxe$(), and won't be able to mine anything that one can't. Attempting to do so will block the $(item)Automaton$().$(br2)Lastly, attempting a rotation while the $(item)Automaton$() is in the up state will also block it."
+		},
+		{
+			"type": "crafting",
+			"text": "May or may not be usable to pierce the heavens. Use at your own discretion.",
+			"recipe": "alquimia:drill_head"
+		}
+	]
+}

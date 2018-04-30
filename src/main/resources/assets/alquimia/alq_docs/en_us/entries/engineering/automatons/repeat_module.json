@@ -1,0 +1,19 @@
+{
+	"name": "Repeat Module",
+	"icon": "alquimia:instruction_repeat",
+	"category": "automatons",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:basic_instructions",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Repeat Module$(), when placed in an $(l:engineering/automaton)Automaton$() will cause it to re-do every previous instruction from the start of the cycle. Multiple $(item)Repeat Modules$() can be stacked, so you can have something run 4 times by using 2 of these."
+		},
+		{
+			"type": "crafting",
+			"text": "",
+			"recipe": "alquimia:instruction_repeat"
+		}
+	]
+}

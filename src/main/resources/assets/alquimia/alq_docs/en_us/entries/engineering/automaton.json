@@ -1,0 +1,36 @@
+{
+	"name": "Automaton",
+	"icon": "alquimia:automaton",
+	"category": "engineering",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:orichalcum_gear",
+	"pages": [
+		{
+			"type": "text",
+			"text": "As a practitioner of the arts of $(thing)Engineering$(), you'll find that the name \"$(item)Automaton$()\" shows up very frequently.$(br2)There is a real reason for this of course, as, to put it simply, $(item)Automatons$() are a wonder of technology encapsulated within a single block... in reality, it's no more than a modular box of $(l:engineering/orichalcum_gear)Orichalcum Gears$()."
+		},
+		{
+			"type": "text",
+			"text": "An $(item)Automaton$() requires a $(thing)Head$() to drive, and $(thing)Modules$() with the instructions it should run. A $(thing)redstone signal$() must also be provided to keep it chugging along.$(br2)You can define the $(item)Automaton$() with a set of two states: $(thing)Up/Down$(), and $(thing)N/S/E/W$(), the four cardinal directions, to which the modules will alter. By default, it's down, and faces the direction the player is facing."
+		},
+		{
+			"type": "text",
+			"text": "After having created a $(thing)Head$() and a set of $(thing)Modules$(), the next step is to actually insert them into the machine.$(br2)The $(item)Automaton$()'s interface has 13 inventory slots. The leftmost slot accepts a $(thing)Head$(), whereas the other 12 slots are for the $(thing)Modules$(). Starting from the top-left, the arrows indicate in which order the instructions are executed. After all instructions are done, the cycle starts anew from the first one."
+		},
+		{
+			"type": "image",
+			"title": "The Interface",
+			"images": [
+				"alquimia:textures/gui/lexicon/img/automaton_ui.png"
+			],
+			"border": false,
+			"text": "A locked and loaded $(item)Automaton$() ready to start running."
+		},
+		{
+			"type": "crafting",
+			"text": "Crafting an $(item)Automaton$() isn't anything out of the world, it's how you use it that matters.",
+			"recipe": "alquimia:automaton"
+		}
+	]
+}

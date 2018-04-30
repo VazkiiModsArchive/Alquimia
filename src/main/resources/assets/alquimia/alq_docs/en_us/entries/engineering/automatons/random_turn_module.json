@@ -1,0 +1,19 @@
+{
+	"name": "Random Turn Module",
+	"icon": "alquimia:instruction_random_turn",
+	"category": "automatons",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:basic_instructions",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Random Turn Module$(), when placed in an $(l:engineering/automaton)Automaton$() will cause it to rotate 90 degrees either clockwise or counterclockwise, chosen randomly."
+		},
+		{
+			"type": "crafting",
+			"text": "",
+			"recipe": "alquimia:instruction_random_turn"
+		}
+	]
+}

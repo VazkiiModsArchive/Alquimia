@@ -35,7 +35,7 @@ public class PageSpotlight extends PageWithText {
 		parent.drawModalRectWithCustomSizedTexture(GuiLexicon.PAGE_WIDTH / 2 - w / 2, 10, 0, 128 - h, w, h, 128, 128);
 		
 		parent.drawCenteredStringNoShadow(title != null && !title.isEmpty() ? title : itemStack.getDisplayName(), GuiLexicon.PAGE_WIDTH / 2, 0, 0x333333);
-		renderItem(GuiLexicon.PAGE_WIDTH / 2 - 8, 14, mouseX, mouseY, itemStack);
+		renderItem(GuiLexicon.PAGE_WIDTH / 2 - 8, 15, mouseX, mouseY, itemStack);
 		
 		super.render(mouseX, mouseY, pticks);
 	}

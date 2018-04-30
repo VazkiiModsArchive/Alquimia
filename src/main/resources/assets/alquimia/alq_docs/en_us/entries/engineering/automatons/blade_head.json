@@ -1,0 +1,19 @@
+{
+	"name": "Iron Blade Head",
+	"icon": "alquimia:blade_head",
+	"category": "automatons",
+	"priority": false,
+	"read_by_default": false,
+	"advancement": "alquimia:sticky_head",
+	"pages": [
+		{
+			"type": "text",
+			"text": "The $(item)Iron Blade Head$() may be attached to an $(l:engineering/automaton)Automaton$(). When the $(item)Automaton$() rotates, it'll deal damage to any living being in the rotation arc.$(br2)Furthermore, it'll also do so as a lunge of sorts when the $(item)Automaton$() goes from the down state to up."
+		},
+		{
+			"type": "crafting",
+			"text": "It may not be particularly useful for you to swing around, but sure enough an $(item)Automaton$() can swing it properly.",
+			"recipe": "alquimia:blade_head"
+		}
+	]
+}
