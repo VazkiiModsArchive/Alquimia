@@ -206,7 +206,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	}
 
 	@Override
-	public void rotate(Rotation rotation) {
+	public void rotateHead(Rotation rotation) {
 		if(!isExecuting()) {
 			EnumFacing prevPrevFacing = prevFacing;
 			this.rotation = rotation;

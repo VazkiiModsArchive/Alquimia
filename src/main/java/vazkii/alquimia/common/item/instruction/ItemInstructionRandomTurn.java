@@ -12,7 +12,7 @@ public class ItemInstructionRandomTurn extends ItemInstruction {
 
 	@Override
 	public void run(ItemStack stack, IAutomaton automaton) {
-		automaton.rotate(automaton.getRNG().nextBoolean() ? Rotation.COUNTERCLOCKWISE_90 : Rotation.CLOCKWISE_90);
+		automaton.rotateHead(automaton.getRNG().nextBoolean() ? Rotation.COUNTERCLOCKWISE_90 : Rotation.CLOCKWISE_90);
 	}
 
 }

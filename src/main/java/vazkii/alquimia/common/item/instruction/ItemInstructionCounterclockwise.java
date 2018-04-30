@@ -12,7 +12,7 @@ public class ItemInstructionCounterclockwise extends ItemInstruction {
 
 	@Override
 	public void run(ItemStack stack, IAutomaton automaton) {
-		automaton.rotate(Rotation.COUNTERCLOCKWISE_90);
+		automaton.rotateHead(Rotation.COUNTERCLOCKWISE_90);
 	}
 
 }

@@ -45,7 +45,7 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
 		if(playerIn.isSneaking() && hand == EnumHand.MAIN_HAND && playerIn.getHeldItemMainhand().isEmpty())
-			((TileAutomaton) worldIn.getTileEntity(pos)).rotate(Rotation.CLOCKWISE_90);
+			((TileAutomaton) worldIn.getTileEntity(pos)).rotateHead(Rotation.CLOCKWISE_90);
 		else playerIn.openGui(Alquimia.instance, LibGuiIDs.AUTOMATON, worldIn, pos.getX(), pos.getY(), pos.getZ());
 
 		return true;

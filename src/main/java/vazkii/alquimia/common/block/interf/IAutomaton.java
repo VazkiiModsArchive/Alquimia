@@ -15,7 +15,7 @@ public interface IAutomaton {
 	public EnumFacing getCurrentFacing();
 	public EnumFacing getPreviousFacing();
 	public Rotation getCurrentRotation();
-	public void rotate(Rotation rotation);
+	public void rotateHead(Rotation rotation);
 	public boolean isUp();
 	public boolean wasUp();
 	public void setUp(boolean up);
