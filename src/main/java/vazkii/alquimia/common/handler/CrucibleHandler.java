@@ -36,7 +36,7 @@ public class CrucibleHandler {
 		
 		BlockPos pos = entity.getPosition();
 		IBlockState state = entity.world.getBlockState(pos);
-		int level = (int) state.getProperties().get(BlockCauldron.LEVEL);
+		int level = ((Integer) state.getProperties().get(BlockCauldron.LEVEL)).intValue(); // weird wrapping because it wouldn't compile otherwise
 		if(level > 0 && entity.world.getTotalWorldTime() % 10 == 0)
 			entity.world.setBlockState(pos, state.withProperty(BlockCauldron.LEVEL, level - 1));
 		
