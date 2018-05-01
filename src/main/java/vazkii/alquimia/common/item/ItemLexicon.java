@@ -36,6 +36,7 @@ public class ItemLexicon extends ItemAlquimia {
 		super("lexicon");
 		setMaxStackSize(1);
 		MinecraftForge.EVENT_BUS.register(this);
+		setContainerItem(this);
 	}
 	
 	@SubscribeEvent
