@@ -38,7 +38,7 @@ public class ItemInstructionRepeat extends ItemInstruction {
 	public boolean scan(ItemStack stack, IAutomaton automaton) {
 		boolean repeat = getRepeatStatus(stack);
 		 
-		if(!automaton.getWorld().isRemote)
+		if(!automaton.getAutomatonWorld().isRemote)
 			setRepeatStatus(stack, !repeat);
 		
 		if(!repeat)

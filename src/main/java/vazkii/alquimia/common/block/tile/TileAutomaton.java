@@ -53,7 +53,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 	@Override
 	public void validate() {
-		rngSeed = getWorld().getSeed() ^ getPos().hashCode();
+		rngSeed = getAutomatonWorld().getSeed() ^ getAutomatonPos().hashCode();
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 	protected void playSound() {
 		if(!world.isRemote)
-			world.playSound(null, getPos(), AlquimiaSounds.automaton, SoundCategory.BLOCKS, 0.12F, 0.5F + (float) Math.random() * 0.5F);
+			world.playSound(null, getAutomatonPos(), AlquimiaSounds.automaton, SoundCategory.BLOCKS, 0.12F, 0.5F + (float) Math.random() * 0.5F);
 	}
 
 	@Override
@@ -267,7 +267,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 	@Override
 	public boolean isEnabled() {
-		return getWorld().getBlockState(getPos()).getValue(BlockAutomaton.REDSTONE);
+		return getAutomatonWorld().getBlockState(getAutomatonPos()).getValue(BlockAutomaton.REDSTONE);
 	}
 
 	@Override
@@ -327,6 +327,16 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	public void setFacing(EnumFacing facing) {
 		this.facing = facing;
 		this.prevFacing = facing;
+	}
+
+	@Override
+	public World getAutomatonWorld() {
+		return getWorld();
+	}
+
+	@Override
+	public BlockPos getAutomatonPos() {
+		return getPos();
 	}
 	
 }

@@ -17,11 +17,11 @@ import vazkii.alquimia.common.block.interf.IAutomaton;
 public class AutomatonUtil {
 
 	public static BlockPos getTarget(IAutomaton automaton) {
-		return automaton.getPos().offset(automaton.getCurrentFacing());
+		return automaton.getAutomatonPos().offset(automaton.getCurrentFacing());
 	}
 	
 	public static boolean canIntereactWithTarget(IAutomaton automaton) {
-		return canInteractWith(automaton.getWorld(), getTarget(automaton));
+		return canInteractWith(automaton.getAutomatonWorld(), getTarget(automaton));
 	}
 	
 	public static boolean canInteractWith(World world, BlockPos pos) {
@@ -36,11 +36,11 @@ public class AutomatonUtil {
 	}
 	
 	public static boolean hasObstruction(IAutomaton automaton, boolean allowNonSolid) {
-		World world = automaton.getWorld();
+		World world = automaton.getAutomatonWorld();
 		EnumFacing facing = automaton.getCurrentFacing();
 		EnumFacing endFacing = automaton.getCurrentRotation().rotate(facing);
 
-		BlockPos current = automaton.getPos();
+		BlockPos current = automaton.getAutomatonPos();
 		BlockPos target = current.offset(facing);
 
 		BlockPos end = current.offset(endFacing);

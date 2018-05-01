@@ -45,10 +45,10 @@ public class HeadSticky extends BasicHead {
 
 	@Override
 	public void onRemoved(IAutomaton automaton) {
-		World world = automaton.getWorld();
+		World world = automaton.getAutomatonWorld();
 		EnumFacing facing = automaton.getCurrentFacing();
 		EnumFacing endFacing = automaton.getCurrentRotation().rotate(facing);
-		BlockPos end = automaton.getPos().offset(endFacing);
+		BlockPos end = automaton.getAutomatonPos().offset(endFacing);
 		IBlockState state = pickedUpState;
 
 		if(state != null) {
@@ -66,10 +66,10 @@ public class HeadSticky extends BasicHead {
 	@Override
 	public boolean onRotateStart(IAutomaton automaton) {
 		if(automaton.isUp()) {
-			World world = automaton.getWorld();
+			World world = automaton.getAutomatonWorld();
 			EnumFacing facing = automaton.getCurrentFacing();
 			EnumFacing endFacing = automaton.getCurrentRotation().rotate(facing);
-			BlockPos current = automaton.getPos();
+			BlockPos current = automaton.getAutomatonPos();
 			BlockPos target = current.offset(facing);
 			BlockPos end = current.offset(endFacing);
 
@@ -91,8 +91,8 @@ public class HeadSticky extends BasicHead {
 	@Override
 	public void onRotateEnd(IAutomaton automaton) {
 		if(pickedUpState != null) {
-			World world = automaton.getWorld();
-			BlockPos target = automaton.getPos().offset(automaton.getCurrentFacing());
+			World world = automaton.getAutomatonWorld();
+			BlockPos target = automaton.getAutomatonPos().offset(automaton.getCurrentFacing());
 
 			if(world.isAirBlock(target) || world.getBlockState(target).getBlock() == ModBlocks.placeholder)
 				placePickedUpBlock(automaton, world, target);
@@ -103,11 +103,11 @@ public class HeadSticky extends BasicHead {
 	public void onTicked(IAutomaton automaton) {
 		if(automaton.isUp() && pickedUpState != null) {
 			int time = automaton.getInstructionTime();
-			World world = automaton.getWorld();
+			World world = automaton.getAutomatonWorld();
 			EnumFacing endFacing = automaton.getCurrentFacing();
 			EnumFacing facing = automaton.getCurrentRotation().rotate(endFacing.getOpposite());
 
-			BlockPos current = automaton.getPos();
+			BlockPos current = automaton.getAutomatonPos();
 			BlockPos target = current.offset(facing);
 
 			BlockPos end = current.offset(endFacing);
@@ -153,7 +153,7 @@ public class HeadSticky extends BasicHead {
 
 		innerCmp = cmp.getCompoundTag(TAG_TILE);
 		if(!innerCmp.getKeySet().isEmpty())
-			pickedUpTE = TileEntity.create(automaton.getWorld(), innerCmp);
+			pickedUpTE = TileEntity.create(automaton.getAutomatonWorld(), innerCmp);
 		else pickedUpTE = null;
 	}
 
@@ -177,7 +177,7 @@ public class HeadSticky extends BasicHead {
 			GlStateManager.rotate(-90F, 1F, 0F, 0F);
 
 			Rotation rotationObj = RotationUtil.fixHorizontal(RotationUtil.rotationFromFacing(automaton.getPreviousFacing()));
-			renderBlockOrTE(rotationObj, pickedUpState, pickedUpTE, automaton.getWorld());
+			renderBlockOrTE(rotationObj, pickedUpState, pickedUpTE, automaton.getAutomatonWorld());
 			GlStateManager.popMatrix();
 		}
 	}

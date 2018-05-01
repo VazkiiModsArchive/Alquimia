@@ -32,13 +32,13 @@ public class HeadBlade extends BasicHead {
 	public void onTicked(IAutomaton automaton) {
 		if(automaton.isUp()) {
 			int time = automaton.getInstructionTime();
-			World world = automaton.getWorld();
+			World world = automaton.getAutomatonWorld();
 			boolean rotating = automaton.getCurrentRotation() != Rotation.NONE;
 
 			EnumFacing endFacing = automaton.getCurrentFacing();
 			EnumFacing facing = !rotating ? endFacing : automaton.getCurrentRotation().rotate(endFacing.getOpposite());
 			
-			BlockPos current = automaton.getPos();
+			BlockPos current = automaton.getAutomatonPos();
 			BlockPos target = current.offset(facing);
 
 			BlockPos end = current.offset(endFacing);
@@ -51,7 +51,7 @@ public class HeadBlade extends BasicHead {
 				if(time == halfwayPoint)
 					attackSurface = end;
 				
-				List<EntityLivingBase> entities = automaton.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(attackSurface)); 
+				List<EntityLivingBase> entities = automaton.getAutomatonWorld().getEntitiesWithinAABB(EntityLivingBase.class, new AxisAlignedBB(attackSurface)); 
 				entities.forEach((e) -> e.attackEntityFrom(DamageSource.GENERIC, DAMAGE));
 			}
 		}

@@ -15,9 +15,9 @@ public class HeadDrill extends BasicHead {
 	public void onEngageStatusEnd(IAutomaton automaton) {
 		if(AutomatonUtil.canIntereactWithTarget(automaton) && automaton.isUp()) {
 			BlockPos target = AutomatonUtil.getTarget(automaton);
-			if(!automaton.getWorld().isRemote)
-				automaton.getWorld().destroyBlock(target, true);
-			automaton.getWorld().sendBlockBreakProgress(0, target, -1);
+			if(!automaton.getAutomatonWorld().isRemote)
+				automaton.getAutomatonWorld().destroyBlock(target, true);
+			automaton.getAutomatonWorld().sendBlockBreakProgress(0, target, -1);
 		}
 	}
 	
@@ -32,13 +32,13 @@ public class HeadDrill extends BasicHead {
 			float fract = (float) automaton.getInstructionTime() / automaton.getSpeed();
 			if(!automaton.isExecuting())
 				fract = -1;
-			automaton.getWorld().sendBlockBreakProgress(0, AutomatonUtil.getTarget(automaton), (int) (fract * 10));
+			automaton.getAutomatonWorld().sendBlockBreakProgress(0, AutomatonUtil.getTarget(automaton), (int) (fract * 10));
 		}
 	}
 	
 	@Override
 	public void onRemoved(IAutomaton automaton) {
-		automaton.getWorld().sendBlockBreakProgress(0, AutomatonUtil.getTarget(automaton), -1);
+		automaton.getAutomatonWorld().sendBlockBreakProgress(0, AutomatonUtil.getTarget(automaton), -1);
 	}
 	
 	@Override

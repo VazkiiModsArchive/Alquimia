@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 
 public interface IAutomaton {
 	
-	public World getWorld();
-	public BlockPos getPos();
+	public World getAutomatonWorld();
+	public BlockPos getAutomatonPos();
 	public IAutomatonHead getHead();
 	public EnumFacing getCurrentFacing();
 	public EnumFacing getPreviousFacing();
