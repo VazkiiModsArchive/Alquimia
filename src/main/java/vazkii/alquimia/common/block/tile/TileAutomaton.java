@@ -4,6 +4,7 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -267,7 +268,8 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 	@Override
 	public boolean isEnabled() {
-		return getAutomatonWorld().getBlockState(getAutomatonPos()).getValue(BlockAutomaton.REDSTONE);
+		IBlockState state = getAutomatonWorld().getBlockState(getAutomatonPos());
+		return state.getPropertyKeys().contains(BlockAutomaton.REDSTONE) && state.getValue(BlockAutomaton.REDSTONE);
 	}
 
 	@Override
