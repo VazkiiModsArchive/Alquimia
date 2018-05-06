@@ -14,6 +14,7 @@ import vazkii.alquimia.common.handler.AdvancementSyncHandler;
 import vazkii.alquimia.common.handler.CrucibleHandler;
 import vazkii.alquimia.common.handler.ItemTickHandler;
 import vazkii.alquimia.common.handler.RitualHandler;
+import vazkii.alquimia.common.handler.reagent.ReagentHandler;
 import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.network.GuiHandler;
@@ -42,6 +43,7 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(ItemTickHandler.class);
 		MinecraftForge.EVENT_BUS.register(CrucibleHandler.class);
 		MinecraftForge.EVENT_BUS.register(RitualHandler.class);
+		MinecraftForge.EVENT_BUS.register(ReagentHandler.class);
 	}
 	
 	public void init(FMLInitializationEvent event) {

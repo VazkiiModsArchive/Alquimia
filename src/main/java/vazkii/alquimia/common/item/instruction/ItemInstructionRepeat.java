@@ -17,15 +17,7 @@ public class ItemInstructionRepeat extends ItemInstruction {
 	
 	public ItemInstructionRepeat() {
 		super("instruction_repeat");
-		
-		addPropertyOverride(new ResourceLocation("repeat"), new IItemPropertyGetter() {
-			
-			@Override
-			public float apply(ItemStack stack, World worldIn, EntityLivingBase entityIn) {
-				return getRepeatStatus(stack) ? 1F : 0F;
-			}
-			
-		});
+		addBooleanPropertyOverride("repeat", ItemInstructionRepeat::getRepeatStatus);
 	}
 	
 	@Override
@@ -52,7 +44,7 @@ public class ItemInstructionRepeat extends ItemInstruction {
 		// no need for anything here
 	}
 	
-	private boolean getRepeatStatus(ItemStack stack) {
+	private static boolean getRepeatStatus(ItemStack stack) {
 		return stack.hasTagCompound() && ItemNBTHelper.getBoolean(stack, TAG_REPEAT, false);
 	}
 	

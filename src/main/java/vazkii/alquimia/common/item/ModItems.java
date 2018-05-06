@@ -31,6 +31,7 @@ public final class ModItems {
 	public static Item instruction_repeat;
 	public static Item blade_head;
 	public static Item drill_head;
+	public static Item reagent_pouch;
 
 	public static Item test_rod;
 
@@ -51,7 +52,8 @@ public final class ModItems {
 		instruction_repeat = new ItemInstructionRepeat();
 		blade_head = new ItemAutomatonHead("blade_head", HeadBlade::new);
 		drill_head = new ItemAutomatonHead("drill_head", HeadDrill::new);
-
+		reagent_pouch = new ItemReagentPouch();
+		
 		if(Alquimia.debug)
 			test_rod = new ItemTestRod();
 	}

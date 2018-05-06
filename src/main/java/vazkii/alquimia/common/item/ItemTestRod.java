@@ -1,20 +1,17 @@
 package vazkii.alquimia.common.item;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
-import vazkii.alquimia.common.base.IAlquimiaItem;
-import vazkii.alquimia.common.handler.RitualHandler;
-import vazkii.alquimia.common.ritual.ModRituals;
-import vazkii.arl.item.ItemMod;
+import vazkii.alquimia.common.handler.reagent.ReagentHandler;
 
 public class ItemTestRod extends ItemAlquimia {
 
@@ -26,8 +23,11 @@ public class ItemTestRod extends ItemAlquimia {
 
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if(worldIn instanceof WorldServer)
-			RitualHandler.startRitual(worldIn, pos.up(), ModRituals.clear_skies);
+		if(!worldIn.isRemote) {
+			boolean did = ReagentHandler.removeFromPlayer(player, new ItemStack(Items.CARROT, 20), new ItemStack(Items.DIAMOND, 6));
+			player.sendMessage(new TextComponentString("Did = " + did));
+		}
+		
 		
 		return EnumActionResult.SUCCESS;
 	}

@@ -50,7 +50,8 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		// Progression Tools
 		addItem(ModItems.divining_rod);
 		addBlock(ModBlocks.pedestal);
-		
+		addItem(ModItems.reagent_pouch);
+
 		// Automaton, Heads, and Instructions
 		addBlock(ModBlocks.automaton);
 		

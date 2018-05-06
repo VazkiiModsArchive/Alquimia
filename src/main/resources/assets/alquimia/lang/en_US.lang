@@ -34,6 +34,7 @@ item.alquimia:instruction_random_turn.name=Random Turn Module
 item.alquimia:instruction_repeat.name=Repeat Module
 item.alquimia:blade_head.name=Iron Blade Head
 item.alquimia:drill_head.name=Breaker Head
+item.alquimia:reagent_pouch.name=Reagent Pouch
 
 # Advancements
 alquimia.advancement.root=Alquimia

@@ -1,0 +1,14 @@
+{
+	"parent": "item/generated",
+	"textures": { 
+		"layer0": "alquimia:items/reagent_pouch"
+	},
+	"overrides": [
+        {
+            "predicate": {
+                "has_items": 1
+            },
+            "model": "alquimia:item/reagent_pouch_full"
+        }
+    ]
+}
