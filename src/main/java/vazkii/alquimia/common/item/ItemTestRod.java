@@ -28,7 +28,6 @@ public class ItemTestRod extends ItemAlquimia {
 			player.sendMessage(new TextComponentString("Did = " + did));
 		}
 		
-		
 		return EnumActionResult.SUCCESS;
 	}
 

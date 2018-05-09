@@ -20,7 +20,8 @@ public final class ReagentHandler {
 		if(stack.getItem() instanceof IReagentHolder) {
 			ReagentList list = ReagentList.getFromStack(stack);
 			for(ReagentStack rstack : list.stacks) {
-				lines.add(rstack.stack.getDisplayName() + " (" + rstack.trueCount + ")");
+				float displayedCount = (float) rstack.trueCount / ReagentList.DEFAULT_MULTIPLICATION_FACTOR;
+				lines.add(rstack.stack.getDisplayName() + " (" + displayedCount + ")");
 			}
 		}
 	}

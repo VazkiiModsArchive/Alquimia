@@ -12,6 +12,7 @@ import vazkii.arl.util.ItemNBTHelper;
 public final class ReagentList {
 
 	public static final ReagentList EMPTY = new ReagentList();
+	public static final int DEFAULT_MULTIPLICATION_FACTOR = 100;
 	
 	private static final String TAG_REAGENT_LIST = "reagentList";
 	private static final String TAG_REAGENT_COUNT = "reagentCount";
@@ -66,17 +67,30 @@ public final class ReagentList {
 	}
 
 	public void merge(ReagentList other) {
-		for(ReagentStack ostack : other.stacks) insert: {
-			for(int i = 0; i < stacks.size(); i++) {
-				ReagentStack stack = stacks.get(i);
-				if(stack.stacksEqual(ostack)) {
-					stacks.set(i, stack.merge(ostack));
-					break insert;
-				}
-
-				stacks.add(ostack);
+		other.stacks.forEach(this::addStack);
+	}
+	
+	public void addStack(ReagentStack ostack) {
+		if(ostack.isEmpty())
+			return;
+		
+		for(int i = 0; i < stacks.size(); i++) {
+			ReagentStack stack = stacks.get(i);
+			if(stack.stacksEqual(ostack)) {
+				stacks.set(i, stack.merge(ostack));
+				return;
 			}
 		}
+		
+		stacks.add(ostack);
+	}
+	
+	public void addStack(ItemStack stack, int multiplicationFactor) {
+		addStack(new ReagentStack(stack, stack.getCount() * multiplicationFactor));
+	}
+	
+	public void addStack(ItemStack stack) {
+		addStack(stack, DEFAULT_MULTIPLICATION_FACTOR);
 	}
 	
 	public boolean removeAll(ReagentList targets, boolean doit) {
@@ -111,6 +125,13 @@ public final class ReagentList {
 			stacks.removeIf(ReagentStack::isEmpty);
 		
 		return did;
+	}
+	
+	
+	public ReagentList copy() {
+		ReagentList newList = new ReagentList();
+		stacks.forEach(stack -> newList.stacks.add(stack.copy()));
+		return newList;
 	}
 	
 }

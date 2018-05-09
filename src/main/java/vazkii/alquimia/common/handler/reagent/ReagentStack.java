@@ -13,6 +13,10 @@ public final class ReagentStack {
 	public final ItemStack stack;
 	public final int trueCount;
 
+	public ReagentStack(ItemStack stack) {
+		this(stack, stack.getCount());
+	}
+
 	public ReagentStack(ItemStack stack, int trueCount) {
 		this.stack = stack.copy();
 		this.trueCount = trueCount;
@@ -51,6 +55,10 @@ public final class ReagentStack {
 			return ActionResult.newResult(EnumActionResult.SUCCESS, EMPTY_STACK);
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, new ReagentStack(stack, newCount));
+	}
+	
+	public ReagentStack copy() {
+		return new ReagentStack(stack.copy(), trueCount);
 	}
 
 	public boolean isEmpty() {
