@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import vazkii.alquimia.client.handler.LexiconRightClickHandler;
 import vazkii.alquimia.client.handler.MultiblockVisualizationHandler;
-import vazkii.alquimia.client.handler.ReagentPouchInsertionHandler;
+import vazkii.alquimia.client.handler.ReagentPouchEventHandler;
 import vazkii.alquimia.client.lexicon.LexiconRegistry;
 import vazkii.alquimia.client.render.entity.RenderRitual;
 import vazkii.alquimia.client.render.tile.RenderTileAutomaton;
@@ -29,7 +29,7 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(ClientAdvancements.class);
 		MinecraftForge.EVENT_BUS.register(MultiblockVisualizationHandler.class);
 		MinecraftForge.EVENT_BUS.register(LexiconRightClickHandler.class);
-		MinecraftForge.EVENT_BUS.register(ReagentPouchInsertionHandler.class);
+		MinecraftForge.EVENT_BUS.register(ReagentPouchEventHandler.class);
 
 		initRenderers();
 	}

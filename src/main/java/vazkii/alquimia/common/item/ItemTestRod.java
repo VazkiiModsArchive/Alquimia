@@ -24,8 +24,7 @@ public class ItemTestRod extends ItemAlquimia {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
-			boolean did = ReagentHandler.removeFromPlayer(player, new ItemStack(Items.CARROT, 20), new ItemStack(Items.DIAMOND, 6));
-			player.sendMessage(new TextComponentString("Did = " + did));
+			boolean did = ReagentHandler.removeFromPlayer(player, new ItemStack(Items.REDSTONE, 20), new ItemStack(Items.ROTTEN_FLESH, 6));
 		}
 		
 		return EnumActionResult.SUCCESS;

@@ -5,7 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 
-public final class ReagentStack {
+public final class ReagentStack implements Comparable<ReagentStack> {
 
 	private static final String TAG_TRUE_COUNT = "trueCount";
 	public static final ReagentStack EMPTY_STACK = new ReagentStack(ItemStack.EMPTY, 0);
@@ -60,9 +60,18 @@ public final class ReagentStack {
 	public ReagentStack copy() {
 		return new ReagentStack(stack.copy(), trueCount);
 	}
-
+	
 	public boolean isEmpty() {
 		return trueCount <= 0 || stack.isEmpty();
+	}
+
+	@Override
+	public int compareTo(ReagentStack o) {
+		int diff = o.trueCount - trueCount;
+		if(diff != 0)
+			return diff;
+		
+		return o.stack.getDisplayName().compareTo(stack.getDisplayName());
 	}
 
 }

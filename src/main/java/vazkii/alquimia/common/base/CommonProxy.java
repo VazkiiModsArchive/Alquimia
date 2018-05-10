@@ -43,7 +43,6 @@ public class CommonProxy {
 		MinecraftForge.EVENT_BUS.register(ItemTickHandler.class);
 		MinecraftForge.EVENT_BUS.register(CrucibleHandler.class);
 		MinecraftForge.EVENT_BUS.register(RitualHandler.class);
-		MinecraftForge.EVENT_BUS.register(ReagentHandler.class);
 	}
 	
 	public void init(FMLInitializationEvent event) {

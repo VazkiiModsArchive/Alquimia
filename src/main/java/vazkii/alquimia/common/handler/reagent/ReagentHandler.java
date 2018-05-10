@@ -11,23 +11,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public final class ReagentHandler {
 
-	private static final WeakHashMap<ItemStack, ReagentList> REAGENT_MAP = new WeakHashMap<>();
-	
-	@SubscribeEvent
-	public static void onTooltip(ItemTooltipEvent event) {
-		ItemStack stack = event.getItemStack();
-		List<String> lines = event.getToolTip();
-		if(stack.getItem() instanceof IReagentHolder) {
-			ReagentList list = ReagentList.getFromStack(stack);
-			for(ReagentStack rstack : list.stacks) {
-				float displayedCount = (float) rstack.trueCount / ReagentList.DEFAULT_MULTIPLICATION_FACTOR;
-				lines.add(rstack.stack.getDisplayName() + " (" + displayedCount + ")");
-			}
-		}
-	}
-	
+	private static final WeakHashMap<ItemStack, ReagentList> CACHE = new WeakHashMap<>();
+
 	public static ReagentList getReagents(ItemStack stack) {
-		ReagentList list = ReagentList.getFromStack(stack); // TODO caching
+		if(CACHE.containsKey(stack))
+			return CACHE.get(stack);
+		
+		ReagentList list = ReagentList.getFromStack(stack);
+		CACHE.put(stack, list);
 		return list;
 	}
 	
