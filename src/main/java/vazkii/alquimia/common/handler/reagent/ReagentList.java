@@ -13,21 +13,21 @@ public final class ReagentList {
 
 	public static final ReagentList EMPTY = new ReagentList();
 	public static final int DEFAULT_MULTIPLICATION_FACTOR = 100;
-	
+
 	private static final String TAG_REAGENT_LIST = "reagentList";
 	private static final String TAG_REAGENT_COUNT = "reagentCount";
 	private static final String TAG_REAGENT = "reagent";
 
 	public List<ReagentStack> stacks = new ArrayList();
 	public boolean dirty = false;
-	
+
 	public static ReagentList of(ItemStack... targets) {
 		ReagentList list = new ReagentList();
 		for(int i = 0; i < targets.length; i++) {
 			ItemStack stack = (ItemStack) targets[i];
 			list.stacks.add(new ReagentStack(stack, stack.getCount()));
 		}
-		
+
 		return list;
 	}
 
@@ -47,7 +47,7 @@ public final class ReagentList {
 
 		return EMPTY;
 	}
-	
+
 	public void commit(ItemStack stack) {
 		NBTTagCompound cmp = new NBTTagCompound();
 		cmp.setInteger(TAG_REAGENT_COUNT, stacks.size());
@@ -58,7 +58,7 @@ public final class ReagentList {
 		}
 		ItemNBTHelper.setCompound(stack, TAG_REAGENT_LIST, cmp);
 	}
-	
+
 	public void commitIfDirty(ItemStack stack) {
 		if(dirty) {
 			commit(stack);
@@ -69,11 +69,11 @@ public final class ReagentList {
 	public void merge(ReagentList other) {
 		other.stacks.forEach(this::addStack);
 	}
-	
+
 	public void addStack(ReagentStack ostack) {
 		if(ostack.isEmpty())
 			return;
-		
+
 		for(int i = 0; i < stacks.size(); i++) {
 			ReagentStack stack = stacks.get(i);
 			if(stack.stacksEqual(ostack)) {
@@ -81,30 +81,30 @@ public final class ReagentList {
 				return;
 			}
 		}
-		
+
 		stacks.add(ostack);
 	}
-	
+
 	public void addStack(ItemStack stack, int multiplicationFactor) {
 		addStack(new ReagentStack(stack, stack.getCount() * multiplicationFactor));
 	}
-	
+
 	public void addStack(ItemStack stack) {
 		addStack(stack, DEFAULT_MULTIPLICATION_FACTOR);
 	}
-	
+
 	public boolean removeAll(ReagentList targets, boolean doit) {
 		for(ReagentStack stack : targets.stacks) {
 			if(!remove(stack.stack, stack.trueCount, doit))
 				return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	public boolean remove(ItemStack stack, int count, boolean doit) {
 		boolean did = false;
-		
+
 		for(int i = 0; i < stacks.size(); i++) {
 			ReagentStack rstack = stacks.get(i);
 			if(rstack.stacksEqual(stack)) {
@@ -116,22 +116,31 @@ public final class ReagentList {
 						stacks.set(i, result.getResult());
 					}
 				}
-					
+
 				break;
 			}
 		}
-				
+
 		if(doit && did)
 			stacks.removeIf(ReagentStack::isEmpty);
-		
+
 		return did;
 	}
-	
-	
+
+	public int getCount(ItemStack stack) {
+		for(int i = 0; i < stacks.size(); i++) {
+			ReagentStack rstack = stacks.get(i);
+			if(rstack.stacksEqual(stack))
+				return rstack.trueCount;
+		}
+
+		return 0;
+	}
+
 	public ReagentList copy() {
 		ReagentList newList = new ReagentList();
 		stacks.forEach(stack -> newList.stacks.add(stack.copy()));
 		return newList;
 	}
-	
+
 }

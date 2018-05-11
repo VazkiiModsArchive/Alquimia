@@ -5,28 +5,28 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import javax.xml.soap.Text;
-
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GLSync;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderTooltipEvent;
-import net.minecraftforge.client.event.RenderTooltipEvent.PostText;
-import net.minecraftforge.client.event.RenderTooltipEvent.Pre;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import vazkii.alquimia.common.handler.reagent.IReagentConsumer;
 import vazkii.alquimia.common.handler.reagent.IReagentHolder;
 import vazkii.alquimia.common.handler.reagent.ReagentHandler;
 import vazkii.alquimia.common.handler.reagent.ReagentList;
@@ -40,6 +40,40 @@ public class ReagentPouchEventHandler {
 
 	private static final int STACKS_PER_LINE = 8;
 
+	@SubscribeEvent
+	public static void onHUDRender(RenderGameOverlayEvent.Post event) {
+		Minecraft mc = Minecraft.getMinecraft();
+		if(event.getType() == ElementType.ALL && mc.currentScreen == null) {
+			EntityPlayer player = mc.player;
+			ItemStack stack = player.getHeldItemMainhand();
+			if(!(stack.getItem() instanceof IReagentConsumer))
+				stack = player.getHeldItemOffhand();
+			
+			if(stack.getItem() instanceof IReagentConsumer) {
+				ReagentList reagents = ((IReagentConsumer) stack.getItem()).getReagentsToConsume(stack, player);
+				int reagentCount = reagents.stacks.size();
+				
+				int w = 18;
+				ScaledResolution res = event.getResolution();
+				int x = res.getScaledWidth() / 2 - (reagentCount * w) / 2;
+				int y = res.getScaledHeight() - 90;
+				int pad = 4;
+				
+				GlStateManager.enableBlend();
+				GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+				Gui.drawRect(x - pad, y - pad, x + reagentCount * 18 + pad, y + 20 + pad, 0x22000000);
+				Gui.drawRect(x - pad - 1, y - pad - 1, x + reagentCount * 18 + pad + 1, y + 20 + pad + 1, 0x22000000);
+
+				for(int i = 0; i < reagentCount; i++) {
+					ReagentStack rstack = reagents.stacks.get(i);
+					int count = ReagentHandler.getCount(player, rstack.stack);
+					renderReagentStack(rstack, x + 1, y, count, rstack.trueCount);
+					x += w;
+				}
+			}
+		}
+	}
+	
 	@SubscribeEvent
 	public static void onMakeTooltip(ItemTooltipEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
@@ -92,21 +126,11 @@ public class ReagentPouchEventHandler {
 			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 			Gui.drawRect(bx, by, bx + width, by + height, 0x55000000);
 			
-			RenderItem render = mc.getRenderItem();
 			for(int i = 0; i < stacks.size(); i++) {
 				ReagentStack rstack = stacks.get(i);
 				int x = bx + (i % STACKS_PER_LINE) * 18;
 				int y = by + (i / STACKS_PER_LINE) * 20;
-				render.renderItemIntoGUI(rstack.stack, x, y);	
-				
-				String s = TextFormatting.BOLD + Integer.toString((int) Math.ceil((float) rstack.trueCount / ReagentList.DEFAULT_MULTIPLICATION_FACTOR));
-				int w = mc.fontRenderer.getStringWidth(s);
-				
-				GlStateManager.pushMatrix();
-				GlStateManager.translate(x + 8 - w / 4, y + 16, 0);
-				GlStateManager.scale(0.5F, 0.5F, 0.5F);
-				mc.fontRenderer.drawStringWithShadow(s, 0, 0, 0xFFFFFF);
-				GlStateManager.popMatrix();
+				renderReagentStack(rstack, x, y);
 			}
 		}
 	}
@@ -159,6 +183,53 @@ public class ReagentPouchEventHandler {
 				}
 			}
 		}
+	}
+	
+	private static void renderReagentStack(ReagentStack rstack, int x, int y) {
+		renderReagentStack(rstack, x, y, -1, 0);
+	}
+	
+	private static void renderReagentStack(ReagentStack rstack, int x, int y, int count, int req) {
+		Minecraft mc = Minecraft.getMinecraft();
+		GlStateManager.disableDepth();
+		RenderItem render = mc.getRenderItem();
+		
+		render.renderItemIntoGUI(rstack.stack, x, y);	
+		
+		if(count == -1)
+			count = rstack.trueCount;
+		
+		String s1 = TextFormatting.BOLD + Integer.toString((int) Math.ceil((float) count));
+		int w1 = mc.fontRenderer.getStringWidth(s1);
+		int color = 0xFFFFFF;
+		if(count < req)
+			color = 0xFF0000;
+		
+		boolean hasReq = req > 0;
+
+		GlStateManager.pushMatrix();
+		GlStateManager.translate(x + 8 - w1 / 4, y + (hasReq ? 12 : 14), 0);
+		GlStateManager.scale(0.5F, 0.5F, 0.5F);
+		mc.fontRenderer.drawStringWithShadow(s1, 0, 0, color);
+		GlStateManager.popMatrix();
+		
+		if(hasReq) {
+			if(count < req) {
+				GlStateManager.enableDepth();
+				Gui.drawRect(x - 1, y - 1, x + 17, y + 17, 0x44FF0000);
+				GlStateManager.disableDepth();
+			}
+			
+			String s2 = TextFormatting.BOLD + "(" + Integer.toString(req) + ")";
+			int w2 = mc.fontRenderer.getStringWidth(s2);
+
+			GlStateManager.pushMatrix();
+			GlStateManager.translate(x + 8 - w2 / 4, y + 17, 0);
+			GlStateManager.scale(0.5F, 0.5F, 0.5F);
+			mc.fontRenderer.drawStringWithShadow(s2, 0, 0, 0x999999);
+			GlStateManager.popMatrix();
+		}
+		GlStateManager.enableDepth();
 	}
 
 }

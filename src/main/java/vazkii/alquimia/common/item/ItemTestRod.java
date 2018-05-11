@@ -11,9 +11,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import vazkii.alquimia.common.base.AlquimiaCreativeTab;
+import vazkii.alquimia.common.handler.reagent.IReagentConsumer;
 import vazkii.alquimia.common.handler.reagent.ReagentHandler;
+import vazkii.alquimia.common.handler.reagent.ReagentList;
 
-public class ItemTestRod extends ItemAlquimia {
+public class ItemTestRod extends ItemAlquimia implements IReagentConsumer {
 
 	public ItemTestRod() {
 		super("test_rod");
@@ -24,7 +26,9 @@ public class ItemTestRod extends ItemAlquimia {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if(!worldIn.isRemote) {
-			boolean did = ReagentHandler.removeFromPlayer(player, new ItemStack(Items.REDSTONE, 20), new ItemStack(Items.ROTTEN_FLESH, 6));
+			ItemStack stack = player.getHeldItem(hand);
+			boolean did = ReagentHandler.removeFromPlayer(player, getReagentsToConsume(stack, player));
+			
 		}
 		
 		return EnumActionResult.SUCCESS;
@@ -33,6 +37,11 @@ public class ItemTestRod extends ItemAlquimia {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 		return ActionResult.newResult(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+	}
+
+	@Override
+	public ReagentList getReagentsToConsume(ItemStack stack, EntityPlayer player) {
+		return ReagentList.of(new ItemStack(Items.BLAZE_POWDER, 80), new ItemStack(Items.ROTTEN_FLESH, 120), new ItemStack(Items.DIAMOND, 10));
 	}
 
 }

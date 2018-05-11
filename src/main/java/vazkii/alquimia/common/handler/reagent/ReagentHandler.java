@@ -22,6 +22,21 @@ public final class ReagentHandler {
 		return list;
 	}
 	
+	public static int getCount(EntityPlayer player, ItemStack target) {
+		InventoryPlayer inv = player.inventory;
+		for(int i = 0; i < inv.getSizeInventory(); i++) {
+			ItemStack stackAt = inv.getStackInSlot(i);
+			if(stackAt.getItem() instanceof IReagentHolder) {
+				ReagentList list = getReagents(stackAt);
+				int count = list.getCount(target);
+				if(count > 0)
+					return count;
+			}
+		}
+		
+		return 0;
+	}
+	
 	public static boolean removeFromPlayer(EntityPlayer player, ItemStack... targets) {
 		return removeFromPlayer(player, ReagentList.of(targets));
 	}
