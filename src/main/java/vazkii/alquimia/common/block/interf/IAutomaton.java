@@ -19,6 +19,7 @@ public interface IAutomaton {
 	public boolean isUp();
 	public boolean wasUp();
 	public void setUp(boolean up);
+	public boolean hasRedstoneSignal();
 	public boolean isEnabled();
 	public boolean isExecuting();
 	public int getInstructionTime();

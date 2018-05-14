@@ -37,6 +37,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	private static final String TAG_CLOCK = "clock";
 	private static final String TAG_SELECTION = "selection";
 	private static final String TAG_BLOCKED = "blocked";
+	private static final String TAG_ENABLED = "enabled";
 	private static final String TAG_RNG_SEED = "rngSeed";
 
 	protected IAutomatonHead head = null;
@@ -50,6 +51,8 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	protected int selection = 1;
 	protected int currentExecuting = 0;
 	protected boolean blocked = false;
+	protected boolean enabled = false;
+	protected boolean hadRedstone = false;
 	protected long rngSeed = 0L;
 
 	@Override
@@ -68,14 +71,30 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 
 		runInHead(IAutomatonHead::onTicked);
 
-		if(!isEnabled() && !isExecuting())
+		boolean hasRedstone = hasRedstoneSignal();
+		if(hasRedstone) {
+			if(!hadRedstone)
+				System.out.print("REDSTONE GIVEN TO " +((world.isRemote) ? "Client" : "Server") + "\n");
+			enabled = true;
+			if(currentExecuting == 0) {
+				selection = 0;
+				jumpToNext();
+			}
+		}
+		
+		if(!isEnabled() && !isExecuting()) {
 			selection = 1;
-
+			currentExecuting = 0;
+			clock = getSpeed();
+		}
+		
 		if(getHead() != null) {
 			if(clock >= getSpeed() - 1)
 				executeCurrentInstruction();
 			else clock++;
 		} else up = false;
+		
+		hadRedstone = hasRedstone;
 	}
 
 	protected void startExecuting() {
@@ -89,6 +108,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		do {
 			selection++;
 			if(selection >= getSizeInventory()) {
+				enabled = hasRedstoneSignal();
 				selection = 1;
 				break;
 			}
@@ -107,7 +127,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			prevFacing = facing;
 			runInHead(IAutomatonHead::onRotateEnd);
 		}
-
+		
 		executing = false;
 		boolean executed = false;
 		if(isEnabled()) {
@@ -120,10 +140,8 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 			}
 
 			if(executed) {
-				if(!blocked) {
+				if(!blocked)
 					startExecuting();
-					sync();
-				}
 			} else selection = 1;
 		}
 	}
@@ -149,6 +167,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		par1nbtTagCompound.setInteger(TAG_CLOCK, clock);
 		par1nbtTagCompound.setInteger(TAG_SELECTION, selection);
 		par1nbtTagCompound.setBoolean(TAG_BLOCKED, blocked);
+		par1nbtTagCompound.setBoolean(TAG_ENABLED, enabled);
 		par1nbtTagCompound.setLong(TAG_RNG_SEED, rngSeed);
 	}
 
@@ -169,6 +188,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 		clock = par1nbtTagCompound.getInteger(TAG_CLOCK);
 		selection = par1nbtTagCompound.getInteger(TAG_SELECTION);
 		blocked = par1nbtTagCompound.getBoolean(TAG_BLOCKED);
+		enabled = par1nbtTagCompound.getBoolean(TAG_ENABLED);
 		rngSeed = par1nbtTagCompound.getLong(TAG_RNG_SEED);
 	}
 
@@ -267,7 +287,7 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	}
 
 	@Override
-	public boolean isEnabled() {
+	public boolean hasRedstoneSignal() {
 		IBlockState state = getAutomatonWorld().getBlockState(getAutomatonPos());
 		return state.getPropertyKeys().contains(BlockAutomaton.REDSTONE) && state.getValue(BlockAutomaton.REDSTONE);
 	}
@@ -339,6 +359,11 @@ public class TileAutomaton extends TileSimpleInventory implements IAutomaton, IT
 	@Override
 	public BlockPos getAutomatonPos() {
 		return getPos();
+	}
+	
+	@Override
+	public boolean isEnabled() {
+		return enabled;
 	}
 	
 }

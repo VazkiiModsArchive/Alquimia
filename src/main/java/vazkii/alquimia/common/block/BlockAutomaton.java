@@ -62,8 +62,8 @@ public class BlockAutomaton extends BlockModContainer implements IAlquimiaBlock 
 
 	public static boolean shouldBePowered(World worldIn, BlockPos pos, IBlockState state) {
 		EnumFacing exclude = ((TileAutomaton) worldIn.getTileEntity(pos)).getCurrentFacing();
-
-		for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+		
+		for(EnumFacing facing : EnumFacing.VALUES) {
 			if(facing != exclude) {
 				BlockPos blockpos = pos.offset(facing);
 				int i = worldIn.getRedstonePower(blockpos, facing);
