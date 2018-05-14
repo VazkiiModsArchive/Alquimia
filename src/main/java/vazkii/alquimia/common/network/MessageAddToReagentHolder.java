@@ -36,7 +36,7 @@ public class MessageAddToReagentHolder extends NetworkMessage<MessageAddToReagen
 				held = stack;
 			
 			if(ReagentHandler.isValidReagent(held, holder)) {
-				ReagentList reagents = ReagentHandler.getReagents(holder);
+				ReagentList reagents = ReagentHandler.getReagents(holder).copy();
 				reagents.addStack(held);
 				reagents.commit(holder);
 				player.inventory.setItemStack(ItemStack.EMPTY);

@@ -1,0 +1,28 @@
+{
+	"name": "Reagent Pouch",
+	"icon": "alquimia:reagent_pouch",
+	"category": "artificing",
+	"priority": true,
+	"read_by_default": false,
+	"advancement": "alquimia:find_cinnabar",
+	"pages": [
+		{
+			"type": "text",
+			"text": "Advancing in the arts of $(thing)Artificing$() and $(thing)Spell Writing$() requires one to be in possession of a large variety of different items at all times.$(br2)Unfortunately, due to the somewhat skewed laws of physics our inventories function with, this isn't always doable without a large amount of hassle."
+		},
+		{
+			"type": "text",
+			"text": "Enter the $(item)Reagent Pouch$(). This container is made with $(item)Wool$() and $(l:intro/orichalcum)Oriclahcum$(), and can hold up to 64 different types of items, and up to 100 stacks of each.$(br2)The catch? Instead of storing them items, the pouch converts them to their $(thing)alchemical essence$(), and as such, the items can't be taken out. This behaviour also allows other items to pull from it for their own uses, thus making the $(item)Reagent Pouch$() a quotidian essential."
+		},
+		{
+			"type": "text",
+			"text": "To add items to the $(item)Reagent Pouch$(), simply grab the item in your inventory, and right click it on top of the pouch.$(br2)To remove items, combine, in a $(thing)crafting grid$(), the pouch with one copy of the item you want to remove. All stored items of that type will be destroyed. You will keep the item you placed in the crafting grid."
+		},
+		{
+			"type": "crafting",
+			"text": "The $(item)Reagent Pouch$() may store a lot of items, but it's no fourth dimension pocket.",
+			"recipe": "alquimia:reagent_pouch"
+		}
+	]
+}
+

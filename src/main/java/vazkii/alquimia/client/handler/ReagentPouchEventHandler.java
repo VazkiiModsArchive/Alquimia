@@ -153,6 +153,9 @@ public class ReagentPouchEventHandler {
 			if(!held.isEmpty()) {
 				Slot under = container.getSlotUnderMouse();
 				for(Slot s : container.inventorySlots.inventorySlots) {
+					if(s.inventory != mc.player.inventory)
+						continue;
+					
 					ItemStack stack = s.getStack();
 					if(stack.getItem() instanceof IReagentHolder && ReagentHandler.isValidReagent(held, stack)) {
 						if(s == under) {
@@ -182,7 +185,7 @@ public class ReagentPouchEventHandler {
 			Slot under = container.getSlotUnderMouse();
 			ItemStack held = mc.player.inventory.getItemStack();
 
-			if(under != null && !held.isEmpty()) {
+			if(under != null && !held.isEmpty() && under.inventory == mc.player.inventory) {
 				ItemStack stack = under.getStack();
 				if(stack.getItem() instanceof IReagentHolder && ReagentHandler.isValidReagent(held, stack)) {
 					mc.player.inventory.setItemStack(ItemStack.EMPTY);
@@ -202,6 +205,7 @@ public class ReagentPouchEventHandler {
 		GlStateManager.disableDepth();
 		RenderItem render = mc.getRenderItem();
 		
+		net.minecraft.client.renderer.RenderHelper.enableGUIStandardItemLighting();
 		render.renderItemIntoGUI(rstack.stack, x, y);
 		
 		if(count == -1)

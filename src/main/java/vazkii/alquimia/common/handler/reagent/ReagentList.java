@@ -71,6 +71,9 @@ public final class ReagentList {
 	}
 
 	public void addStack(ReagentStack ostack) {
+		if(this == EMPTY)
+			throw new IllegalArgumentException("Can't add items to EMPTY ReagentList");
+		
 		if(ostack.isEmpty())
 			return;
 
