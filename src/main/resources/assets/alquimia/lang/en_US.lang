@@ -5,6 +5,7 @@ alqmisc.wip=WIP
 alqmisc.edition=%s Edition
 alqmisc.dev_edition=Writer's
 alqmisc.right_click_add=Right-click to Add
+alqmisc.creative_pouch=Creative (has every item)
 
 # Block Names
 tile.alquimia:ash.name=Impure Ash

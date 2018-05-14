@@ -41,7 +41,7 @@ public class ItemTestRod extends ItemAlquimia implements IReagentConsumer {
 
 	@Override
 	public ReagentList getReagentsToConsume(ItemStack stack, EntityPlayer player) {
-		return ReagentList.of(new ItemStack(Items.BLAZE_POWDER, 80), new ItemStack(Items.ROTTEN_FLESH, 120), new ItemStack(Items.DIAMOND, 10));
+		return ReagentList.of(new ItemStack(Items.BLAZE_POWDER, 100), new ItemStack(Items.ROTTEN_FLESH, 120), new ItemStack(Items.DIAMOND, 10));
 	}
 
 }

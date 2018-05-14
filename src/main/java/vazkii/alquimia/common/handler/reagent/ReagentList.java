@@ -123,8 +123,20 @@ public final class ReagentList {
 
 		if(doit && did)
 			stacks.removeIf(ReagentStack::isEmpty);
-
+		
 		return did;
+	}
+	
+	public void except(ItemStack stack) {
+		boolean did = false;
+
+		for(int i = 0; i < stacks.size(); i++) {
+			ReagentStack rstack = stacks.get(i);
+			if(rstack.stacksEqual(stack)) {
+				stacks.remove(i);
+				return;
+			}
+		}
 	}
 
 	public int getCount(ItemStack stack) {
@@ -142,5 +154,5 @@ public final class ReagentList {
 		stacks.forEach(stack -> newList.stacks.add(stack.copy()));
 		return newList;
 	}
-
+	
 }

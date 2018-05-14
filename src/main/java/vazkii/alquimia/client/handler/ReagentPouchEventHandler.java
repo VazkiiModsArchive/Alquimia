@@ -5,8 +5,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import javax.xml.soap.Text;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
+
+import com.google.common.base.Function;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -82,6 +86,10 @@ public class ReagentPouchEventHandler {
 		if(stack.getItem() instanceof IReagentHolder) {
 			ReagentList list = ReagentHandler.getReagents(stack);
 			int count = list.stacks.size();
+			boolean creative = ((IReagentHolder) stack.getItem()).isCreativeReagentHolder(stack);
+			
+			if(creative)
+				tooltip.add(TextFormatting.AQUA + I18n.translateToLocal("alqmisc.creative_pouch"));
 			
 			if(count > 0)
 				TooltipHandler.tooltipIfShift(tooltip, () -> {
@@ -146,7 +154,7 @@ public class ReagentPouchEventHandler {
 				Slot under = container.getSlotUnderMouse();
 				for(Slot s : container.inventorySlots.inventorySlots) {
 					ItemStack stack = s.getStack();
-					if(stack.getItem() instanceof IReagentHolder) {
+					if(stack.getItem() instanceof IReagentHolder && ReagentHandler.isValidReagent(held, stack)) {
 						if(s == under) {
 							int x = event.getMouseX();
 							int y = event.getMouseY();
@@ -176,9 +184,9 @@ public class ReagentPouchEventHandler {
 
 			if(under != null && !held.isEmpty()) {
 				ItemStack stack = under.getStack();
-				if(stack.getItem() instanceof IReagentHolder) {
+				if(stack.getItem() instanceof IReagentHolder && ReagentHandler.isValidReagent(held, stack)) {
 					mc.player.inventory.setItemStack(ItemStack.EMPTY);
-					NetworkHandler.INSTANCE.sendToServer(new MessageAddToReagentHolder(under.getSlotIndex()));
+					NetworkHandler.INSTANCE.sendToServer(new MessageAddToReagentHolder(under.getSlotIndex(), held));
 					event.setCanceled(true);
 				}
 			}
@@ -194,12 +202,12 @@ public class ReagentPouchEventHandler {
 		GlStateManager.disableDepth();
 		RenderItem render = mc.getRenderItem();
 		
-		render.renderItemIntoGUI(rstack.stack, x, y);	
+		render.renderItemIntoGUI(rstack.stack, x, y);
 		
 		if(count == -1)
 			count = rstack.trueCount;
 		
-		String s1 = TextFormatting.BOLD + Integer.toString((int) Math.ceil((float) count));
+		String s1 =  count == Integer.MAX_VALUE ? "\u221E" : TextFormatting.BOLD + Integer.toString((int) ((float) count / ReagentList.DEFAULT_MULTIPLICATION_FACTOR));
 		int w1 = mc.fontRenderer.getStringWidth(s1);
 		int color = 0xFFFFFF;
 		if(count < req)
@@ -220,7 +228,9 @@ public class ReagentPouchEventHandler {
 				GlStateManager.disableDepth();
 			}
 			
-			String s2 = TextFormatting.BOLD + "(" + Integer.toString(req) + ")";
+			float f = (float) req / ReagentList.DEFAULT_MULTIPLICATION_FACTOR;
+			String fs = (f - (int) f) == 0 ? Integer.toString((int) f) : Float.toString(f);
+			String s2 = TextFormatting.BOLD + "(" + fs + ")";
 			int w2 = mc.fontRenderer.getStringWidth(s2);
 
 			GlStateManager.pushMatrix();

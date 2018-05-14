@@ -4,18 +4,26 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import vazkii.alquimia.common.crafting.recipe.RecipeRemoveReagents;
 import vazkii.alquimia.common.handler.reagent.IReagentHolder;
 import vazkii.alquimia.common.handler.reagent.ReagentHandler;
 import vazkii.alquimia.common.handler.reagent.ReagentList;
+import vazkii.arl.util.ItemNBTHelper;
 
 public class ItemReagentPouch extends ItemAlquimia implements IReagentHolder {
 
-	private static final String TAG_ITEM_LIST = "itemList";
+	private static final int TYPE_LIMIT = 64;
+	private static final int STACK_LIMIT = 64 * 100 * ReagentList.DEFAULT_MULTIPLICATION_FACTOR;
 	
+	private static final String TAG_ITEM_LIST = "itemList";
+	private static final String TAG_IS_CREATIVE = "isCreative";
+
 	public ItemReagentPouch() {
 		super("reagent_pouch");
 		setMaxStackSize(1);
 		addBooleanPropertyOverride("has_items", ItemReagentPouch::hasItems);
+		
+		new RecipeRemoveReagents();
 	}
 	
 	@Override
@@ -23,12 +31,16 @@ public class ItemReagentPouch extends ItemAlquimia implements IReagentHolder {
 		super.getSubItems(tab, subItems);
 		
 		if(isInCreativeTab(tab)) {
-			subItems.add(with(new ItemStack(Items.IRON_INGOT, 120), new ItemStack(Items.GOLD_INGOT, 1892), new ItemStack(Items.CARROT, 1212)));
-			subItems.add(with(new ItemStack(Items.ARROW, 10), new ItemStack(Items.APPLE, 20), new ItemStack(Items.BLAZE_ROD, 7753)));
+			ItemStack creative = new ItemStack(this);
+			ItemNBTHelper.setBoolean(creative, TAG_IS_CREATIVE, true);
+			subItems.add(creative);
 		}
 	}
 	
 	public static boolean hasItems(ItemStack stack) {
+		if(ItemNBTHelper.getBoolean(stack, TAG_IS_CREATIVE, false))
+				return true;
+		
 		ReagentList list = ReagentHandler.getReagents(stack);
 		return !list.stacks.isEmpty();
 	}
@@ -39,6 +51,21 @@ public class ItemReagentPouch extends ItemAlquimia implements IReagentHolder {
 		list.commit(stack);
 		
 		return stack;
+	}
+
+	@Override
+	public int getReagentTypeLimit(ItemStack stack) {
+		return TYPE_LIMIT;
+	}
+
+	@Override
+	public int getReagentStackLimit(ItemStack stack) {
+		return STACK_LIMIT;
+	}
+	
+	@Override
+	public boolean isCreativeReagentHolder(ItemStack stack) {
+		return ItemNBTHelper.getBoolean(stack, TAG_IS_CREATIVE, false);
 	}
 
 }

@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraftforge.oredict.OreDictionary;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.item.ModItems;
 import vazkii.arl.recipe.RecipeHandler;
@@ -91,6 +92,11 @@ public class ModCraftingRecipes {
 		addBlock(ModBlocks.alchemical_ash_block, ModItems.alchemical_ash);
 		addBlock(ModBlocks.cinnabar_block, ModItems.cinnabar);
 		addBlock(ModBlocks.orichalcum_block, ModItems.orichalcum_ingot);
+		
+		RecipeHandler.addOreDictRecipe(ProxyRegistry.newStack(ModItems.reagent_pouch), 
+				"O O", "W W", "WWW",
+				'O', ModItems.orichalcum_ingot,
+				'W', ProxyRegistry.newStack(Blocks.WOOL, 1, OreDictionary.WILDCARD_VALUE));
 	}
 	
 	static void addBlock(Block block, Block item) {
