@@ -19,6 +19,10 @@
 			"text": "To add items to the $(item)Reagent Pouch$(), simply grab the item in your inventory, and right click it on top of the pouch.$(br2)To remove items, combine, in a $(thing)crafting grid$(), the pouch with one copy of the item you want to remove. All stored items of that type will be destroyed. You will keep the item you placed in the crafting grid."
 		},
 		{
+			"type": "text",
+			"text": "As a bonus, right clicking the $(item)Reagent Pouch$() while a $(l:ritualism/ritual_circles)Ritual Circle$() is being visualized will consume $(l:intro/impure_ash)Impure Ash$() from the pouch to automatically place the circle on the ground.$(br2)Note that you need to have enough $(item)Impure Ash$() stored in the pouch to do this. You also need to be close to where the circle will be placed."
+		},
+		{
 			"type": "crafting",
 			"text": "The $(item)Reagent Pouch$() may store a lot of items, but it's no fourth dimension pocket.",
 			"recipe": "alquimia:reagent_pouch"
