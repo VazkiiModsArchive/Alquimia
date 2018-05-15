@@ -7,5 +7,6 @@
 	"ritual_storms": { "category": "block", "sounds": ["alquimia:ritual_storms"], "subtitle": "alquimia.subtitle.ritual_storms" },
 	"ritual_clear_skies": { "category": "block", "sounds": ["alquimia:ritual_clear_skies"], "subtitle": "alquimia.subtitle.ritual_clear_skies" },
 	"heartbeat": { "category": "block", "sounds": ["alquimia:heartbeat"], "subtitle": "alquimia.subtitle.heartbeat" },
-	"automaton": { "category": "block", "sounds": ["alquimia:automaton1","alquimia:automaton2","alquimia:automaton3","alquimia:automaton4","alquimia:automaton5"], "subtitle": "alquimia.subtitle.automaton" }
+	"automaton": { "category": "block", "sounds": ["alquimia:automaton1","alquimia:automaton2","alquimia:automaton3","alquimia:automaton4","alquimia:automaton5"], "subtitle": "alquimia.subtitle.automaton" },
+	"place_ash": { "category": "player", "sounds": ["alquimia:place_ash"], "subtitle": "alquimia.subtitle.place_ash" }
 }

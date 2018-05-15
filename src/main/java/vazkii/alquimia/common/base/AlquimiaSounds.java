@@ -16,6 +16,7 @@ public class AlquimiaSounds {
 	public static SoundEvent ritual_clear_skies;
 	public static SoundEvent heartbeat;
 	public static SoundEvent automaton;
+	public static SoundEvent place_ash;
 
 	public static void preInit() {
 		book_open = register("book_open");
@@ -27,6 +28,7 @@ public class AlquimiaSounds {
 		ritual_clear_skies = register("ritual_clear_skies");
 		heartbeat = register("heartbeat");
 		automaton = register("automaton");
+		place_ash = register("place_ash");
 	}
 	
 	public static SoundEvent register(String name) {

@@ -11,9 +11,11 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import vazkii.alquimia.common.Alquimia;
+import vazkii.alquimia.common.base.AlquimiaSounds;
 import vazkii.alquimia.common.block.ModBlocks;
 import vazkii.alquimia.common.crafting.recipe.RecipeRemoveReagents;
 import vazkii.alquimia.common.handler.MultiblockTrackingHandler;
@@ -59,6 +61,8 @@ public class ItemReagentPouch extends ItemAlquimia implements IReagentHolder, IR
 			if(can[0] && ReagentHandler.removeFromPlayer(playerIn, getReagentsToConsume(stack, playerIn))) {
 				mbs.mb.place(worldIn, pos, mbs.rot);
 				playerIn.swingArm(handIn);
+				if(!worldIn.isRemote)
+					worldIn.playSound(null, playerIn.getPosition(), AlquimiaSounds.place_ash, SoundCategory.PLAYERS, 1.0F, 1.0F);
 			}
 		}
 

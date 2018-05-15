@@ -140,7 +140,7 @@ public class ItemDiviningRod extends ItemAlquimia {
 		ItemNBTHelper.setBoolean(stack, TAG_HAS_TARGET, target);
 		
 		if(player != null && sfx)
-			player.world.playSound(null, player.getPosition(), (target ? AlquimiaSounds.divining_rod_enable : AlquimiaSounds.divining_rod_disable), SoundCategory.BLOCKS, 1.0F, 1.0F);
+			player.world.playSound(null, player.getPosition(), (target ? AlquimiaSounds.divining_rod_enable : AlquimiaSounds.divining_rod_disable), SoundCategory.PLAYERS, 1.0F, 1.0F);
 	}
 
 	protected void setNewSeed(ItemStack stack, World world) {
@@ -161,7 +161,6 @@ public class ItemDiviningRod extends ItemAlquimia {
 
 		return false;
 	}
-
 
 	protected boolean canSee(Entity entity, BlockPos pos) {
 		RayTraceResult res = entity.world.rayTraceBlocks(new Vec3d(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ), new Vec3d(pos), false, true, true); 
