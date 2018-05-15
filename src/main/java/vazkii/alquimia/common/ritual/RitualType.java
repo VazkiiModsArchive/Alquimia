@@ -9,7 +9,7 @@ import vazkii.alquimia.common.multiblock.Multiblock;
 
 public enum RitualType {
 
-	SMALL(ModMultiblocks.small_ritual_circle, (pos) -> pos.east(2), "alquimia.ritual.size.small"),
+	SMALL(ModMultiblocks.small_ritual_circle, (pos) -> pos.east(3), "alquimia.ritual.size.small"),
 	MEDIUM(ModMultiblocks.medium_ritual_circle, (pos) -> pos.east(3), "alquimia.ritual.size.medium"),
 	LARGE(ModMultiblocks.large_ritual_circle, (pos) -> pos.east(4), "alquimia.ritual.size.large");
 	
@@ -31,4 +31,12 @@ public enum RitualType {
 		return centerApplier.apply(pos);
 	}
 	
+	public static boolean isRitualCircle(Multiblock mb) {
+		for(RitualType type : RitualType.values())
+			if(mb == type.mutliblock[0])
+				return true;
+		
+		return false;
+	}
+	 
 }

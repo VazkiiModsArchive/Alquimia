@@ -113,7 +113,7 @@ public class ModMultiblocks {
 
 	private static Multiblock registerMultiblock(ResourceLocation location, Multiblock multiblock) {
 		MULTIBLOCKS.put(location, multiblock);
-		return multiblock;
+		return multiblock.setResourceName(location);
 	}
 
 }

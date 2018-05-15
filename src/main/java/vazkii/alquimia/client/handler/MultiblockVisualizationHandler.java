@@ -39,7 +39,9 @@ import vazkii.alquimia.common.lib.LibObfuscation;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.multiblock.Multiblock;
 import vazkii.alquimia.common.multiblock.Multiblock.StateMatcher;
+import vazkii.alquimia.common.network.MessageTrackMultiblock;
 import vazkii.alquimia.common.util.RotationUtil;
+import vazkii.arl.network.NetworkHandler;
 import vazkii.arl.util.ClientTicker;
 
 public class MultiblockVisualizationHandler {
@@ -63,9 +65,10 @@ public class MultiblockVisualizationHandler {
 	}
 	
 	public static void setMultiblock(Multiblock multiblock, String name, Bookmark bookmark, boolean flip, Function<BlockPos, BlockPos> offsetApplier) {
-		if(flip && hasMultiblock)
+		if(flip && hasMultiblock) {
 			hasMultiblock = false;
-		else {
+			NetworkHandler.INSTANCE.sendToServer(new MessageTrackMultiblock(null, BlockPos.ORIGIN, Rotation.NONE));
+		} else {
 			MultiblockVisualizationHandler.multiblock = multiblock;
 			MultiblockVisualizationHandler.name = name;
 			MultiblockVisualizationHandler.bookmark = bookmark;
@@ -157,6 +160,9 @@ public class MultiblockVisualizationHandler {
 			pos = event.getPos();
 			facingRotation = RotationUtil.rotationFromFacing(event.getEntityPlayer().getHorizontalFacing());
 			isAnchored = true;
+			
+			BlockPos startPos = getStartPos();
+			NetworkHandler.INSTANCE.sendToServer(new MessageTrackMultiblock(multiblock, startPos, getFacingRotation()));
 		}
 	}
 
@@ -166,8 +172,10 @@ public class MultiblockVisualizationHandler {
 			hasMultiblock = false;
 		else if(isAnchored && blocks == blocksDone) {
 			timeComplete++;
-			if(timeComplete == 14)
+			if(timeComplete == 14) {
 				Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0F));
+				NetworkHandler.INSTANCE.sendToServer(new MessageTrackMultiblock(null, BlockPos.ORIGIN, Rotation.NONE));
+			}
 		} else timeComplete = 0;
 	}
 
@@ -198,8 +206,7 @@ public class MultiblockVisualizationHandler {
 		GlStateManager.translate(-posX, -posY, -posZ);
 
 		BlockPos checkPos = mc.objectMouseOver.typeOfHit == Type.BLOCK ? mc.objectMouseOver.getBlockPos().offset(mc.objectMouseOver.sideHit) : null;
-		BlockPos startPos = offsetApplier.apply(pos);
-		startPos = startPos.add(-RotationUtil.x(facingRotation, multiblock.viewOffX, multiblock.viewOffZ), -multiblock.viewOffY + 1, -RotationUtil.z(facingRotation, multiblock.viewOffX, multiblock.viewOffZ));
+		BlockPos startPos = getStartPos();
 		
 		blocks = blocksDone = 0;
 		lookingState = null;
@@ -255,5 +262,23 @@ public class MultiblockVisualizationHandler {
 		}
 	}
 
-
+	public static Multiblock getMultiblock() {
+		return multiblock;
+	}
+	
+	public static boolean isAnchored() {
+		return isAnchored;
+	}
+	
+	public static Rotation getFacingRotation() {
+		return multiblock.isSymmetrical() ? Rotation.NONE : facingRotation;
+	}
+	
+	public static BlockPos getStartPos() {
+		Rotation rot = getFacingRotation();
+		BlockPos startPos = offsetApplier.apply(pos);
+		startPos = startPos.add(-RotationUtil.x(rot, multiblock.viewOffX, multiblock.viewOffZ), -multiblock.viewOffY + 1, -RotationUtil.z(rot, multiblock.viewOffX, multiblock.viewOffZ));
+		return startPos;
+	}
+	
 }

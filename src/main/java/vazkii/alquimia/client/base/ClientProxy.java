@@ -1,5 +1,7 @@
 package vazkii.alquimia.client.base;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -16,6 +18,7 @@ import vazkii.alquimia.common.base.CommonProxy;
 import vazkii.alquimia.common.block.tile.TileAutomaton;
 import vazkii.alquimia.common.block.tile.TilePedestal;
 import vazkii.alquimia.common.entity.EntityRitualLogic;
+import vazkii.alquimia.common.handler.MultiblockTrackingHandler.MultiblockSettings;
 
 public class ClientProxy extends CommonProxy {
 
@@ -52,6 +55,17 @@ public class ClientProxy extends CommonProxy {
 	public void onConfigChanged(boolean firstChange) {
 		if(!firstChange)
 			LexiconRegistry.INSTANCE.reloadLexiconRegistry();
+	}
+	
+	@Override
+	public MultiblockSettings getVisualizingMultiblock(EntityPlayer player) {
+		if(!player.world.isRemote)
+			return super.getVisualizingMultiblock(player);
+		
+		if(player == Minecraft.getMinecraft().player && MultiblockVisualizationHandler.isAnchored())
+			return new MultiblockSettings();
+		
+		return null;
 	}
 	
 }

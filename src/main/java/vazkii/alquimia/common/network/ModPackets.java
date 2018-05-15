@@ -11,6 +11,7 @@ public final class ModPackets {
 	public static void registerPackets() {
 		NetworkHandler.register(MessageSyncAdvancements.class, Side.CLIENT);
 		NetworkHandler.register(MessageAddToReagentHolder.class, Side.SERVER);
+		NetworkHandler.register(MessageTrackMultiblock.class, Side.SERVER);
 
 		NetworkMessage.mapHandler(String[].class, ModPackets::readStringArray, ModPackets::writeStringArray);
 	}

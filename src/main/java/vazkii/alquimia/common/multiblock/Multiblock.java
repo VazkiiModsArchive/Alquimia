@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,7 +17,8 @@ import vazkii.alquimia.common.util.RotationUtil;
 public class Multiblock {
 
 	final String[][] pattern;
-	
+
+	public ResourceLocation res;
 	public StateMatcher[][][] stateTargets;
 	public int sizeX, sizeY, sizeZ;
 	public int offX, offY, offZ;
@@ -60,13 +62,21 @@ public class Multiblock {
 		return this;
 	}
 	
+	public Multiblock setResourceName(ResourceLocation res) {
+		this.res = res;
+		return this;
+	}
+	
 	public void place(World world, BlockPos pos, Rotation rotation) {
 		BlockPos start = pos.add(RotationUtil.x(rotation, -offX, -offZ), -offY, RotationUtil.z(rotation, -offX, -offZ));
 		for(int x = 0; x < sizeX; x++)
 			for(int y = 0; y < sizeY; y++)
 				for(int z = 0; z < sizeZ; z++) {
 					BlockPos placePos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
-					world.setBlockState(placePos, stateTargets[x][y][z].displayState.withRotation(rotation));
+					IBlockState targetState = stateTargets[x][y][z].displayState.withRotation(rotation);
+					Block targetBlock = targetState.getBlock();
+					if(!targetBlock.isAir(targetState, world, placePos) && targetBlock.canPlaceBlockAt(world, placePos) && world.getBlockState(placePos).getBlock().isReplaceable(world, placePos))
+						world.setBlockState(placePos, targetState);
 				}
 	}
 	
@@ -76,7 +86,7 @@ public class Multiblock {
 			for(int y = 0; y < sizeY; y++)
 				for(int z = 0; z < sizeZ; z++) {
 					char c1 = pattern[y][x].charAt(z);
-					if(c == c1) {
+					if(c == 0 || c == c1) {
 						BlockPos actionPos = start.add(RotationUtil.x(rotation, x, z), y, RotationUtil.z(rotation, x, z));
 						action.accept(actionPos);
 					}

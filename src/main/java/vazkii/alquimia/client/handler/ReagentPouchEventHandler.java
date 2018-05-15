@@ -56,6 +56,8 @@ public class ReagentPouchEventHandler {
 			if(stack.getItem() instanceof IReagentConsumer) {
 				ReagentList reagents = ((IReagentConsumer) stack.getItem()).getReagentsToConsume(stack, player);
 				int reagentCount = reagents.stacks.size();
+				if(reagentCount == 0)
+					return;
 				
 				int w = 18;
 				ScaledResolution res = event.getResolution();

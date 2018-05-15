@@ -1,5 +1,6 @@
 package vazkii.alquimia.common.base;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -13,8 +14,9 @@ import vazkii.alquimia.common.entity.ModEntities;
 import vazkii.alquimia.common.handler.AdvancementSyncHandler;
 import vazkii.alquimia.common.handler.CrucibleHandler;
 import vazkii.alquimia.common.handler.ItemTickHandler;
+import vazkii.alquimia.common.handler.MultiblockTrackingHandler;
+import vazkii.alquimia.common.handler.MultiblockTrackingHandler.MultiblockSettings;
 import vazkii.alquimia.common.handler.RitualHandler;
-import vazkii.alquimia.common.handler.reagent.ReagentHandler;
 import vazkii.alquimia.common.item.ModItems;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.network.GuiHandler;
@@ -55,6 +57,11 @@ public class CommonProxy {
 	
 	public void onConfigChanged(boolean firstChange) {
 		// NO-OP
+	}
+	
+	public MultiblockSettings getVisualizingMultiblock(EntityPlayer player) {
+		MultiblockSettings mbs = MultiblockTrackingHandler.get(player);
+		return mbs;
 	}
 	
 }
