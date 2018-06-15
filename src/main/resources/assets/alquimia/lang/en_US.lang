@@ -37,6 +37,7 @@ item.alquimia:instruction_repeat.name=Repeat Module
 item.alquimia:blade_head.name=Iron Blade Head
 item.alquimia:drill_head.name=Breaker Head
 item.alquimia:reagent_pouch.name=Reagent Pouch
+item.alquimia:divining_orb.name=Orb of Divination
 
 # Advancements
 alquimia.advancement.root=Alquimia

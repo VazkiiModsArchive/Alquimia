@@ -67,6 +67,9 @@ public class AlquimiaCreativeTab extends CreativeTabs {
 		addItem(ModItems.instruction_random_turn);
 		addItem(ModItems.instruction_repeat);
 		
+		// Random Artifice Stuff
+		addItem(ModItems.divining_orb);
+		
 		// Decor Blocks
 		addBlock(ModBlocks.ash_block);
 		addBlock(ModBlocks.alchemical_ash_block);

@@ -13,7 +13,6 @@ import vazkii.alquimia.common.crafting.ModCraftingRecipes;
 import vazkii.alquimia.common.entity.ModEntities;
 import vazkii.alquimia.common.handler.AdvancementSyncHandler;
 import vazkii.alquimia.common.handler.CrucibleHandler;
-import vazkii.alquimia.common.handler.ItemTickHandler;
 import vazkii.alquimia.common.handler.MultiblockTrackingHandler;
 import vazkii.alquimia.common.handler.MultiblockTrackingHandler.MultiblockSettings;
 import vazkii.alquimia.common.handler.RitualHandler;
@@ -22,6 +21,7 @@ import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.network.GuiHandler;
 import vazkii.alquimia.common.network.ModPackets;
 import vazkii.alquimia.common.ritual.ModRituals;
+import vazkii.arl.util.ItemTickHandler;
 
 public class CommonProxy {
 
@@ -52,7 +52,7 @@ public class CommonProxy {
 	}
 	
 	public void postInit(FMLPostInitializationEvent event) {
-		
+		ModItems.postInit();
 	}
 	
 	public void onConfigChanged(boolean firstChange) {

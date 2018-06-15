@@ -20,7 +20,6 @@ public class ItemTestRod extends ItemAlquimia implements IReagentConsumer {
 	public ItemTestRod() {
 		super("test_rod");
 		setMaxStackSize(1);
-		setCreativeTab(AlquimiaCreativeTab.INSTANCE);
 	}
 
 	@Override

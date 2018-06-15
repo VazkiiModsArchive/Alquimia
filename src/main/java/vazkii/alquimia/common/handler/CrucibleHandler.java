@@ -10,8 +10,8 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import vazkii.alquimia.common.crafting.CrucibleRecipe;
 import vazkii.alquimia.common.crafting.CrucibleRecipes;
-import vazkii.alquimia.common.handler.ItemTickHandler.EntityItemTickEvent;
 import vazkii.alquimia.common.multiblock.ModMultiblocks;
+import vazkii.arl.util.ItemTickHandler.EntityItemTickEvent;
 
 public class CrucibleHandler {
 
