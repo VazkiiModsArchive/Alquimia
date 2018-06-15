@@ -21,7 +21,6 @@ import vazkii.alquimia.common.multiblock.ModMultiblocks;
 import vazkii.alquimia.common.network.GuiHandler;
 import vazkii.alquimia.common.network.ModPackets;
 import vazkii.alquimia.common.ritual.ModRituals;
-import vazkii.arl.util.ItemTickHandler;
 
 public class CommonProxy {
 
@@ -42,7 +41,6 @@ public class CommonProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(Alquimia.instance, new GuiHandler());
 		
 		MinecraftForge.EVENT_BUS.register(AdvancementSyncHandler.class);
-		MinecraftForge.EVENT_BUS.register(ItemTickHandler.class);
 		MinecraftForge.EVENT_BUS.register(CrucibleHandler.class);
 		MinecraftForge.EVENT_BUS.register(RitualHandler.class);
 	}
